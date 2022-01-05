@@ -14,7 +14,7 @@ buildscript {
         okhttp3_version = '4.6.0'
         retrofit2_version = '2.8.1'
 
-        kodein_version = '7.2.0'
+        kodein_version = '7.10.0'
 
         junit_version = '4.+'
 

@@ -1,10 +1,5 @@
 apply plugin: 'kotlin'
 
-repositories {
-    mavenCentral()
-    google()
-}
-
 compileKotlin {
     kotlinOptions.jvmTarget = "1.8"
 }
