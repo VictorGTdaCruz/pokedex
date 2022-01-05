@@ -7,5 +7,4 @@ dependencyResolutionManagement {
     }
 }
 rootProject.name = "Pokedex"
-include ':app'
-include ':networking'
+include ':app', ':networking', ':pokedex'

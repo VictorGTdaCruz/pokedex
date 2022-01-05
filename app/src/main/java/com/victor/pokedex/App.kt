@@ -1,7 +1,7 @@
 package com.victor.pokedex
 
 import android.app.Application
-import com.victor.networking.networkingModule
+import com.victor.networking.di.networkingModule
 import org.kodein.di.DI
 import org.kodein.di.DIAware
 

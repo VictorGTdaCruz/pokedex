@@ -2,6 +2,12 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply from: "../android-module.gradle"
 
+android {
+    defaultConfig {
+        applicationId "com.victor.pokedex"
+    }
+}
+
 dependencies {
     implementation project(':networking')
 

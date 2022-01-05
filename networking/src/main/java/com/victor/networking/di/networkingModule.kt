@@ -1,5 +1,6 @@
-package com.victor.networking
+package com.victor.networking.di
 
+import com.victor.networking.Constants
 import org.kodein.di.DI
 import org.kodein.di.bind
 import org.kodein.di.singleton
@@ -9,7 +10,7 @@ val networkingModule = DI.Module("networking") {
 
     bind<Retrofit>() with singleton {
         Retrofit.Builder()
-            .baseUrl("")
+            .baseUrl(Constants.pokeApiBaseUrl)
             .build()
     }
 }
