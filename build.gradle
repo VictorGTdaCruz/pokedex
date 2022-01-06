@@ -7,6 +7,8 @@ buildscript {
         kotlin_coroutines_version = '1.4.1'
         android_gradle_support_version = '7.0.4'
 
+        ktxSerialization = "1.0.1"
+
         androidx_appcompat_version = '1.4.0'
         androidx_lifecycle_version = '2.4.0'
         androidx_core_version = '1.7.0'
@@ -22,10 +24,14 @@ buildscript {
         android_gradle = "com.android.tools.build:gradle:$android_gradle_support_version"
         kotlin_gradle = "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
 
+        ktxSerialization = "org.jetbrains.kotlinx:kotlinx-serialization-json:$ktxSerialization"
+
         okhttp3 = 'com.squareup.okhttp3:okhttp:$okhttp3_version'
         retrofit2 = "com.squareup.retrofit2:retrofit:$retrofit2_version"
+        retrofit2_gson = "com.squareup.retrofit2:converter-gson:$retrofit2_version"
 
         kodein = "org.kodein.di:kodein-di:$kodein_version"
+        kodein_android = "org.kodein.di:kodein-di-framework-android-x:$kodein_version"
 
         compose_standard = "androidx.compose.ui:ui:$compose_version"
         compose_material = "androidx.compose.material:material:$compose_version"
@@ -40,8 +46,8 @@ buildscript {
         junit = "junit:junit:$junit_version"
 
         // Grouped dependencies
-        networking = [okhttp3, retrofit2]
-        compose = [compose_standard, compose_material, androidx_activity_compose]
+        networking = [okhttp3, retrofit2, retrofit2_gson]
+        compose = [compose_standard, compose_material, androidx_activity_compose, compose_tooling_preview]
     }
 
     repositories {

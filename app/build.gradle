@@ -10,11 +10,11 @@ android {
 
 dependencies {
     implementation project(':networking')
+    implementation project(':pokedex')
 
     implementation androidx_appcompat
     implementation androidx_lifecycle
     implementation material_design
     implementation compose
-    implementation compose_tooling_preview
     implementation kodein
 }
