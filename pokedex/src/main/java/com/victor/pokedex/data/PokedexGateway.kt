@@ -12,5 +12,5 @@ internal interface PokedexGateway {
     suspend fun getPokemonTypes() : PagedResponse<NameAndUrlResponse>
 
     @GET("type/{id}")
-    suspend fun getPokemonType(@Path("id") typeId: String) : PokemonTypeResponse
+    suspend fun getPokemonType(@Path("id") typeId: Long) : PokemonTypeResponse
 }

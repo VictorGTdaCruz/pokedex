@@ -11,7 +11,7 @@ data class PokemonTypeResponse(
     val generation: NameAndUrlResponse? = null,
     @SerializedName("move_damage_class") val moveDamageClass: NameAndUrlResponse? = null,
     val names: List<PokemonNameResponse>? = null,
-    val pokemon: List<NameAndUrlResponse>? = null,
+    val pokemon: List<PokemonSimplifiedResponse>? = null,
     val moves: List<NameAndUrlResponse>? = null
 )
 
@@ -39,3 +39,7 @@ data class PokemonNameResponse(
     val language: NameAndUrlResponse? = null
 )
 
+data class PokemonSimplifiedResponse(
+    val pokemon: NameAndUrlResponse? = null,
+    val slot: Int? = null
+)
