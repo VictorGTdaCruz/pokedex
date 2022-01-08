@@ -1,10 +1,12 @@
 package com.victor.pokedex.presentation
 
 import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.victor.pokedex.domain.model.PokemonTypeSimplified
 import com.victor.pokedex.domain.service.PokedexService
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 internal class PokedexViewModel(
@@ -14,13 +16,17 @@ internal class PokedexViewModel(
     var pokemonTypes = mutableStateListOf<PokemonTypeSimplified>()
         private set
 
-    fun loadPokemonTypes() {
-        viewModelScope.runCatching {
-            launch {
+    val isLoading = mutableStateOf(false)
 
-                val list = infrastructure.getPokemonTypes()
-                pokemonTypes.addAll(list)
-            }
+    fun loadPokemonTypes() {
+        viewModelScope.launch {
+            isLoading.value = true
+
+            delay(2000)
+            val list = infrastructure.getPokemonTypes()
+            pokemonTypes.addAll(list)
+
+            isLoading.value = false
         }
     }
 }
