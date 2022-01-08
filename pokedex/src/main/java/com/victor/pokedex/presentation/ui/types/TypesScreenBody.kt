@@ -1,0 +1,52 @@
+package com.victor.pokedex.presentation.ui.types
+
+import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material.Surface
+import androidx.compose.material.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.snapshots.SnapshotStateList
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
+import com.victor.pokedex.R
+import com.victor.pokedex.domain.model.PokemonTypeSimplified
+import com.victor.pokedex.presentation.PokedexViewModel
+import com.victor.pokedex.presentation.ui.components.Loading
+import com.victor.pokedex.presentation.ui.theme.Background
+
+@ExperimentalFoundationApi
+@Composable
+internal fun PokemonTypesScreenBody(
+    viewModel: PokedexViewModel,
+    onTypeClick: (PokemonTypeSimplified) -> Unit
+) {
+    Surface(
+        color = Background,
+        modifier = Modifier.fillMaxSize()
+    ) {
+        if (viewModel.isLoading.value)
+            Loading()
+        else
+            TypeListScreenContent(viewModel.pokemonTypes, onTypeClick)
+
+        LaunchedEffect(Unit) {
+            viewModel.loadPokemonTypes()
+        }
+    }
+}
+
+@ExperimentalFoundationApi
+@Composable
+private fun TypeListScreenContent(
+    types: SnapshotStateList<PokemonTypeSimplified>,
+    onTypeClick: (PokemonTypeSimplified) -> Unit,
+) {
+    Column {
+        Text(
+            text = stringResource(id = R.string.type_screen_title)
+        )
+        TypeList(types = types) { onTypeClick(it) }
+    }
+}

@@ -1,3 +1,5 @@
 <resources>
     <string name="title_activity_pokedex">PokedexActivity</string>
+
+    <string name="type_screen_title">"Choose your type!"</string>
 </resources>

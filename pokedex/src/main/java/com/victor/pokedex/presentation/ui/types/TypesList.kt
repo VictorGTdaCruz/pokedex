@@ -1,8 +1,9 @@
-package com.victor.pokedex.presentation.ui
+package com.victor.pokedex.presentation.ui.types
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -16,11 +17,14 @@ import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.runtime.toMutableStateList
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.victor.pokedex.R
 import com.victor.pokedex.domain.model.PokemonTypeSimplified
+import com.victor.pokedex.presentation.TypeColorHelper
+import com.victor.pokedex.presentation.TypeDrawableHelper
 
 @ExperimentalFoundationApi
 @Composable
@@ -43,13 +47,19 @@ fun TypeCard(
     type: PokemonTypeSimplified,
     onTypeClick: (PokemonTypeSimplified) -> Unit
 ) {
-    Card(modifier = Modifier
+    Card(
+        backgroundColor = TypeColorHelper.find(type.id),
+        modifier = Modifier
         .padding(8.dp)
         .clickable { onTypeClick(type) }
     ) {
-        Row {
+        Row(
+            horizontalArrangement = Arrangement.Center
+        ) {
+            val drawableId = TypeDrawableHelper.find(type.id)
             Image(
-                painter = painterResource(id = R.drawable.ic_type_bug),
+                painter = painterResource(id = drawableId),
+                colorFilter = ColorFilter.tint(Color.White),
                 contentDescription = "type_bug",
                 modifier = Modifier
                     .size(24.dp)
@@ -57,6 +67,7 @@ fun TypeCard(
             )
             Text(
                 text = type.name,
+                color = Color.White,
                 modifier = Modifier
                     .align(Alignment.CenterVertically)
                     .padding(8.dp)
@@ -72,10 +83,10 @@ fun Preview() {
     TypeList(
         types = listOf(
             PokemonTypeSimplified(name = "normal", id = 1),
-            PokemonTypeSimplified(name = "fighting", id = 1),
-            PokemonTypeSimplified(name = "fire", id = 1),
-            PokemonTypeSimplified(name = "grass", id = 1),
-            PokemonTypeSimplified(name = "water", id = 1)
+            PokemonTypeSimplified(name = "fighting", id = 2),
+            PokemonTypeSimplified(name = "fire", id = 10),
+            PokemonTypeSimplified(name = "grass", id = 12),
+            PokemonTypeSimplified(name = "water", id = 11)
         ).toMutableStateList(),
         onTypeClick = { }
     )
