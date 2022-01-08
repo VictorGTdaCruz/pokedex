@@ -1,4 +1,4 @@
-package com.victor.pokedex.presentation.ui
+package com.victor.pokedex.presentation.ui.components
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row

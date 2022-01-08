@@ -2,6 +2,7 @@ buildscript {
     ext {
         // Versions
         compose_version = '1.0.1'
+        compose_navigation_version = '2.4.0-rc01'
 
         kotlin_version = '1.5.21'
         kotlin_coroutines_version = '1.4.1'
@@ -37,6 +38,7 @@ buildscript {
         compose_material = "androidx.compose.material:material:$compose_version"
         compose_tooling_preview = "androidx.compose.ui:ui-tooling-preview:$compose_version"
         compose_tooling = "androidx.compose.ui:ui-tooling:$compose_version"
+        compose_navigation = "androidx.navigation:navigation-compose:$compose_navigation_version"
 //        compose_runtime = "androidx.compose.runtime:runtime:$compose_version"
 
         androidx_appcompat = "androidx.appcompat:appcompat:$androidx_appcompat_version"
@@ -49,7 +51,7 @@ buildscript {
 
         // Grouped dependencies
         networking = [okhttp3, retrofit2, retrofit2_gson]
-        compose = [compose_standard, compose_material, androidx_activity_compose, compose_tooling]
+        compose = [compose_standard, compose_material, androidx_activity_compose, compose_tooling, compose_navigation]
     }
 
     repositories {
