@@ -16,5 +16,6 @@ dependencies {
     implementation androidx_lifecycle
     implementation material_design
     implementation compose
+    implementation compose_tooling_preview
     implementation kodein
 }

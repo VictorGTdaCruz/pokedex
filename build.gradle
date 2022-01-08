@@ -36,6 +36,8 @@ buildscript {
         compose_standard = "androidx.compose.ui:ui:$compose_version"
         compose_material = "androidx.compose.material:material:$compose_version"
         compose_tooling_preview = "androidx.compose.ui:ui-tooling-preview:$compose_version"
+        compose_tooling = "androidx.compose.ui:ui-tooling:$compose_version"
+//        compose_runtime = "androidx.compose.runtime:runtime:$compose_version"
 
         androidx_appcompat = "androidx.appcompat:appcompat:$androidx_appcompat_version"
         androidx_activity_compose = "androidx.activity:activity-compose:$androidx_appcompat_version"
@@ -47,7 +49,7 @@ buildscript {
 
         // Grouped dependencies
         networking = [okhttp3, retrofit2, retrofit2_gson]
-        compose = [compose_standard, compose_material, androidx_activity_compose, compose_tooling_preview]
+        compose = [compose_standard, compose_material, androidx_activity_compose, compose_tooling]
     }
 
     repositories {
