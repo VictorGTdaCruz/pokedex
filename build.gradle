@@ -19,6 +19,8 @@ buildscript {
 
         kodein_version = '7.10.0'
 
+        coil_version = '1.4.0'
+
         junit_version = '4.+'
 
         // Dependencies
@@ -46,6 +48,8 @@ buildscript {
         androidx_lifecycle = "androidx.lifecycle:lifecycle-runtime-ktx:$androidx_lifecycle_version"
         androidx_core = "androidx.core:core-ktx:$androidx_core_version"
         material_design = "com.google.android.material:material:$androidx_appcompat_version"
+
+        coil = "io.coil-kt:coil-compose:$coil_version"
 
         junit = "junit:junit:$junit_version"
 

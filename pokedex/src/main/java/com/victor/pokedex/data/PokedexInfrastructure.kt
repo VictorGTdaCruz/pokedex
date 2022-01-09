@@ -8,5 +8,7 @@ internal class PokedexInfrastructure(private val api: PokedexGateway): PokedexSe
 
     override suspend fun getPokemonTypes() = api.getPokemonTypes().toPokemonTypesDomain()
 
-    override suspend fun getPokemonType(id: Long) = api.getPokemonType(id).toDomain()
+    override suspend fun getPokemonType(typeId: Long) = api.getPokemonType(typeId).toDomain()
+
+    override suspend fun getPokemonDetails(pokemonId: Long) = api.getPokemonDetails(pokemonId).toDomain()
 }

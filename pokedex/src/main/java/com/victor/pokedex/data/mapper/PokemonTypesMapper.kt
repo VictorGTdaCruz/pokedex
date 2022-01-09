@@ -21,3 +21,9 @@ fun String?.mapIdFromUrl() =
         ?.substringBefore("/")
         ?.toLongOrNull()
         ?: 0
+
+fun String?.mapIdFromUrl2() =
+    this?.substringAfter("pokemon/")
+        ?.substringBefore("/")
+        ?.toLongOrNull()
+        ?: 0

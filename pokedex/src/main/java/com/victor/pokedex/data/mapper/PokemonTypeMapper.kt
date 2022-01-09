@@ -67,7 +67,7 @@ private fun NameAndUrlResponse?.toLanguageDomain() =
     Language(name = this?.name.orEmpty(), url = this?.url.orEmpty())
 
 private fun List<PokemonSimplifiedResponse>?.toPokemonSimplifiedDomain() = this?.map {
-    PokemonSimplified(id = it.pokemon?.url.mapIdFromUrl(), name = it.pokemon?.name.orEmpty(), slot = it.slot ?: 0)
+    PokemonSimplified(id = it.pokemon?.url.mapIdFromUrl2(), name = it.pokemon?.name.orEmpty(), slot = it.slot ?: 0)
 } ?: emptyList()
 
 private fun List<NameAndUrlResponse>?.toPokemonMoveDomain() = this?.map {

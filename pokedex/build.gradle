@@ -22,4 +22,5 @@ dependencies {
     implementation androidx_lifecycle
     implementation androidx_appcompat
     implementation androidx_core
+    implementation coil
 }
