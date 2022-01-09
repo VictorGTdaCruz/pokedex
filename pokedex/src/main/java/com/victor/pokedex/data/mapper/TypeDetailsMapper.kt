@@ -5,8 +5,8 @@ import com.victor.pokedex.data.model.GameIndexResponse
 import com.victor.pokedex.data.model.NameAndUrlResponse
 import com.victor.pokedex.data.model.PastDamageRelationsResponse
 import com.victor.pokedex.data.model.PokemonNameResponse
-import com.victor.pokedex.data.model.PokemonSimplifiedResponse
-import com.victor.pokedex.data.model.PokemonTypeResponse
+import com.victor.pokedex.data.model.PokemonResponse
+import com.victor.pokedex.data.model.TypeDetailsResponse
 import com.victor.pokedex.domain.model.DamageRelations
 import com.victor.pokedex.domain.model.GameIndex
 import com.victor.pokedex.domain.model.Generation
@@ -15,11 +15,11 @@ import com.victor.pokedex.domain.model.MoveDamageClass
 import com.victor.pokedex.domain.model.PastDamageRelations
 import com.victor.pokedex.domain.model.PokemonMove
 import com.victor.pokedex.domain.model.PokemonName
-import com.victor.pokedex.domain.model.PokemonSimplified
-import com.victor.pokedex.domain.model.PokemonType
+import com.victor.pokedex.domain.model.Pokemon
+import com.victor.pokedex.domain.model.TypeDetails
 
-internal fun PokemonTypeResponse.toDomain() =
-    PokemonType(
+internal fun TypeDetailsResponse.toDomain() =
+    TypeDetails(
         id = id ?: 0,
         name = name.orEmpty(),
         damageRelations = damageRelations.toDomain(),
@@ -28,18 +28,18 @@ internal fun PokemonTypeResponse.toDomain() =
         generation = generation.toGenerationDomain(),
         moveDamageClass = moveDamageClass.toMoveDamageDomain(),
         names = names.toPokemonNameDomain(),
-        pokemons = pokemon.toPokemonSimplifiedDomain(),
+        pokemons = pokemon.toPokemonDomain(),
         moves = moves.toPokemonMoveDomain()
     )
 
 private fun DamageRelationsResponse?.toDomain() =
     DamageRelations(
-        noDamageTo = this?.noDamageTo.toPokemonTypeSimplifiedDomain(),
-        halfDamageTo = this?.halfDamageTo.toPokemonTypeSimplifiedDomain(),
-        doubleDamageTo = this?.doubleDamageTo.toPokemonTypeSimplifiedDomain(),
-        noDamageFrom = this?.noDamageFrom.toPokemonTypeSimplifiedDomain(),
-        halfDamageFrom = this?.halfDamageFrom.toPokemonTypeSimplifiedDomain(),
-        doubleDamageFrom = this?.doubleDamageFrom.toPokemonTypeSimplifiedDomain(),
+        noDamageTo = this?.noDamageTo.toPokemonTypeDomain(),
+        halfDamageTo = this?.halfDamageTo.toPokemonTypeDomain(),
+        doubleDamageTo = this?.doubleDamageTo.toPokemonTypeDomain(),
+        noDamageFrom = this?.noDamageFrom.toPokemonTypeDomain(),
+        halfDamageFrom = this?.halfDamageFrom.toPokemonTypeDomain(),
+        doubleDamageFrom = this?.doubleDamageFrom.toPokemonTypeDomain(),
     )
 
 private fun List<PastDamageRelationsResponse>?.toPastDamageRelationsDomain() = this?.map {
@@ -66,8 +66,12 @@ private fun NameAndUrlResponse?.toMoveDamageDomain() =
 private fun NameAndUrlResponse?.toLanguageDomain() =
     Language(name = this?.name.orEmpty(), url = this?.url.orEmpty())
 
-private fun List<PokemonSimplifiedResponse>?.toPokemonSimplifiedDomain() = this?.map {
-    PokemonSimplified(id = it.pokemon?.url.mapIdFromUrl2(), name = it.pokemon?.name.orEmpty(), slot = it.slot ?: 0)
+private fun List<PokemonResponse>?.toPokemonDomain() = this?.map {
+    Pokemon(
+        id = IdMapper.fromPokemonUrl(it.pokemon?.url),
+        name = it.pokemon?.name.orEmpty(),
+        slot = it.slot ?: 0
+    )
 } ?: emptyList()
 
 private fun List<NameAndUrlResponse>?.toPokemonMoveDomain() = this?.map {

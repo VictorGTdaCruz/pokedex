@@ -30,13 +30,12 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.rememberImagePainter
 import com.victor.pokedex.R
-import com.victor.pokedex.data.mapper.mapIdFromUrl
+import com.victor.pokedex.data.mapper.IdMapper
 import com.victor.pokedex.domain.model.PokemonDetails
-import com.victor.pokedex.domain.model.PokemonSimplified
+import com.victor.pokedex.domain.model.Pokemon
 import com.victor.pokedex.domain.model.PokemonSprite
-import com.victor.pokedex.domain.model.PokemonTypeSimplified
-import com.victor.pokedex.domain.model.Tste
-import com.victor.pokedex.domain.model.Tstet
+import com.victor.pokedex.domain.model.PokemonType
+import com.victor.pokedex.domain.model.PokemonTypeWithSlot
 import com.victor.pokedex.presentation.PokedexViewModel
 import com.victor.pokedex.presentation.ui.components.Loading
 import com.victor.pokedex.presentation.ui.components.PokemonTypeCard
@@ -48,7 +47,7 @@ internal fun PokemonsScreenBody(
     viewModel: PokedexViewModel,
     pokemonTypeId: Long,
     pokemonTypeName: String,
-    onPokemonClick: (PokemonSimplified) -> Unit
+    onPokemonClick: (Pokemon) -> Unit
 ) {
     Surface(
         color = Background,
@@ -85,7 +84,7 @@ private fun Content(
     viewModel: PokedexViewModel,
     pokemonTypeId: Long,
     pokemonDetailsMap: Map<Long, PokemonDetails>,
-    onPokemonClick: (PokemonSimplified) -> Unit,
+    onPokemonClick: (Pokemon) -> Unit,
     loadDetails: @Composable (Long) -> Unit,
 ) {
     LazyColumn {
@@ -119,10 +118,10 @@ private fun Empty(pokemonTypeName: String) {
 
 @Composable
 private fun PokemonCard(
-    pokemon: PokemonSimplified,
+    pokemon: Pokemon,
     pokemonTypeId: Long,
     pokemonDetailsMap: Map<Long, PokemonDetails>,
-    onPokemonClick: (PokemonSimplified) -> Unit,
+    onPokemonClick: (Pokemon) -> Unit,
     loadDetails: @Composable (Long) -> Unit,
 ) {
     Card(
@@ -165,8 +164,8 @@ private fun PokemonCard(
             ) {
                 details?.types?.forEach {
                     PokemonTypeCard(
-                        type = PokemonTypeSimplified(
-                            id = it.type.url.mapIdFromUrl(),
+                        type = PokemonType(
+                            id = it.type.id,
                             name = it.type.name
                         ),
                         onTypeClick = {},
@@ -205,9 +204,9 @@ private fun PokemonCard(
 @Composable
 private fun Preview() {
     val pokemonList = listOf(
-        PokemonSimplified(name = "Pichu", id = 1, slot = 0),
-        PokemonSimplified(name = "Pikachu", id = 2, slot = 0),
-        PokemonSimplified(name = "Raichu", id = 3, slot = 0),
+        Pokemon(name = "Pichu", id = 1, slot = 0),
+        Pokemon(name = "Pikachu", id = 2, slot = 0),
+        Pokemon(name = "Raichu", id = 3, slot = 0),
     )
 
     LazyColumn {
@@ -216,8 +215,8 @@ private fun Preview() {
                 id = 1L,
                 name = "Nome",
                 types = listOf(
-                    Tste(slot = 1, Tstet(name = "electric", "")),
-                    Tste(slot = 1, Tstet(name = "steel", ""))
+                    PokemonTypeWithSlot(slot = 1, PokemonType(id = 13, name = "electric")),
+                    PokemonTypeWithSlot(slot = 1, PokemonType(id = 9, name = "steel"))
                 ),
                 sprites = PokemonSprite("")
             )

@@ -2,7 +2,7 @@ package com.victor.pokedex.data.model
 
 import com.google.gson.annotations.SerializedName
 
-data class PokemonTypeResponse(
+data class TypeDetailsResponse(
     val id: Long? = null,
     val name: String? = null,
     @SerializedName("damage_relations") val damageRelations: DamageRelationsResponse? = null,
@@ -11,7 +11,7 @@ data class PokemonTypeResponse(
     val generation: NameAndUrlResponse? = null,
     @SerializedName("move_damage_class") val moveDamageClass: NameAndUrlResponse? = null,
     val names: List<PokemonNameResponse>? = null,
-    val pokemon: List<PokemonSimplifiedResponse>? = null,
+    val pokemon: List<PokemonResponse>? = null,
     val moves: List<NameAndUrlResponse>? = null
 )
 
@@ -39,7 +39,7 @@ data class PokemonNameResponse(
     val language: NameAndUrlResponse? = null
 )
 
-data class PokemonSimplifiedResponse(
+data class PokemonResponse(
     val pokemon: NameAndUrlResponse? = null,
     val slot: Int? = null
 )

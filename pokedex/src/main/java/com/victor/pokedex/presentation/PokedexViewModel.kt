@@ -8,8 +8,8 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.victor.pokedex.domain.model.PokemonDetails
-import com.victor.pokedex.domain.model.PokemonSimplified
-import com.victor.pokedex.domain.model.PokemonTypeSimplified
+import com.victor.pokedex.domain.model.Pokemon
+import com.victor.pokedex.domain.model.PokemonType
 import com.victor.pokedex.domain.service.PokedexService
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -22,8 +22,8 @@ internal class PokedexViewModel(
     var isLoading by mutableStateOf(false)
         private set
 
-    val pokemonTypes = mutableStateListOf<PokemonTypeSimplified>()
-    val pokemons = mutableStateListOf<PokemonSimplified>()
+    val pokemonTypes = mutableStateListOf<PokemonType>()
+    val pokemons = mutableStateListOf<Pokemon>()
     val details = mutableStateMapOf<Long, PokemonDetails>()
 
     fun loadPokemonTypes() {
@@ -45,7 +45,7 @@ internal class PokedexViewModel(
             isLoading = true
 
             delay(2000)
-            val pokemonList = infrastructure.getPokemonType(typeId).pokemons
+            val pokemonList = infrastructure.getTypeDetails(typeId).pokemons
             pokemons.clear()
             pokemons.addAll(pokemonList)
 

@@ -18,14 +18,14 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.victor.pokedex.domain.model.PokemonTypeSimplified
+import com.victor.pokedex.domain.model.PokemonType
 import com.victor.pokedex.presentation.ui.utils.TypeColorHelper
 import com.victor.pokedex.presentation.ui.utils.TypeDrawableHelper
 
 @Composable
 fun PokemonTypeCard(
-    type: PokemonTypeSimplified,
-    onTypeClick: (PokemonTypeSimplified) -> Unit,
+    type: PokemonType,
+    onTypeClick: (PokemonType) -> Unit,
     cardPadding: Dp = 8.dp,
     iconSize: Dp = 24.dp,
     fontSize: TextUnit = 14.sp

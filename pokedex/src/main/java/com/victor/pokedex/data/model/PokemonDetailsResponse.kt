@@ -5,11 +5,11 @@ import com.google.gson.annotations.SerializedName
 data class PokemonDetailsResponse(
     val id: Long? = null,
     val name: String? = null,
-    val types: List<Tst>? = null,
+    val types: List<PokemonTypeWithSlotResponse>? = null,
     val sprites: PokemonSpriteResponse? = null
 )
 
-data class Tst(
+data class PokemonTypeWithSlotResponse(
     val slot: Int? = null,
     val type: NameAndUrlResponse? = null
 )
