@@ -9,6 +9,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import com.victor.pokedex.presentation.PokedexViewModel
+import com.victor.pokedex.presentation.ui.pokemons.PokemonsScreenBody
 import com.victor.pokedex.presentation.ui.types.PokemonTypesScreenBody
 
 @ExperimentalFoundationApi
@@ -27,18 +28,23 @@ internal fun PokedexNavHost(
             PokemonTypesScreenBody(
                 viewModel = viewModel,
                 onTypeClick = {
-//                    navController.navigate(Screens.PokemonListByTypeScreen.name)
+                    navController.navigate("${Screens.PokemonListByTypeScreen.name}/${it.id}")
                 }
             )
         }
 
         composable(
-            route = Screens.PokemonListByTypeScreen.name,
+            route = "${Screens.PokemonListByTypeScreen.name}/{typeId}",
             arguments = listOf(navArgument("typeId") {
                 type = NavType.LongType
             })
         ) {
-            // TODO list pokemon by type screen
+            val typeId = it.arguments?.getLong("typeId") ?: 0
+            PokemonsScreenBody(
+                viewModel = viewModel,
+                pokemonTypeId = typeId,
+                onPokemonClick = { }
+            )
         }
 
         composable(Screens.PokemonDetailsScreen.name) {

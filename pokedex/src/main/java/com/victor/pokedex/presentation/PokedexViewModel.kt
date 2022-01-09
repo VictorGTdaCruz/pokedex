@@ -19,14 +19,16 @@ internal class PokedexViewModel(
     val isLoading = mutableStateOf(false)
 
     fun loadPokemonTypes() {
-        viewModelScope.launch {
-            isLoading.value = true
+        if (pokemonTypes.isEmpty()) {
+            viewModelScope.launch {
+                isLoading.value = true
 
-            delay(2000)
-            val list = infrastructure.getPokemonTypes()
-            pokemonTypes.addAll(list)
+                delay(2000)
+                val list = infrastructure.getPokemonTypes()
+                pokemonTypes.addAll(list)
 
-            isLoading.value = false
+                isLoading.value = false
+            }
         }
     }
 }
