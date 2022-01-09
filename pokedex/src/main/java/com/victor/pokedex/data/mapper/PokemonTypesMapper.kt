@@ -16,7 +16,7 @@ internal fun List<NameAndUrlResponse>?.toPokemonTypeSimplifiedDomain() =
         )
     } ?: emptyList()
 
-private fun String?.mapIdFromUrl() =
+fun String?.mapIdFromUrl() =
     this?.substringAfter("type/")
         ?.substringBefore("/")
         ?.toLongOrNull()

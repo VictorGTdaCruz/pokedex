@@ -37,7 +37,12 @@ private fun PokedexApp(viewModel: PokedexViewModel) {
         val navController = rememberNavController()
 
         Scaffold(
-            topBar = { PokedexAppBar(navController) }
+            topBar = {
+                PokedexAppBar(
+                    navController = navController,
+                    viewModel = viewModel
+                )
+            }
         ) {
             PokedexNavHost(
                 navController = navController,

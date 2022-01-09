@@ -9,6 +9,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import com.victor.pokedex.presentation.PokedexViewModel
+import com.victor.pokedex.presentation.ui.details.DetailsScreenBody
 import com.victor.pokedex.presentation.ui.pokemons.PokemonsScreenBody
 import com.victor.pokedex.presentation.ui.types.PokemonTypesScreenBody
 
@@ -28,27 +29,46 @@ internal fun PokedexNavHost(
             PokemonTypesScreenBody(
                 viewModel = viewModel,
                 onTypeClick = {
-                    navController.navigate("${Screens.PokemonListByTypeScreen.name}/${it.id}")
+                    val route = "${Screens.PokemonListByTypeScreen.name}/${it.name}&${it.id}"
+                    navController.navigate(route)
                 }
             )
         }
 
         composable(
-            route = "${Screens.PokemonListByTypeScreen.name}/{typeId}",
-            arguments = listOf(navArgument("typeId") {
-                type = NavType.LongType
-            })
+            route = "${Screens.PokemonListByTypeScreen.name}/{typeName}&{typeId}",
+            arguments = listOf(
+                navArgument("typeName") { type = NavType.StringType },
+                navArgument("typeId") { type = NavType.LongType },
+            )
         ) {
+            val typeName = it.arguments?.getString("typeName") ?: ""
             val typeId = it.arguments?.getLong("typeId") ?: 0
             PokemonsScreenBody(
                 viewModel = viewModel,
                 pokemonTypeId = typeId,
-                onPokemonClick = { }
+                pokemonTypeName = typeName,
+                onPokemonClick = { pokemon ->
+                    val route = "${Screens.PokemonDetailsScreen.name}/${pokemon.id}&${pokemon.name}"
+                    navController.navigate(route)
+                }
             )
         }
 
-        composable(Screens.PokemonDetailsScreen.name) {
-            // TODO list pokemon details screen
+        composable(
+            route = "${Screens.PokemonDetailsScreen.name}/{pokemonId}&{pokemonName}",
+            arguments = listOf(
+                navArgument("pokemonId") { type = NavType.LongType },
+                navArgument("pokemonName") { type = NavType.StringType }
+            )
+        ) {
+            val pokemonId = it.arguments?.getLong("pokemonId") ?: 0
+            val pokemonName = it.arguments?.getString("pokemonName") ?: ""
+            DetailsScreenBody(
+                viewModel = viewModel,
+                pokemonId = pokemonId,
+                pokemonName = pokemonName
+            )
         }
     }
 }

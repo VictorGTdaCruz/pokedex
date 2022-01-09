@@ -43,8 +43,8 @@ data class MoveDamageClass(
 )
 
 data class PokemonSimplified(
+    val id: Long,
     val name: String,
-    val url: String,
     val slot: Int
 )
 

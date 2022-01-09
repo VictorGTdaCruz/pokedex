@@ -11,13 +11,15 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
-import com.victor.pokedex.presentation.ui.navigation.Screens
+import com.victor.pokedex.presentation.PokedexViewModel
+import com.victor.pokedex.presentation.ui.theme.Background
 
 @Composable
-fun PokedexAppBar(
-    navController: NavHostController
+internal fun PokedexAppBar(
+    navController: NavHostController,
+    viewModel: PokedexViewModel
 ) {
     var hasPreviousBackStackEntry by remember { mutableStateOf(false) }
 
@@ -43,12 +45,10 @@ fun PokedexAppBar(
 
     TopAppBar(
         title = {
-            Text(
-                text = stringResource(
-                    id = Screens.getScreenTitle(navController.currentDestination?.route.toString())
-                )
-            )
+            Text(text = viewModel.toolbarTitle)
         },
-        navigationIcon = navigationIcon
+        navigationIcon = navigationIcon,
+        backgroundColor = Background,
+        elevation = 0.dp
     )
 }

@@ -26,7 +26,8 @@ internal fun PokemonTypesScreenBody(
         color = Background,
         modifier = Modifier.fillMaxSize()
     ) {
-        if (viewModel.isLoading.value)
+        viewModel.toolbarTitle = stringResource(id = R.string.type_screen_title)
+        if (viewModel.isLoading)
             Loading()
         else
             TypeListScreenContent(viewModel.pokemonTypes, onTypeClick)
@@ -43,10 +44,5 @@ private fun TypeListScreenContent(
     types: SnapshotStateList<PokemonTypeSimplified>,
     onTypeClick: (PokemonTypeSimplified) -> Unit,
 ) {
-    Column {
-        Text(
-            text = stringResource(id = R.string.type_screen_title)
-        )
-        TypeList(types = types) { onTypeClick(it) }
-    }
+    TypeList(types = types) { onTypeClick(it) }
 }

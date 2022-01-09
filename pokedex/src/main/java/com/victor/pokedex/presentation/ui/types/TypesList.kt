@@ -66,7 +66,7 @@ fun TypeCard(
                     .align(Alignment.CenterVertically)
             )
             Text(
-                text = type.name,
+                text = type.name.replaceFirstChar { it.titlecase() },
                 color = Color.White,
                 modifier = Modifier
                     .align(Alignment.CenterVertically)
@@ -86,7 +86,8 @@ fun Preview() {
             PokemonTypeSimplified(name = "fighting", id = 2),
             PokemonTypeSimplified(name = "fire", id = 10),
             PokemonTypeSimplified(name = "grass", id = 12),
-            PokemonTypeSimplified(name = "water", id = 11)
+            PokemonTypeSimplified(name = "water", id = 11),
+            PokemonTypeSimplified(name = "dark", id = 17)
         ).toMutableStateList(),
         onTypeClick = { }
     )
