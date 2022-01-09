@@ -1,4 +1,4 @@
-package com.victor.pokedex.presentation
+package com.victor.pokedex.presentation.ui.utils
 
 import androidx.compose.ui.graphics.Color
 import com.victor.pokedex.R
