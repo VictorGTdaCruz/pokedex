@@ -10,7 +10,7 @@ android {
 
 dependencies {
     implementation project(':networking')
-    implementation project(':pokedex')
+    implementation project(':feature-pokedex')
 
     implementation androidx_appcompat
     implementation androidx_lifecycle
