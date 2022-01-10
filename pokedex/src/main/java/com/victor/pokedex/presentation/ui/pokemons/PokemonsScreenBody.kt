@@ -2,15 +2,12 @@ package com.victor.pokedex.presentation.ui.pokemons
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.Card
@@ -22,21 +19,19 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.rememberImagePainter
 import com.victor.pokedex.R
-import com.victor.pokedex.data.mapper.IdMapper
-import com.victor.pokedex.domain.model.PokemonDetails
 import com.victor.pokedex.domain.model.Pokemon
+import com.victor.pokedex.domain.model.PokemonDetails
 import com.victor.pokedex.domain.model.PokemonSprite
 import com.victor.pokedex.domain.model.PokemonType
 import com.victor.pokedex.domain.model.PokemonTypeWithSlot
 import com.victor.pokedex.presentation.PokedexViewModel
+import com.victor.pokedex.presentation.ui.components.Empty
 import com.victor.pokedex.presentation.ui.components.Loading
 import com.victor.pokedex.presentation.ui.components.PokemonTypeCard
 import com.victor.pokedex.presentation.ui.theme.Background
@@ -57,11 +52,12 @@ internal fun PokemonsScreenBody(
             id = R.string.pokemons_screen_title,
             formatArgs = arrayOf(pokemonTypeName.replaceFirstChar { it.titlecase() })
         )
+
         when {
             viewModel.isLoading -> Loading()
-            viewModel.pokemons.isEmpty() -> Empty(pokemonTypeName)
-            else -> Content(
-                viewModel = viewModel,
+            viewModel.pokemons.isEmpty() -> Empty("We haven't detected any Pokémon of the $pokemonTypeName type yet!")
+            else -> PokemonList(
+                pokemons = viewModel.pokemons,
                 pokemonTypeId = pokemonTypeId,
                 pokemonDetailsMap = viewModel.details,
                 onPokemonClick = onPokemonClick,
@@ -80,39 +76,17 @@ internal fun PokemonsScreenBody(
 }
 
 @Composable
-private fun Content(
-    viewModel: PokedexViewModel,
+private fun PokemonList(
+    pokemons: List<Pokemon>,
     pokemonTypeId: Long,
     pokemonDetailsMap: Map<Long, PokemonDetails>,
     onPokemonClick: (Pokemon) -> Unit,
     loadDetails: @Composable (Long) -> Unit,
 ) {
     LazyColumn {
-        items(viewModel.pokemons) {
+        items(pokemons) {
             PokemonCard(it, pokemonTypeId, pokemonDetailsMap, onPokemonClick, loadDetails)
         }
-    }
-}
-
-@Composable
-private fun Empty(pokemonTypeName: String) {
-    Column(
-        modifier = Modifier.fillMaxSize(),
-        horizontalAlignment = CenterHorizontally,
-        verticalArrangement = Arrangement.Center
-    ) {
-        Image(
-            painter = painterResource(id = R.drawable.img_pikachu_resting),
-            contentDescription = "",
-            modifier = Modifier
-                .width(150.dp)
-                .height(150.dp)
-        )
-        Text(
-            text = "We haven't detected any Pokémon of the $pokemonTypeName type yet!",
-            textAlign = TextAlign.Center,
-            modifier = Modifier.padding(16.dp)
-        )
     }
 }
 

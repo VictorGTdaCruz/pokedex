@@ -10,7 +10,7 @@ import com.victor.pokedex.presentation.PokedexViewModel
 import com.victor.pokedex.presentation.ui.theme.Background
 
 @Composable
-internal fun DetailsScreenBody(
+internal fun PokemonDetailsScreenBody(
     viewModel: PokedexViewModel,
     pokemonId: Long,
     pokemonName: String

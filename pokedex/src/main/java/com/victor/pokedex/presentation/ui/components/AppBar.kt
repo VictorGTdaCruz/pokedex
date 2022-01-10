@@ -17,7 +17,7 @@ import com.victor.pokedex.presentation.PokedexViewModel
 import com.victor.pokedex.presentation.ui.theme.Background
 
 @Composable
-internal fun PokedexAppBar(
+internal fun AppBar(
     navController: NavHostController,
     viewModel: PokedexViewModel
 ) {

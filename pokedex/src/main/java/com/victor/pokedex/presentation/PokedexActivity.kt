@@ -10,7 +10,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.rememberNavController
 import com.victor.pokedex.di.viewModel
-import com.victor.pokedex.presentation.ui.components.PokedexAppBar
+import com.victor.pokedex.presentation.ui.components.AppBar
 import com.victor.pokedex.presentation.ui.navigation.PokedexNavHost
 import com.victor.pokedex.presentation.ui.theme.PokedexTheme
 import org.kodein.di.DIAware
@@ -38,7 +38,7 @@ private fun PokedexApp(viewModel: PokedexViewModel) {
 
         Scaffold(
             topBar = {
-                PokedexAppBar(
+                AppBar(
                     navController = navController,
                     viewModel = viewModel
                 )

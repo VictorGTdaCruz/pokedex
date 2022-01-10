@@ -9,7 +9,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import com.victor.pokedex.presentation.PokedexViewModel
-import com.victor.pokedex.presentation.ui.details.DetailsScreenBody
+import com.victor.pokedex.presentation.ui.details.PokemonDetailsScreenBody
 import com.victor.pokedex.presentation.ui.pokemons.PokemonsScreenBody
 import com.victor.pokedex.presentation.ui.types.PokemonTypesScreenBody
 
@@ -44,6 +44,7 @@ internal fun PokedexNavHost(
         ) {
             val typeName = it.arguments?.getString("typeName") ?: ""
             val typeId = it.arguments?.getLong("typeId") ?: 0
+
             PokemonsScreenBody(
                 viewModel = viewModel,
                 pokemonTypeId = typeId,
@@ -64,7 +65,8 @@ internal fun PokedexNavHost(
         ) {
             val pokemonId = it.arguments?.getLong("pokemonId") ?: 0
             val pokemonName = it.arguments?.getString("pokemonName") ?: ""
-            DetailsScreenBody(
+
+            PokemonDetailsScreenBody(
                 viewModel = viewModel,
                 pokemonId = pokemonId,
                 pokemonName = pokemonName
