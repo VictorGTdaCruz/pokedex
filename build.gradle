@@ -28,6 +28,7 @@ buildscript {
         // Dependencies
         android_gradle = "com.android.tools.build:gradle:$android_gradle_support_version"
         kotlin_gradle = "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+        kotlin_coroutines = "org.jetbrains.kotlinx:kotlinx-coroutines-core:$kotlin_coroutines_version"
 
         ktxSerialization = "org.jetbrains.kotlinx:kotlinx-serialization-json:$ktxSerialization"
 

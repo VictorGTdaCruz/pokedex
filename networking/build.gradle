@@ -3,4 +3,5 @@ apply from: "../kotlin-module.gradle"
 dependencies {
     implementation kodein
     implementation networking
+    implementation kotlin_coroutines
 }

@@ -31,6 +31,7 @@ import com.victor.pokedex.domain.model.PokemonSprite
 import com.victor.pokedex.domain.model.PokemonType
 import com.victor.pokedex.domain.model.PokemonTypeWithSlot
 import com.victor.pokedex.presentation.PokedexViewModel
+import com.victor.pokedex.presentation.Resource
 import com.victor.pokedex.presentation.ui.components.EmptyUI
 import com.victor.pokedex.presentation.ui.components.ErrorUI
 import com.victor.pokedex.presentation.ui.components.LoadingUI
@@ -54,16 +55,16 @@ internal fun PokemonsScreenBody(
             formatArgs = arrayOf(pokemonTypeName.replaceFirstChar { it.titlecase() })
         )
 
-        when {
-            viewModel.isLoading -> LoadingUI()
-            viewModel.errorMessage.isNotEmpty() -> ErrorUI(message = viewModel.errorMessage) {
+        when (viewModel.pokemons.value) {
+            Resource.Empty -> EmptyUI("We haven't detected any Pokémon of the $pokemonTypeName type yet!")
+            Resource.Loading -> LoadingUI()
+            is Resource.Error -> ErrorUI(message = viewModel.errorMessage) {
                 viewModel.loadPokemonsFromType(pokemonTypeId)
             }
-            viewModel.pokemons.isEmpty() -> EmptyUI("We haven't detected any Pokémon of the $pokemonTypeName type yet!")
-            else -> PokemonList(
-                pokemons = viewModel.pokemons,
+            is Resource.Success<*> -> PokemonList(
+                pokemons = (viewModel.pokemons.value as Resource.Success<List<Pokemon>>).data,
                 pokemonTypeId = pokemonTypeId,
-                pokemonDetailsMap = viewModel.details,
+                pokemonDetailsMap = viewModel.pokemonDetails,
                 onPokemonClick = onPokemonClick,
                 loadDetails = {
                     LaunchedEffect(Unit) {
