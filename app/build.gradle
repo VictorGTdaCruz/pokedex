@@ -15,4 +15,5 @@ dependencies {
     implementation androidx_appcompat
     implementation material_design
     implementation kodein
+    implementation compose
 }

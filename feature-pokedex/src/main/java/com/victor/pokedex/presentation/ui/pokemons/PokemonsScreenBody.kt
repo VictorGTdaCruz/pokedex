@@ -121,7 +121,7 @@ private fun PokemonCard(
     loadDetails: @Composable (Long) -> Unit,
 ) {
     Card(
-        backgroundColor = TypeColorHelper.find(pokemonTypeId),
+        backgroundColor = TypeColorHelper.findBackground(pokemonTypeId),
         modifier = Modifier
             .padding(8.dp)
             .clickable { onPokemonClick(pokemon) }
