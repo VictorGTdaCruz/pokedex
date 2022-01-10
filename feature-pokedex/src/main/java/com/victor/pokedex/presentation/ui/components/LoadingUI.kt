@@ -10,7 +10,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 
 @Composable
-fun Loading() {
+fun LoadingUI() {
     Row(
         modifier = Modifier.fillMaxSize(),
         horizontalArrangement = Arrangement.Center
@@ -24,5 +24,5 @@ fun Loading() {
 @Preview
 @Composable
 fun LoadingPreview() {
-    Loading()
+    LoadingUI()
 }

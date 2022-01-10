@@ -3,6 +3,8 @@ apply plugin: 'kotlin-android'
 apply from:"../android-module.gradle"
 
 dependencies {
+    implementation project(':networking')
+
     implementation kodein
     implementation kodein_android
     implementation ktxSerialization

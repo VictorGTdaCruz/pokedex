@@ -21,6 +21,8 @@ internal class PokedexViewModel(
     var toolbarTitle by mutableStateOf("")
     var isLoading by mutableStateOf(false)
         private set
+    var errorMessage by mutableStateOf("")
+        private set
 
     val pokemonTypes = mutableStateListOf<PokemonType>()
     val pokemons = mutableStateListOf<Pokemon>()

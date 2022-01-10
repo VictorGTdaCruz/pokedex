@@ -16,7 +16,9 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.victor.pokedex.R
 import com.victor.pokedex.domain.model.PokemonType
 import com.victor.pokedex.presentation.PokedexViewModel
-import com.victor.pokedex.presentation.ui.components.Loading
+import com.victor.pokedex.presentation.ui.components.EmptyUI
+import com.victor.pokedex.presentation.ui.components.ErrorUI
+import com.victor.pokedex.presentation.ui.components.LoadingUI
 import com.victor.pokedex.presentation.ui.components.PokemonTypeCard
 import com.victor.pokedex.presentation.ui.theme.Background
 
@@ -32,10 +34,15 @@ internal fun PokemonTypesScreenBody(
     ) {
         viewModel.toolbarTitle = stringResource(id = R.string.type_screen_title)
 
-        if (viewModel.isLoading)
-            Loading()
-        else
-            TypeList(viewModel.pokemonTypes, onTypeClick)
+        when {
+            viewModel.isLoading -> LoadingUI()
+            viewModel.errorMessage.isNotEmpty() -> ErrorUI(
+                message = viewModel.errorMessage,
+                reload = { viewModel.loadPokemonTypes() }
+            )
+            viewModel.pokemonTypes.isEmpty() -> EmptyUI(message = "")
+            else -> TypeList(viewModel.pokemonTypes, onTypeClick)
+        }
 
         LaunchedEffect(Unit) {
             viewModel.loadPokemonTypes()

@@ -4,4 +4,6 @@
     <string name="type_screen_title">Choose your type!</string>
     <string name="pokemons_screen_title">%s pokemons</string>
     <string name="details_screen_title">%s details</string>
+
+    <string name="error_button">Reload</string>
 </resources>

@@ -31,8 +31,9 @@ import com.victor.pokedex.domain.model.PokemonSprite
 import com.victor.pokedex.domain.model.PokemonType
 import com.victor.pokedex.domain.model.PokemonTypeWithSlot
 import com.victor.pokedex.presentation.PokedexViewModel
-import com.victor.pokedex.presentation.ui.components.Empty
-import com.victor.pokedex.presentation.ui.components.Loading
+import com.victor.pokedex.presentation.ui.components.EmptyUI
+import com.victor.pokedex.presentation.ui.components.ErrorUI
+import com.victor.pokedex.presentation.ui.components.LoadingUI
 import com.victor.pokedex.presentation.ui.components.PokemonTypeCard
 import com.victor.pokedex.presentation.ui.theme.Background
 import com.victor.pokedex.presentation.ui.utils.TypeColorHelper
@@ -54,8 +55,11 @@ internal fun PokemonsScreenBody(
         )
 
         when {
-            viewModel.isLoading -> Loading()
-            viewModel.pokemons.isEmpty() -> Empty("We haven't detected any Pokémon of the $pokemonTypeName type yet!")
+            viewModel.isLoading -> LoadingUI()
+            viewModel.errorMessage.isNotEmpty() -> ErrorUI(message = viewModel.errorMessage) {
+                viewModel.loadPokemonsFromType(pokemonTypeId)
+            }
+            viewModel.pokemons.isEmpty() -> EmptyUI("We haven't detected any Pokémon of the $pokemonTypeName type yet!")
             else -> PokemonList(
                 pokemons = viewModel.pokemons,
                 pokemonTypeId = pokemonTypeId,
