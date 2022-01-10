@@ -36,8 +36,10 @@ internal class PokedexViewModel(
 
     fun loadPokemonDetails(pokemonId: Long) {
         viewModelScope.launch {
-            val response = infrastructure.getPokemonDetails(pokemonId)
-            pokemonDetails[response.id] = response
+            runCatching {
+                val response = infrastructure.getPokemonDetails(pokemonId)
+                pokemonDetails[response.id] = response
+            }
         }
     }
 }

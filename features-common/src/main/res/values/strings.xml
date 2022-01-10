@@ -1,4 +1,5 @@
 <resources>
     <string name="error_connection_exception">Looks like your connection is unstable. Please try again after a few moments.</string>
+    <string name="error_format_exception">Looks like the dev made some mistakes. Please send him a message :)</string>
     <string name="error_unknown_exception">Something went wrong, we\'re sorry. Please try again.</string>
 </resources>

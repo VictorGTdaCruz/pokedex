@@ -15,5 +15,14 @@ data class PokemonTypeWithSlotResponse(
 )
 
 data class PokemonSpriteResponse(
+    @SerializedName("front_default") val frontDefault: String? = null,
+    val other: PokemonOtherSpritesResponse? = null
+)
+
+data class PokemonOtherSpritesResponse(
+    @SerializedName("official-artwork") val officialArtwork: PokemonOfficialArtworkSpriteResponse? = null
+)
+
+data class PokemonOfficialArtworkSpriteResponse(
     @SerializedName("front_default") val frontDefault: String? = null
 )

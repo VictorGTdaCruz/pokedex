@@ -43,6 +43,8 @@ import com.victor.pokedex.presentation.ui.components.LoadingUI
 import com.victor.pokedex.presentation.ui.components.PokemonTypeCard
 import com.victor.pokedex.presentation.ui.theme.Background
 import com.victor.pokedex.presentation.ui.utils.TypeColorHelper
+import com.victor.pokedex.presentation.ui.utils.formatPokedexNumber
+import com.victor.pokedex.presentation.ui.utils.formatPokemonName
 
 @Composable
 internal fun PokemonsScreenBody(
@@ -62,7 +64,7 @@ internal fun PokemonsScreenBody(
             )
 
             when (pokemons.value) {
-                is Resource.Empty -> EmptyUI(stringResource(id = R.string.type_empty_message, pokemonTypeName))
+                is Resource.Empty -> PokemonsEmpty(pokemonTypeName)
                 is Resource.Loading -> LoadingUI()
                 is Resource.Error -> {
                     val exception = pokemons.getAsErrorResource()?.exception ?: UnexpectedException
@@ -76,17 +78,20 @@ internal fun PokemonsScreenBody(
                     val pokemonList = pokemons.getAsSuccessState<TypeDetails>()
                         ?.data?.pokemons
                         ?: emptyList()
-                    PokemonList(
-                        pokemons = pokemonList,
-                        pokemonTypeId = pokemonTypeId,
-                        pokemonDetailsMap = pokemonDetails,
-                        onPokemonClick = onPokemonClick,
-                        loadDetails = {
-                            LaunchedEffect(Unit) {
-                                loadPokemonDetails(it)
+                    if (pokemonList.isEmpty())
+                        PokemonsEmpty(pokemonTypeName)
+                    else
+                        PokemonList(
+                            pokemons = pokemonList,
+                            pokemonTypeId = pokemonTypeId,
+                            pokemonDetailsMap = pokemonDetails,
+                            onPokemonClick = onPokemonClick,
+                            loadDetails = {
+                                LaunchedEffect(Unit) {
+                                    loadPokemonDetails(it)
+                                }
                             }
-                        }
-                    )
+                        )
                 }
             }
 
@@ -95,6 +100,11 @@ internal fun PokemonsScreenBody(
             }
         }
     }
+}
+
+@Composable
+private fun PokemonsEmpty(pokemonTypeName: String) {
+    EmptyUI(stringResource(id = R.string.type_empty_message, pokemonTypeName))
 }
 
 @Composable
@@ -141,12 +151,12 @@ private fun PokemonCard(
                     .weight(1f)
             ) {
                 Text(
-                    text = "#${pokemon.id}",
+                    text = pokemon.id.formatPokedexNumber(),
                     color = Color.White,
                     modifier = Modifier
                 )
                 Text(
-                    text = pokemon.name.replaceFirstChar { it.titlecase() },
+                    text = pokemon.name.formatPokemonName(),
                     fontSize = 18.sp,
                     color = Color.White,
                 )
@@ -180,7 +190,7 @@ private fun PokemonCard(
                 if (details != null)
                     Image(
                         painter = rememberImagePainter(
-                            data = details.sprites.frontDefault,
+                            data = details.sprites.otherFrontDefault,
                             builder = {
                                 crossfade(true)
                                 crossfade(500)
@@ -214,7 +224,7 @@ private fun Preview() {
                     PokemonTypeWithSlot(slot = 1, PokemonType(id = 13, name = "electric")),
                     PokemonTypeWithSlot(slot = 1, PokemonType(id = 9, name = "steel"))
                 ),
-                sprites = PokemonSprite("")
+                sprites = PokemonSprite("", "")
             )
             PokemonCard(
                 pokemon = it,

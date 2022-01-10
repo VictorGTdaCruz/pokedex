@@ -33,7 +33,10 @@ fun <T> ViewModel.manageResources(
         mutableResource.value = Resource.Loading
         runCatching {
             val response = request()
-            mutableResource.value = Resource.Success(response)
+            if (response is Collection<*> && response.isEmpty())
+                mutableResource.value = Resource.Empty
+            else
+                mutableResource.value = Resource.Success(response)
         }.getOrElse {
             mutableResource.value = Resource.Error(it as PokedexException)
         }
