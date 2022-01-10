@@ -21,6 +21,8 @@ buildscript {
 
         coil_version = '1.4.0'
 
+        kotlinter_version = '3.6.0'
+
         junit_version = '4.+'
 
         // Dependencies
@@ -51,6 +53,8 @@ buildscript {
 
         coil = "io.coil-kt:coil-compose:$coil_version"
 
+        kotlinter = "org.jmailen.gradle:kotlinter-gradle:$kotlinter_version"
+
         junit = "junit:junit:$junit_version"
 
         // Grouped dependencies
@@ -61,11 +65,13 @@ buildscript {
     repositories {
         google()
         mavenCentral()
+        gradlePluginPortal()
     }
 
     dependencies {
         classpath android_gradle
         classpath kotlin_gradle
+        classpath kotlinter
     }
 }
 

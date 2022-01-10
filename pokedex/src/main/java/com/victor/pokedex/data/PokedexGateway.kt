@@ -10,11 +10,11 @@ import retrofit2.http.Path
 internal interface PokedexGateway {
 
     @GET("type")
-    suspend fun getPokemonTypes() : PagedResponse<NameAndUrlResponse>
+    suspend fun getPokemonTypes(): PagedResponse<NameAndUrlResponse>
 
     @GET("type/{id}")
-    suspend fun getTypeDetails(@Path("id") typeId: Long) : TypeDetailsResponse
+    suspend fun getTypeDetails(@Path("id") typeId: Long): TypeDetailsResponse
 
     @GET("pokemon/{id}")
-    suspend fun getPokemonDetails(@Path("id") pokemonId: Long) : PokemonDetailsResponse
+    suspend fun getPokemonDetails(@Path("id") pokemonId: Long): PokemonDetailsResponse
 }

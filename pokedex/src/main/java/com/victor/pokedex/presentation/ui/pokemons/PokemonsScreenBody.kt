@@ -199,7 +199,8 @@ private fun Preview() {
                 pokemonTypeId = 13,
                 pokemonDetailsMap = mapOf(1L to details),
                 onPokemonClick = { },
-                loadDetails = { })
+                loadDetails = { }
+            )
         }
     }
 }

@@ -1,8 +1,8 @@
 package com.victor.pokedex.domain.service
 
 import com.victor.pokedex.domain.model.PokemonDetails
-import com.victor.pokedex.domain.model.TypeDetails
 import com.victor.pokedex.domain.model.PokemonType
+import com.victor.pokedex.domain.model.TypeDetails
 
 internal interface PokedexService {
 

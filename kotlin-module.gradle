@@ -1,4 +1,5 @@
 apply plugin: 'kotlin'
+apply plugin: 'org.jmailen.kotlinter'
 
 compileKotlin {
     kotlinOptions.jvmTarget = "1.8"

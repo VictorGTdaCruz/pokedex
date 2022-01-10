@@ -13,9 +13,9 @@ import com.victor.pokedex.domain.model.Generation
 import com.victor.pokedex.domain.model.Language
 import com.victor.pokedex.domain.model.MoveDamageClass
 import com.victor.pokedex.domain.model.PastDamageRelations
+import com.victor.pokedex.domain.model.Pokemon
 import com.victor.pokedex.domain.model.PokemonMove
 import com.victor.pokedex.domain.model.PokemonName
-import com.victor.pokedex.domain.model.Pokemon
 import com.victor.pokedex.domain.model.TypeDetails
 
 internal fun TypeDetailsResponse.toDomain() =
