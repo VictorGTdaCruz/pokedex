@@ -1,26 +1,20 @@
 buildscript {
     ext {
         // Versions
-        compose_version = '1.0.1'
-        compose_navigation_version = '2.4.0-rc01'
-
         kotlin_version = '1.5.21'
         kotlin_coroutines_version = '1.4.1'
         android_gradle_support_version = '7.0.4'
 
-        ktxSerialization = "1.0.1"
-
         androidx_appcompat_version = '1.4.0'
         androidx_lifecycle_version = '2.4.0'
         androidx_core_version = '1.7.0'
+        compose_version = '1.0.1'
+        compose_navigation_version = '2.4.0-rc01'
 
         okhttp3_version = '4.6.0'
         retrofit2_version = '2.8.1'
-
         kodein_version = '7.10.0'
-
         coil_version = '1.4.0'
-
         kotlinter_version = '3.6.0'
 
         junit_version = '4.+'
@@ -30,36 +24,29 @@ buildscript {
         kotlin_gradle = "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
         kotlin_coroutines = "org.jetbrains.kotlinx:kotlinx-coroutines-core:$kotlin_coroutines_version"
 
-        ktxSerialization = "org.jetbrains.kotlinx:kotlinx-serialization-json:$ktxSerialization"
-
-        okhttp3 = 'com.squareup.okhttp3:okhttp:$okhttp3_version'
+        okhttp3 = "com.squareup.okhttp3:okhttp:$okhttp3_version"
         retrofit2 = "com.squareup.retrofit2:retrofit:$retrofit2_version"
         retrofit2_gson = "com.squareup.retrofit2:converter-gson:$retrofit2_version"
-
-        kodein = "org.kodein.di:kodein-di:$kodein_version"
-        kodein_android = "org.kodein.di:kodein-di-framework-android-x:$kodein_version"
-
-        compose_standard = "androidx.compose.ui:ui:$compose_version"
-        compose_material = "androidx.compose.material:material:$compose_version"
-        compose_tooling_preview = "androidx.compose.ui:ui-tooling-preview:$compose_version"
-        compose_tooling = "androidx.compose.ui:ui-tooling:$compose_version"
-        compose_navigation = "androidx.navigation:navigation-compose:$compose_navigation_version"
-//        compose_runtime = "androidx.compose.runtime:runtime:$compose_version"
 
         androidx_appcompat = "androidx.appcompat:appcompat:$androidx_appcompat_version"
         androidx_activity_compose = "androidx.activity:activity-compose:$androidx_appcompat_version"
         androidx_lifecycle = "androidx.lifecycle:lifecycle-runtime-ktx:$androidx_lifecycle_version"
         androidx_core = "androidx.core:core-ktx:$androidx_core_version"
         material_design = "com.google.android.material:material:$androidx_appcompat_version"
+        compose_standard = "androidx.compose.ui:ui:$compose_version"
+        compose_material = "androidx.compose.material:material:$compose_version"
+        compose_tooling_preview = "androidx.compose.ui:ui-tooling-preview:$compose_version"
+        compose_tooling = "androidx.compose.ui:ui-tooling:$compose_version"
+        compose_navigation = "androidx.navigation:navigation-compose:$compose_navigation_version"
 
+        kodein = "org.kodein.di:kodein-di:$kodein_version"
+        kodein_android = "org.kodein.di:kodein-di-framework-android-x:$kodein_version"
         coil = "io.coil-kt:coil-compose:$coil_version"
-
         kotlinter = "org.jmailen.gradle:kotlinter-gradle:$kotlinter_version"
 
         junit = "junit:junit:$junit_version"
 
         // Grouped dependencies
-        networking = [okhttp3, retrofit2, retrofit2_gson]
         compose = [compose_standard, compose_material, androidx_activity_compose, compose_tooling, compose_navigation]
     }
 

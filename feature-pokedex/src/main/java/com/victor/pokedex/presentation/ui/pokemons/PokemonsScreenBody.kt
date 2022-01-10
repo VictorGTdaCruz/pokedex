@@ -24,14 +24,19 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.rememberImagePainter
+import com.victor.features_common.ErrorHandler
+import com.victor.features_common.Resource
+import com.victor.features_common.getAsErrorResource
+import com.victor.features_common.getAsSuccessState
+import com.victor.networking.PokedexException.UnexpectedException
 import com.victor.pokedex.R
 import com.victor.pokedex.domain.model.Pokemon
 import com.victor.pokedex.domain.model.PokemonDetails
 import com.victor.pokedex.domain.model.PokemonSprite
 import com.victor.pokedex.domain.model.PokemonType
 import com.victor.pokedex.domain.model.PokemonTypeWithSlot
+import com.victor.pokedex.domain.model.TypeDetails
 import com.victor.pokedex.presentation.PokedexViewModel
-import com.victor.pokedex.presentation.Resource
 import com.victor.pokedex.presentation.ui.components.EmptyUI
 import com.victor.pokedex.presentation.ui.components.ErrorUI
 import com.victor.pokedex.presentation.ui.components.LoadingUI
@@ -50,32 +55,44 @@ internal fun PokemonsScreenBody(
         color = Background,
         modifier = Modifier.fillMaxSize()
     ) {
-        viewModel.toolbarTitle = stringResource(
-            id = R.string.pokemons_screen_title,
-            formatArgs = arrayOf(pokemonTypeName.replaceFirstChar { it.titlecase() })
-        )
-
-        when (viewModel.pokemons.value) {
-            Resource.Empty -> EmptyUI("We haven't detected any Pokémon of the $pokemonTypeName type yet!")
-            Resource.Loading -> LoadingUI()
-            is Resource.Error -> ErrorUI(message = viewModel.errorMessage) {
-                viewModel.loadPokemonsFromType(pokemonTypeId)
-            }
-            is Resource.Success<*> -> PokemonList(
-                pokemons = (viewModel.pokemons.value as Resource.Success<List<Pokemon>>).data,
-                pokemonTypeId = pokemonTypeId,
-                pokemonDetailsMap = viewModel.pokemonDetails,
-                onPokemonClick = onPokemonClick,
-                loadDetails = {
-                    LaunchedEffect(Unit) {
-                        viewModel.loadPokemonDetails(it)
-                    }
-                }
+        with(viewModel) {
+            toolbarTitle = stringResource(
+                id = R.string.pokemons_screen_title,
+                formatArgs = arrayOf(pokemonTypeName.replaceFirstChar { it.titlecase() })
             )
-        }
 
-        LaunchedEffect(Unit) {
-            viewModel.loadPokemonsFromType(pokemonTypeId)
+            when (pokemons.value) {
+                is Resource.Empty -> EmptyUI(stringResource(id = R.string.type_empty_message, pokemonTypeName))
+                is Resource.Loading -> LoadingUI()
+                is Resource.Error -> {
+                    val exception = pokemons.getAsErrorResource()?.exception ?: UnexpectedException
+                    ErrorUI(
+                        message = stringResource(
+                            id = ErrorHandler.handleMessage(exception)
+                        )
+                    ) { loadPokemonsFromType(pokemonTypeId) }
+                }
+                is Resource.Success<*> -> {
+                    val pokemonList = pokemons.getAsSuccessState<TypeDetails>()
+                        ?.data?.pokemons
+                        ?: emptyList()
+                    PokemonList(
+                        pokemons = pokemonList,
+                        pokemonTypeId = pokemonTypeId,
+                        pokemonDetailsMap = pokemonDetails,
+                        onPokemonClick = onPokemonClick,
+                        loadDetails = {
+                            LaunchedEffect(Unit) {
+                                loadPokemonDetails(it)
+                            }
+                        }
+                    )
+                }
+            }
+
+            LaunchedEffect(Unit) {
+                loadPokemonsFromType(pokemonTypeId)
+            }
         }
     }
 }

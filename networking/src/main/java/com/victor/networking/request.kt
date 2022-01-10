@@ -4,6 +4,9 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.supervisorScope
 import kotlinx.coroutines.withContext
 import retrofit2.HttpException
+import java.io.IOException
+import java.net.SocketException
+import java.util.concurrent.TimeoutException
 
 suspend fun <T> request(
     action: suspend () -> T
@@ -12,14 +15,16 @@ suspend fun <T> request(
         withContext(Dispatchers.IO) {
             runCatching { action() }
                 .getOrElse { error ->
-                    // mapeia uma exception
-                    throw error
+                    throw error.toPokedexException()
                 }
         }
     }
 
-private fun Throwable.toInfrastructureError() {
+private fun Throwable.toPokedexException(): PokedexException =
     when (this) {
-        is HttpException -> {}
+        is IOException,
+        is HttpException,
+        is TimeoutException,
+        is SocketException -> PokedexException.ConnectionException
+        else -> PokedexException.UnexpectedException
     }
-}

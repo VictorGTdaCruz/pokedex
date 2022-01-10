@@ -6,4 +6,6 @@
     <string name="details_screen_title">%s details</string>
 
     <string name="error_button">Reload</string>
+    <string name="type_empty_message">We haven\'t detected any Pokémon of the %s type yet!</string>
+    <string name="generic_empty_message">Ops, nothing here yet</string>
 </resources>

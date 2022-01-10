@@ -9,7 +9,7 @@ import androidx.compose.material.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.rememberNavController
-import com.victor.pokedex.di.viewModel
+import com.victor.features_common.viewModel
 import com.victor.pokedex.presentation.ui.components.AppBar
 import com.victor.pokedex.presentation.ui.navigation.PokedexNavHost
 import com.victor.pokedex.presentation.ui.theme.PokedexTheme

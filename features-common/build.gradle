@@ -1,0 +1,10 @@
+apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+apply from:"../android-module.gradle"
+
+dependencies {
+    implementation project(':networking')
+
+    implementation compose
+    implementation kodein
+}

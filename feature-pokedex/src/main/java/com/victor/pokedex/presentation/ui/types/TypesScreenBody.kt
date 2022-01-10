@@ -12,10 +12,14 @@ import androidx.compose.runtime.toMutableStateList
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import com.victor.features_common.ErrorHandler
 import com.victor.pokedex.R
 import com.victor.pokedex.domain.model.PokemonType
 import com.victor.pokedex.presentation.PokedexViewModel
-import com.victor.pokedex.presentation.Resource
+import com.victor.features_common.Resource
+import com.victor.features_common.getAsErrorResource
+import com.victor.features_common.getAsSuccessState
+import com.victor.networking.PokedexException.UnexpectedException
 import com.victor.pokedex.presentation.ui.components.EmptyUI
 import com.victor.pokedex.presentation.ui.components.ErrorUI
 import com.victor.pokedex.presentation.ui.components.LoadingUI
@@ -32,41 +36,32 @@ internal fun PokemonTypesScreenBody(
         color = Background,
         modifier = Modifier.fillMaxSize()
     ) {
-        viewModel.toolbarTitle = stringResource(id = R.string.type_screen_title)
+        with(viewModel) {
+            toolbarTitle = stringResource(id = R.string.type_screen_title)
 
-        when (viewModel.pokemonTypes.value) {
-            is Resource.Empty -> EmptyUI(message = "")
-            is Resource.Loading -> LoadingUI()
-            is Resource.Error -> ErrorUI(
-                message = (viewModel.pokemonTypes as? Resource.Error)?.message ?: ""
-            ) {
-                viewModel.loadPokemonTypes()
-            }
-            is Resource.Success<*> ->
-                ((viewModel.pokemonTypes as Resource.Success<*>).data as? List<PokemonType>)?.let {
-                    TypeList(it, onTypeClick)
+            when (pokemonTypes.value) {
+                is Resource.Empty -> EmptyUI(message = stringResource(id = R.string.generic_empty_message))
+                is Resource.Loading -> LoadingUI()
+                is Resource.Error -> {
+                    val exception = pokemonTypes.getAsErrorResource()?.exception ?: UnexpectedException
+                    ErrorUI(
+                        message = stringResource(
+                            id = ErrorHandler.handleMessage(exception)
+                        )
+                    ) { loadPokemonTypes() }
                 }
+                is Resource.Success<*> -> {
+                    val types = pokemonTypes.getAsSuccessState<List<PokemonType>>()
+                        ?.data
+                        ?: emptyList()
+                    TypeList(types, onTypeClick)
+                }
+            }
 
+            LaunchedEffect(Unit) {
+                loadPokemonTypes()
+            }
         }
-
-        LaunchedEffect(Unit) {
-            viewModel.loadPokemonTypes()
-        }
-
-//        when {
-//            viewModel.isLoading -> LoadingUI()
-//            viewModel.errorMessage.isNotEmpty() -> ErrorUI(
-//                message = viewModel.errorMessage,
-//                reload = { viewModel.loadPokemonTypes() }
-//            )
-//            viewModel.pokemonTypes.isEmpty() -> EmptyUI(message = "")
-//            else -> TypeList(viewModel.pokemonTypes, onTypeClick)
-//        }
-//
-//        LaunchedEffect(Unit) {
-//            if (viewModel.pokemonTypes.isEmpty())
-//                viewModel.loadPokemonTypes()
-//        }
     }
 }
 
