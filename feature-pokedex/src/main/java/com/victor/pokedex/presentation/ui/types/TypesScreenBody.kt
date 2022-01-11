@@ -69,7 +69,7 @@ internal fun PokemonTypesScreenBody(
 
 @ExperimentalFoundationApi
 @Composable
-fun TypeList(
+private fun TypeList(
     types: List<PokemonType>,
     onTypeClick: (PokemonType) -> Unit
 ) {

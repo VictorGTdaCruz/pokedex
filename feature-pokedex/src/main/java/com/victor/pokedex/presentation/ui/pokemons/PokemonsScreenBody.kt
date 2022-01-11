@@ -77,11 +77,11 @@ internal fun PokemonsScreenBody(
                 formatArgs = arrayOf(pokemonTypeName.replaceFirstChar { it.titlecase() })
             )
 
-            when (pokemons.value) {
+            when (typeDetails.value) {
                 is Resource.Empty -> PokemonsEmpty(pokemonTypeName)
                 is Resource.Loading -> LoadingUI()
                 is Resource.Error -> {
-                    val exception = pokemons.getAsErrorResource()?.exception ?: UnexpectedException
+                    val exception = typeDetails.getAsErrorResource()?.exception ?: UnexpectedException
                     ErrorUI(
                         message = stringResource(
                             id = ErrorHandler.handleMessage(exception)
@@ -89,7 +89,7 @@ internal fun PokemonsScreenBody(
                     ) { loadPokemonsFromType(pokemonTypeId) }
                 }
                 is Resource.Success<*> -> {
-                    val pokemonList = pokemons.getAsSuccessResource<TypeDetails>()
+                    val pokemonList = typeDetails.getAsSuccessResource<TypeDetails>()
                         ?.data?.pokemons
                         ?: emptyList()
                     if (pokemonList.isEmpty())

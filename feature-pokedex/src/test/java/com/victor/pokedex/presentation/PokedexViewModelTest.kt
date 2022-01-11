@@ -1,9 +1,11 @@
 package com.victor.pokedex.presentation
 
 import com.victor.features_common.MainCoroutineRuleTest
+import com.victor.features_common.Resource
 import com.victor.features_common.getAsSuccessResource
 import com.victor.pokedex.domain.model.PokemonDetails
 import com.victor.pokedex.domain.model.PokemonType
+import com.victor.pokedex.domain.model.TypeDetails
 import com.victor.pokedex.domain.service.PokedexService
 import io.mockk.coEvery
 import io.mockk.coVerify
@@ -37,10 +39,42 @@ class PokedexViewModelTest {
     }
 
     @Test
+    fun whenLoadPokemonTypes_storesResultInState() {
+        coEvery { service.getPokemonTypes() } returns listOf(PokemonType(0L, "test"))
+        viewModel.loadPokemonTypes()
+        assertEquals(1, viewModel.pokemonTypes.getAsSuccessResource<List<PokemonType>>()?.data?.size)
+    }
+
+    @Test
+    fun whenLoadPokemonTypes_notLoadIfIsHasContent() {
+        viewModel.pokemonTypes.value = Resource.Success(listOf("test"))
+        viewModel.loadPokemonTypes()
+        coVerify(exactly = 0) { service.getPokemonTypes() }
+    }
+
+    @Test
     fun whenLoadPokemonsFromTypes_callsInfrastructureGetTypeDetails() {
         val type = 0L
         viewModel.loadPokemonsFromType(type)
         coVerify { service.getTypeDetails(type) }
+    }
+
+    @Test
+    fun whenLoadPokemonsFromTypes_notLoadIfIsHasContentOfSameId() {
+        val typeId = 0L
+        val details = TypeDetails(id = typeId, name = "", pokemons = emptyList())
+        viewModel.typeDetails.value = Resource.Success(details)
+        viewModel.loadPokemonsFromType(typeId)
+        coVerify(exactly = 0) { service.getTypeDetails(typeId) }
+    }
+
+    @Test
+    fun whenLoadPokemonsFromTypes_shouldLoadIfIsHasContentOfDifferentId() {
+        val typeId = 0L
+        val details = TypeDetails(id = 1, name = "", pokemons = emptyList())
+        viewModel.typeDetails.value = Resource.Success(details)
+        viewModel.loadPokemonsFromType(typeId)
+        coVerify(exactly = 1) { service.getTypeDetails(typeId) }
     }
 
     @Test
@@ -59,12 +93,5 @@ class PokedexViewModelTest {
         viewModel.loadPokemonDetails(id)
         assertEquals(details, viewModel.pokemonDetails[id])
         assertEquals(1, viewModel.pokemonDetails.size)
-    }
-
-    @Test
-    fun whenLoadPokemonTypes_storesResultInState() {
-        coEvery { service.getPokemonTypes() } returns listOf(PokemonType(0L, "test"))
-        viewModel.loadPokemonTypes()
-        assertEquals(1, viewModel.pokemonTypes.getAsSuccessResource<List<PokemonType>>()?.data?.size)
     }
 }

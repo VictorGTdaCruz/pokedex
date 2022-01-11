@@ -25,7 +25,7 @@ inline fun <reified VM : ViewModel, T> T.viewModel()
         ViewModelProvider(this, factory).get(VM::class.java)
     }
 
-fun <T> ViewModel.manageResources(
+fun <T> ViewModel.manageResourcesDuring(
     mutableResource: MutableState<Resource>,
     request: suspend () -> T
 ) {

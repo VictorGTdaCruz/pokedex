@@ -28,7 +28,7 @@ class ViewModelTest {
     @Test
     fun shouldManageResourcesToEmpty() {
         val state = mutableStateOf<Resource>(Resource.Loading)
-            viewModel.manageResources(state) {
+            viewModel.manageResourcesDuring(state) {
                 emptyList<String>()
             }
 
@@ -38,7 +38,7 @@ class ViewModelTest {
     @Test
     fun shouldManageResourcesToError() {
         val state = mutableStateOf<Resource>(Resource.Empty)
-            viewModel.manageResources(state) {
+            viewModel.manageResourcesDuring(state) {
                 throw PokedexException.UnexpectedException
             }
 
@@ -48,7 +48,7 @@ class ViewModelTest {
     @Test
     fun shouldManageResourcesToSuccess() {
         val state = mutableStateOf<Resource>(Resource.Empty)
-            viewModel.manageResources(state) {
+            viewModel.manageResourcesDuring(state) {
                 "data"
             }
 
