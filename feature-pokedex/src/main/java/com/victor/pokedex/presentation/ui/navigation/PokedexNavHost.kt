@@ -1,6 +1,7 @@
 package com.victor.pokedex.presentation.ui.navigation
 
 import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
@@ -9,10 +10,10 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import com.victor.pokedex.presentation.PokedexViewModel
-import com.victor.pokedex.presentation.ui.details.PokemonDetailsScreenBody
 import com.victor.pokedex.presentation.ui.pokemons.PokemonsScreenBody
 import com.victor.pokedex.presentation.ui.types.PokemonTypesScreenBody
 
+@ExperimentalMaterialApi
 @ExperimentalFoundationApi
 @Composable
 internal fun PokedexNavHost(
@@ -48,28 +49,7 @@ internal fun PokedexNavHost(
             PokemonsScreenBody(
                 viewModel = viewModel,
                 pokemonTypeId = typeId,
-                pokemonTypeName = typeName,
-                onPokemonClick = { pokemon ->
-                    val route = "${Screens.PokemonDetailsScreen.name}/${pokemon.id}&${pokemon.name}"
-                    navController.navigate(route)
-                }
-            )
-        }
-
-        composable(
-            route = "${Screens.PokemonDetailsScreen.name}/{pokemonId}&{pokemonName}",
-            arguments = listOf(
-                navArgument("pokemonId") { type = NavType.LongType },
-                navArgument("pokemonName") { type = NavType.StringType }
-            )
-        ) {
-            val pokemonId = it.arguments?.getLong("pokemonId") ?: 0
-            val pokemonName = it.arguments?.getString("pokemonName") ?: ""
-
-            PokemonDetailsScreenBody(
-                viewModel = viewModel,
-                pokemonId = pokemonId,
-                pokemonName = pokemonName
+                pokemonTypeName = typeName
             )
         }
     }

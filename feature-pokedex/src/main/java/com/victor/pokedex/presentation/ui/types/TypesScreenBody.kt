@@ -12,6 +12,8 @@ import androidx.compose.runtime.toMutableStateList
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.victor.features_common.ErrorHandler
 import com.victor.pokedex.R
 import com.victor.pokedex.domain.model.PokemonType
@@ -75,7 +77,14 @@ fun TypeList(
         cells = GridCells.Fixed(2),
         content = {
             items(types) {
-                PokemonTypeCard(type = it, onTypeClick = onTypeClick)
+                PokemonTypeCard(
+                    type = it,
+                    onTypeClick = onTypeClick,
+                    iconSize = 30.dp,
+                    iconPadding = 12.dp,
+                    fontPadding = 12.dp,
+                    fontSize = 20.sp
+                )
             }
         }
     )

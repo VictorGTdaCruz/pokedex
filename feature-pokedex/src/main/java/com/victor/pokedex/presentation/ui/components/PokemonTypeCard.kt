@@ -28,7 +28,9 @@ fun PokemonTypeCard(
     onTypeClick: (PokemonType) -> Unit,
     cardPadding: Dp = 8.dp,
     iconSize: Dp = 24.dp,
-    fontSize: TextUnit = 14.sp
+    iconPadding: Dp = 8.dp,
+    fontSize: TextUnit = 14.sp,
+    fontPadding: Dp = 8.dp,
 ) {
     Card(
         backgroundColor = TypeColorHelper.find(type.id),
@@ -45,7 +47,7 @@ fun PokemonTypeCard(
                 colorFilter = ColorFilter.tint(Color.White),
                 contentDescription = "type_bug",
                 modifier = Modifier
-                    .padding(start = 8.dp)
+                    .padding(iconPadding)
                     .size(iconSize)
                     .align(Alignment.CenterVertically)
             )
@@ -55,7 +57,7 @@ fun PokemonTypeCard(
                 fontSize = fontSize,
                 modifier = Modifier
                     .align(Alignment.CenterVertically)
-                    .padding(8.dp)
+                    .padding(fontPadding)
             )
         }
     }

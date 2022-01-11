@@ -5,6 +5,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -16,6 +17,7 @@ import com.victor.pokedex.presentation.ui.theme.PokedexTheme
 import org.kodein.di.DIAware
 import org.kodein.di.android.closestDI
 
+@ExperimentalMaterialApi
 @ExperimentalFoundationApi
 class PokedexActivity : ComponentActivity(), DIAware {
 
@@ -30,6 +32,7 @@ class PokedexActivity : ComponentActivity(), DIAware {
     }
 }
 
+@ExperimentalMaterialApi
 @ExperimentalFoundationApi
 @Composable
 private fun PokedexApp(viewModel: PokedexViewModel) {
