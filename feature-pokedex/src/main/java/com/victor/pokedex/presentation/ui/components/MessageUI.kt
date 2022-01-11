@@ -33,7 +33,7 @@ fun MessageUI(
     ) {
         Image(
             painter = painterResource(id = imageRes),
-            contentDescription = "",
+            contentDescription = stringResource(id = R.string.content_description_feedback_image),
             modifier = Modifier
                 .size(150.dp)
         )

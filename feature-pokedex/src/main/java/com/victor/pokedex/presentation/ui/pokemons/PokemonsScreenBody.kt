@@ -260,7 +260,7 @@ private fun PokemonImage(
                         crossfade(500)
                     }
                 ),
-                contentDescription = "",
+                contentDescription = stringResource(id = R.string.content_description_pokemon_image),
                 modifier = Modifier
                     .size(90.dp)
                     .align(CenterHorizontally)

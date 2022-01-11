@@ -12,4 +12,9 @@
     <string name="weight">Weight</string>
     <string name="height">Height</string>
     <string name="stat">%s: %d</string>
+
+    <string name="content_description_back_button">Back button</string>
+    <string name="content_description_feedback_image">Feedback image</string>
+    <string name="content_description_type_icon">Pokémon type icon</string>
+    <string name="content_description_pokemon_image">Pokémon image</string>
 </resources>

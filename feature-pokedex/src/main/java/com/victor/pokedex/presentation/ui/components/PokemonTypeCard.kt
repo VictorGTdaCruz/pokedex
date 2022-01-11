@@ -14,10 +14,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.victor.pokedex.R
 import com.victor.pokedex.domain.model.PokemonType
 import com.victor.pokedex.presentation.ui.utils.TypeColorHelper
 import com.victor.pokedex.presentation.ui.utils.TypeDrawableHelper
@@ -45,7 +47,7 @@ fun PokemonTypeCard(
             Image(
                 painter = painterResource(id = drawableId),
                 colorFilter = ColorFilter.tint(Color.White),
-                contentDescription = "type_bug",
+                contentDescription = stringResource(id = R.string.content_description_type_icon),
                 modifier = Modifier
                     .padding(iconPadding)
                     .size(iconSize)

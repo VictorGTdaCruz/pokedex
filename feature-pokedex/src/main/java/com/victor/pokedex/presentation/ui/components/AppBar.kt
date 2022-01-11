@@ -11,8 +11,10 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
+import com.victor.pokedex.R
 import com.victor.pokedex.presentation.PokedexViewModel
 import com.victor.pokedex.presentation.ui.theme.Background
 
@@ -35,7 +37,7 @@ internal fun AppBar(
                 ) {
                     Icon(
                         imageVector = Icons.Filled.ArrowBack,
-                        contentDescription = null
+                        contentDescription = stringResource(id = R.string.content_description_back_button)
                     )
                 }
             }
