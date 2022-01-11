@@ -15,13 +15,13 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.victor.features_common.ErrorHandler
-import com.victor.pokedex.R
-import com.victor.pokedex.domain.model.PokemonType
-import com.victor.pokedex.presentation.PokedexViewModel
 import com.victor.features_common.Resource
 import com.victor.features_common.getAsErrorResource
 import com.victor.features_common.getAsSuccessState
 import com.victor.networking.PokedexException.UnexpectedException
+import com.victor.pokedex.R
+import com.victor.pokedex.domain.model.PokemonType
+import com.victor.pokedex.presentation.PokedexViewModel
 import com.victor.pokedex.presentation.ui.components.EmptyUI
 import com.victor.pokedex.presentation.ui.components.ErrorUI
 import com.victor.pokedex.presentation.ui.components.LoadingUI
