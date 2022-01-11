@@ -15,7 +15,7 @@ The Pokédex presents the user with all the Pokémon types. Upon choosing one, t
 # Next Steps / Improvements
 - Persintence (Room)
 - Would be nice to have a logger (Timber)
-- Thought about making a domain endpoint myself (like in Firebase or Apiary) to check for Pokémon type colors and icons, since I didn't find this in the PokéApi. I implemented these data directly in the app using the `PokemonTypeEnum.kt` class as a faster solution. The app is going to be outdated if a new Pokémon type is created, so implementing a remote solution is a easy way to avoid this problem.
+- Thought about making a domain endpoint myself (like in Firebase or Apiary) to check for Pokémon type colors and icons, since I didn't find this in the PokéApi. I implemented them directly in the app using the `PokemonTypeEnum.kt` class as a faster solution. The app is going to be outdated if a new Pokémon type is created, so implementing a remote solution is an easy way to avoid this problem in the future.
 
 # Screenshots
 
