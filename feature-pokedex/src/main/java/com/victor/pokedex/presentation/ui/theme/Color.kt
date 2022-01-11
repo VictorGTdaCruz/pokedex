@@ -8,6 +8,7 @@ val Purple700 = Color(0xFF3700B3)
 val Teal200 = Color(0xFF03DAC5)
 val Background = Color(0xFFF2F2F2)
 val BackgroundDark = Color(0xFFE2E2E2)
+val PokedexBlue = Color(0xFF3B4CCA)
 
 // Pokemon Types
 val Bug = Color(0xFF8CB230)
