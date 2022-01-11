@@ -10,7 +10,7 @@ import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 
-class MockViewModel: ViewModel()
+class MockViewModel : ViewModel()
 
 class ViewModelTest {
 
@@ -28,9 +28,9 @@ class ViewModelTest {
     @Test
     fun shouldManageResourcesToEmpty() {
         val state = mutableStateOf<Resource>(Resource.Loading)
-            viewModel.manageResourcesDuring(state) {
-                emptyList<String>()
-            }
+        viewModel.manageResourcesDuring(state) {
+            emptyList<String>()
+        }
 
         assertEquals(Resource.Empty, state.value)
     }
@@ -38,9 +38,9 @@ class ViewModelTest {
     @Test
     fun shouldManageResourcesToError() {
         val state = mutableStateOf<Resource>(Resource.Empty)
-            viewModel.manageResourcesDuring(state) {
-                throw PokedexException.UnexpectedException
-            }
+        viewModel.manageResourcesDuring(state) {
+            throw PokedexException.UnexpectedException
+        }
 
         assertTrue(state.value is Resource.Error)
     }
@@ -48,9 +48,9 @@ class ViewModelTest {
     @Test
     fun shouldManageResourcesToSuccess() {
         val state = mutableStateOf<Resource>(Resource.Empty)
-            viewModel.manageResourcesDuring(state) {
-                "data"
-            }
+        viewModel.manageResourcesDuring(state) {
+            "data"
+        }
 
         assertEquals("data", state.getAsSuccessResource<String>()?.data)
     }
