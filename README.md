@@ -1,4 +1,4 @@
-# Pokedex App
+# Pokédex App
 The Pokédex presents the user with all the Pokémon types. Upon choosing one, the user sees a list with all the Pokémon of the selected type. If one is clicked, a few more detailed information is shown. The app uses the PokéApi (https://pokeapi.co/) to get all of displayed information. This project was created in a 7 day window as a technical challenge. 
 
 # Stack
