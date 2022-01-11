@@ -37,7 +37,7 @@ import coil.compose.rememberImagePainter
 import com.victor.features_common.ErrorHandler
 import com.victor.features_common.Resource
 import com.victor.features_common.getAsErrorResource
-import com.victor.features_common.getAsSuccessState
+import com.victor.features_common.getAsSuccessResource
 import com.victor.networking.PokedexException.UnexpectedException
 import com.victor.pokedex.R
 import com.victor.pokedex.domain.model.Pokemon
@@ -89,7 +89,7 @@ internal fun PokemonsScreenBody(
                     ) { loadPokemonsFromType(pokemonTypeId) }
                 }
                 is Resource.Success<*> -> {
-                    val pokemonList = pokemons.getAsSuccessState<TypeDetails>()
+                    val pokemonList = pokemons.getAsSuccessResource<TypeDetails>()
                         ?.data?.pokemons
                         ?: emptyList()
                     if (pokemonList.isEmpty())

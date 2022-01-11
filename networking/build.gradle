@@ -6,4 +6,5 @@ dependencies {
     implementation retrofit2
     implementation retrofit2_gson
     implementation kotlin_coroutines
+    testImplementation junit
 }

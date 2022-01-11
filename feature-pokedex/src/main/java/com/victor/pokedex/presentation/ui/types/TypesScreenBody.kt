@@ -17,7 +17,7 @@ import androidx.compose.ui.unit.sp
 import com.victor.features_common.ErrorHandler
 import com.victor.features_common.Resource
 import com.victor.features_common.getAsErrorResource
-import com.victor.features_common.getAsSuccessState
+import com.victor.features_common.getAsSuccessResource
 import com.victor.networking.PokedexException.UnexpectedException
 import com.victor.pokedex.R
 import com.victor.pokedex.domain.model.PokemonType
@@ -53,7 +53,7 @@ internal fun PokemonTypesScreenBody(
                     ) { loadPokemonTypes() }
                 }
                 is Resource.Success<*> -> {
-                    val types = pokemonTypes.getAsSuccessState<List<PokemonType>>()
+                    val types = pokemonTypes.getAsSuccessResource<List<PokemonType>>()
                         ?.data
                         ?: emptyList()
                     TypeList(types, onTypeClick)

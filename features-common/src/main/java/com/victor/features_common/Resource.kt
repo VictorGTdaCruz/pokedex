@@ -11,5 +11,5 @@ sealed class Resource {
 }
 
 @Suppress("UNCHECKED_CAST")
-fun <T> MutableState<Resource>.getAsSuccessState() = value as? Resource.Success<T>
+fun <T> MutableState<Resource>.getAsSuccessResource() = value as? Resource.Success<T>
 fun MutableState<Resource>.getAsErrorResource() = value as? Resource.Error

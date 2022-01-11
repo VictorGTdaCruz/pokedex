@@ -14,4 +14,7 @@ dependencies {
     implementation retrofit2_gson
     implementation androidx_lifecycle
     implementation coil
+    testImplementation junit
+    testImplementation mockk
+    testImplementation coroutines_test
 }
