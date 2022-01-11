@@ -10,6 +10,7 @@ The Pokédex presents the user with all the Pokémon types. Upon choosing one, t
 - Coil for loading images
 - Junit and Mockk for unit test
 - Kotlinter as lint
+- Multi module approach using MVVM
 
 # Next Steps / Improvements
 - Persintence (Room)
