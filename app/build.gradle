@@ -3,6 +3,7 @@ apply plugin: 'kotlin-android'
 apply from: "../android-module.gradle"
 
 android {
+    namespace 'com.victor.pokedex'
     defaultConfig {
         applicationId "com.victor.pokedex"
     }
