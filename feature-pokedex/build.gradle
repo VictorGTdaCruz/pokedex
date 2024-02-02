@@ -2,6 +2,10 @@ apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply from:"../android-module.gradle"
 
+android {
+    namespace 'com.victor.pokedex'
+}
+
 dependencies {
     implementation project(':networking')
     implementation project(':features-common')
