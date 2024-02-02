@@ -2,7 +2,7 @@ apply from: "../kotlin-module.gradle"
 
 dependencies {
     implementation kodein
-    implementation okhttp3
+    implementation okhttp3_interceptor
     implementation retrofit2
     implementation retrofit2_gson
     implementation kotlin_coroutines
