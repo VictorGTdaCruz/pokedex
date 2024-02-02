@@ -11,8 +11,8 @@ buildscript {
         compose_version = '1.0.1'
         compose_navigation_version = '2.4.0-rc01'
 
-        okhttp3_version = '4.6.0'
-        retrofit2_version = '2.8.1'
+        okhttp3_version = '4.11.0'
+        retrofit2_version = '2.9.0'
         kodein_version = '7.10.0'
         coil_version = '1.4.0'
         kotlinter_version = '3.6.0'
@@ -26,7 +26,7 @@ buildscript {
         kotlin_coroutines = "org.jetbrains.kotlinx:kotlinx-coroutines-core:$kotlin_coroutines_version"
         coroutines_test = "org.jetbrains.kotlinx:kotlinx-coroutines-test:$kotlin_coroutines_version"
 
-        okhttp3 = "com.squareup.okhttp3:okhttp:$okhttp3_version"
+        okhttp3_interceptor = "com.squareup.okhttp3:logging-interceptor:$okhttp3_version"
         retrofit2 = "com.squareup.retrofit2:retrofit:$retrofit2_version"
         retrofit2_gson = "com.squareup.retrofit2:converter-gson:$retrofit2_version"
 
