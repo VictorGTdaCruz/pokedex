@@ -8,13 +8,13 @@ import org.junit.Test
 
 class PokedexInfrastructureTest {
 
-    private lateinit var infrastructure: PokedexInfrastructure
-    private lateinit var api: PokedexGateway
+    private lateinit var infrastructure: com.victor.feature_pokedex.data.PokedexInfrastructure
+    private lateinit var api: com.victor.feature_pokedex.data.PokedexGateway
 
     @Before
     fun before() {
         api = mockk(relaxed = true)
-        infrastructure = PokedexInfrastructure(api)
+        infrastructure = com.victor.feature_pokedex.data.PokedexInfrastructure(api)
     }
 
     @Test
