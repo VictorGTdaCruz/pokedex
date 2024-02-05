@@ -4,8 +4,6 @@
     <string name="type_screen_title">Choose your type!</string>
     <string name="pokemons_screen_title">%s pokémons</string>
 
-    <string name="error_button">Reload</string>
-    <string name="type_empty_message">We haven\'t detected any Pokémon of the %s type yet!</string>
     <string name="generic_empty_message">Ops, nothing here yet</string>
 
     <string name="pokemon_base_stats">Base stats</string>
@@ -14,7 +12,6 @@
     <string name="stat">%s: %d</string>
 
     <string name="content_description_back_button">Back button</string>
-    <string name="content_description_feedback_image">Feedback image</string>
     <string name="content_description_type_icon">Pokémon type icon</string>
     <string name="content_description_pokemon_image">Pokémon image</string>
 </resources>

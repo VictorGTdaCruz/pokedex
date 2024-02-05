@@ -7,6 +7,8 @@ import com.victor.feature_pokedex.domain.model.TypeDetails
 
 internal interface PokedexService {
 
+    suspend fun getPokemonList(): List<Pokemon>
+
     suspend fun getPokemonTypes(): List<PokemonType>
 
     suspend fun getTypeDetails(typeId: Long): TypeDetails
