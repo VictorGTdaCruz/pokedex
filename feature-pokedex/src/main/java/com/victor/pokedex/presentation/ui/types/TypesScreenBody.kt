@@ -25,7 +25,7 @@ import com.victor.pokedex.presentation.PokedexViewModel
 import com.victor.pokedex.presentation.ui.components.EmptyUI
 import com.victor.pokedex.presentation.ui.components.ErrorUI
 import com.victor.pokedex.presentation.ui.components.LoadingUI
-import com.victor.pokedex.presentation.ui.components.PokemonTypeCard
+import com.victor.pokedex.presentation.ui.components.PokemonTypeBadge
 import com.victor.pokedex.presentation.ui.theme.Background
 
 @ExperimentalFoundationApi
@@ -77,9 +77,9 @@ private fun TypeList(
         cells = GridCells.Fixed(2),
         content = {
             items(types) {
-                PokemonTypeCard(
+                PokemonTypeBadge(
                     type = it,
-                    onTypeClick = onTypeClick,
+                    onClick = onTypeClick,
                     iconSize = 30.dp,
                     iconPadding = 12.dp,
                     fontPadding = 12.dp,
