@@ -24,9 +24,13 @@ internal fun PokedexNavHost(
 ) {
     NavHost(
         navController = navController,
-        startDestination = Screens.PokemonTypesScreen.name,
+        startDestination = Screens.HomeScreen.name,
         modifier = modifier
     ) {
+        composable(Screens.HomeScreen.name) {
+            HomeScreenBody(viewModel = viewModel)
+        }
+
         composable(Screens.PokemonTypesScreen.name) {
             PokemonTypesScreenBody(
                 viewModel = viewModel,

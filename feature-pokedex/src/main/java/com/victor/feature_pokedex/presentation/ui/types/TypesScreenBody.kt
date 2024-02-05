@@ -41,7 +41,7 @@ internal fun PokemonTypesScreenBody(
             toolbarTitle = stringResource(id = R.string.type_screen_title)
 
             when (pokemonTypes.value) {
-                is Resource.Empty -> EmptyUI(message = stringResource(id = R.string.generic_empty_message))
+                is Resource.Empty -> Column {}
                 is Resource.Loading -> LoadingUI()
                 is Resource.Error -> {
                     val exception = pokemonTypes.getAsErrorResource()?.exception ?: UnexpectedException

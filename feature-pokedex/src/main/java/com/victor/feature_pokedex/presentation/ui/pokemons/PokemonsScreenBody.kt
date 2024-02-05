@@ -116,7 +116,7 @@ internal fun PokemonsScreenBody(
 
 @Composable
 private fun PokemonsEmpty(pokemonTypeName: String) {
-    EmptyUI(stringResource(id = R.string.type_empty_message, pokemonTypeName))
+//    EmptyUI(stringResource(id = R.string.type_empty_message, pokemonTypeName))
 }
 
 @Composable
