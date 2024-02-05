@@ -18,7 +18,7 @@ val pokedexModule = DI.Module("pokedex") {
     }
 
     bind<PokedexService>() with provider {
-        com.victor.feature_pokedex.data.PokedexInfrastructure(instance())
+        PokedexInfrastructure(instance())
     }
 
     bind<PokedexViewModel>() with provider {
