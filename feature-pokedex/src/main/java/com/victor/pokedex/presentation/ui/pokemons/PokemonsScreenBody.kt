@@ -51,7 +51,7 @@ import com.victor.pokedex.presentation.PokedexViewModel
 import com.victor.pokedex.presentation.ui.components.EmptyUI
 import com.victor.pokedex.presentation.ui.components.ErrorUI
 import com.victor.pokedex.presentation.ui.components.LoadingUI
-import com.victor.pokedex.presentation.ui.components.PokemonTypeCard
+import com.victor.pokedex.presentation.ui.components.PokemonTypeBadge
 import com.victor.pokedex.presentation.ui.components.WhiteText
 import com.victor.pokedex.presentation.ui.theme.Background
 import com.victor.pokedex.presentation.ui.utils.TypeColorHelper
@@ -228,12 +228,12 @@ private fun PokemonTypesColumn(
         modifier = modifier
     ) {
         types.forEach {
-            PokemonTypeCard(
+            PokemonTypeBadge(
                 type = PokemonType(
                     id = it.type.id,
                     name = it.type.name
                 ),
-                onTypeClick = {},
+                onClick = {},
                 iconSize = 14.dp,
                 fontSize = 10.sp,
                 cardPadding = 2.dp
