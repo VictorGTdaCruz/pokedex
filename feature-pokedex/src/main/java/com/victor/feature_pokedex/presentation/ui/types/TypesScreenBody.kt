@@ -78,10 +78,7 @@ private fun TypeList(
             items(types.size) {
                 PokemonTypeBadge(
                     type = types[it],
-                    onClick = onTypeClick,
                     iconSize = 30.dp,
-                    iconPadding = 12.dp,
-                    fontPadding = 12.dp,
                     fontSize = 20.sp
                 )
             }

@@ -232,10 +232,8 @@ private fun PokemonTypesColumn(
                     id = it.type.id,
                     name = it.type.name
                 ),
-                onClick = {},
                 iconSize = 14.dp,
                 fontSize = 10.sp,
-                cardPadding = 2.dp
             )
         }
     }
