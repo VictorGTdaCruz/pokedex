@@ -4,17 +4,15 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Card
-import androidx.compose.material.ExperimentalMaterialApi
-import androidx.compose.material.Surface
-import androidx.compose.material.Text
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment.Companion.BottomCenter
@@ -38,39 +36,32 @@ import com.victor.feature_pokedex.domain.model.PokemonType
 import com.victor.feature_pokedex.domain.model.PokemonTypeWithSlot
 import com.victor.feature_pokedex.presentation.PokedexViewModel
 import com.victor.feature_pokedex.presentation.ui.components.PokemonTypeBadge
-import com.victor.feature_pokedex.presentation.ui.theme.Background
 import com.victor.feature_pokedex.presentation.ui.utils.TypeColorHelper
 import com.victor.feature_pokedex.presentation.ui.utils.formatPokedexNumber
 import com.victor.feature_pokedex.presentation.ui.utils.formatPokemonName
 import com.victor.features_common.ObserveResource
 
-@ExperimentalMaterialApi
 @Composable
 internal fun HomeScreenBody(viewModel: PokedexViewModel) {
-    Surface(
-        color = Background,
-        modifier = Modifier.fillMaxSize()
-    ) {
-        with(viewModel) {
-            ObserveResource<List<Pokemon>>(
-                state = pokemonList,
-                onRetry = { loadPokemonList() },
-                onSuccess = {
-                    LazyColumn {
-                        items(it) {
-                            PokemonCard(it, pokemonDetails) {
-                                LaunchedEffect(Unit) { // TODO n sei se precisa desse launched aqui
-                                    loadPokemonDetails(it)
-                                }
+    with(viewModel) {
+        ObserveResource<List<Pokemon>>(
+            state = pokemonList,
+            onRetry = { loadPokemonList() },
+            onSuccess = {
+                LazyColumn {
+                    items(it) {
+                        PokemonCard(it, pokemonDetails) {
+                            LaunchedEffect(Unit) { // TODO n sei se precisa desse launched aqui
+                                loadPokemonDetails(it)
                             }
                         }
                     }
                 }
-            )
-
-            LaunchedEffect(Unit) {
-                loadPokemonList()
             }
+        )
+
+        LaunchedEffect(Unit) {
+            loadPokemonList()
         }
     }
 }
@@ -90,27 +81,37 @@ private fun PokemonCard(
         modifier = Modifier.padding(horizontal = 24.dp, vertical = 2.dp)
     ) {
         Card(
-            backgroundColor = if (typeId == null)
-                    Color.Transparent
-                else
-                    TypeColorHelper.findBackground(typeId),
+            colors = CardDefaults.cardColors(
+                containerColor = if (typeId == null)
+                        Color.White
+                    else
+                        TypeColorHelper.findBackground(typeId),
+            ),
             shape = RoundedCornerShape(8.dp),
+            elevation = CardDefaults.cardElevation(
+                defaultElevation = 8.dp
+            ),
             modifier = Modifier
                 .padding(top = 24.dp)
                 .align(BottomCenter)
                 .fillMaxWidth()
         ) {
-            Image(
-                painter = painterResource(id = R.drawable.pokemon_card_background),
-                contentDescription = null,
-                contentScale = ContentScale.Crop,
-                modifier = Modifier.matchParentSize()
-            )
-            PokemonDetailsColumn(
-                pokemon = pokemon,
-                pokemonDetails = details,
-                modifier = Modifier.padding(start = 24.dp, end = 8.dp, top = 24.dp, bottom = 24.dp)
-            )
+            Box(
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Image(
+                    painter = painterResource(id = R.drawable.pokemon_card_background),
+                    contentDescription = null,
+                    contentScale = ContentScale.Crop,
+                    modifier = Modifier.matchParentSize()
+                )
+                PokemonDetailsColumn(
+                    pokemon = pokemon,
+                    pokemonDetails = details,
+                    modifier = Modifier
+                        .padding(start = 24.dp, end = 8.dp, top = 24.dp, bottom = 24.dp)
+                )
+            }
         }
         if (details != null)
             Image(
@@ -134,7 +135,7 @@ private fun PokemonCard(
 private fun PokemonDetailsColumn(
     pokemon: Pokemon,
     pokemonDetails: PokemonDetails?,
-    modifier: Modifier
+    modifier: Modifier = Modifier
 ) {
     Column(
         modifier = modifier

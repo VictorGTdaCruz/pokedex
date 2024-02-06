@@ -2,6 +2,8 @@
     <string name="title_activity_pokedex">PokédexActivity</string>
 
     <string name="type_screen_title">Choose your type!</string>
+    <string name="home_screen_title">Pokédex</string>
+    <string name="home_screen_subtitle">Search for Pokémon by name or using the National Pokédex number.</string>
     <string name="pokemons_screen_title">%s pokémons</string>
 
     <string name="generic_empty_message">Ops, nothing here yet</string>

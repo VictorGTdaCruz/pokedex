@@ -36,7 +36,7 @@ buildscript {
         androidx_core = "androidx.core:core-ktx:$androidx_core_version"
         material_design = "com.google.android.material:material:$androidx_appcompat_version"
         compose_standard = "androidx.compose.ui:ui:$compose_version"
-        compose_material = "androidx.compose.material:material:$compose_version"
+        compose_material = "androidx.compose.material3:material3:1.0.1"
         compose_tooling_preview = "androidx.compose.ui:ui-tooling-preview:$compose_version"
         compose_tooling = "androidx.compose.ui:ui-tooling:$compose_version"
         compose_navigation = "androidx.navigation:navigation-compose:$compose_navigation_version"
