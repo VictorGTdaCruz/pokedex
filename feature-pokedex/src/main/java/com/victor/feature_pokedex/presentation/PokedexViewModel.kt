@@ -22,9 +22,19 @@ internal class PokedexViewModel(
 
     var toolbarTitle by mutableStateOf("")
 
+    val pokemonList = mutableStateOf<Resource>(Resource.Empty)
     var pokemonTypes = mutableStateOf<Resource>(Resource.Empty)
     var typeDetails = mutableStateOf<Resource>(Resource.Empty)
     val pokemonDetails = mutableStateMapOf<Long, PokemonDetails>()
+
+    fun loadPokemonList() {
+        val list = pokemonList.getAsSuccessResource<List<Pokemon>>()?.data
+        if (list.isNullOrEmpty()) {
+            manageResourcesDuring(pokemonList) {
+                infrastructure.getPokemonList()
+            }
+        }
+    }
 
     fun loadPokemonTypes() {
         val types = pokemonTypes.getAsSuccessResource<List<PokemonType>>()?.data

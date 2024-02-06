@@ -10,6 +10,9 @@ val Background = Color(0xFFF2F2F2)
 val BackgroundDark = Color(0xFFE2E2E2)
 val PokedexBlue = Color(0xFF3B4CCA)
 
+val DarkGray = Color(0x6617171B)
+val Gray = Color(0xFF747496)
+
 // Pokemon Types
 val Bug = Color(0xFF8CB230)
 val Dark = Color(0xFF58575F)

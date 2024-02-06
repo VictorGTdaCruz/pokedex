@@ -5,7 +5,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.material.Surface
+import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.toMutableStateList
@@ -41,7 +41,7 @@ internal fun PokemonTypesScreenBody(
             toolbarTitle = stringResource(id = R.string.type_screen_title)
 
             when (pokemonTypes.value) {
-                is Resource.Empty -> EmptyUI(message = stringResource(id = R.string.generic_empty_message))
+                is Resource.Empty -> Column {}
                 is Resource.Loading -> LoadingUI()
                 is Resource.Error -> {
                     val exception = pokemonTypes.getAsErrorResource()?.exception ?: UnexpectedException
@@ -78,10 +78,7 @@ private fun TypeList(
             items(types.size) {
                 PokemonTypeBadge(
                     type = types[it],
-                    onClick = onTypeClick,
                     iconSize = 30.dp,
-                    iconPadding = 12.dp,
-                    fontPadding = 12.dp,
                     fontSize = 20.sp
                 )
             }

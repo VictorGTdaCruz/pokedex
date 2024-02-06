@@ -81,7 +81,7 @@ object TypeColorHelper {
             ?.color
             ?: PokemonTypeEnum.UNKNOWN.color
 
-    fun findBackground(typeId: Long): Color =
+    fun findBackground(typeId: Long?): Color =
         PokemonTypeEnum.values().find { it.id == typeId }
             ?.backgroundColor
             ?: PokemonTypeEnum.UNKNOWN.backgroundColor

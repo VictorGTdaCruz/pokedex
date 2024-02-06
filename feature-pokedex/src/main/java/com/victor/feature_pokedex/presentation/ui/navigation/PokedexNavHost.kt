@@ -1,7 +1,6 @@
 package com.victor.feature_pokedex.presentation.ui.navigation
 
 import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
@@ -14,7 +13,6 @@ import com.victor.feature_pokedex.presentation.ui.home.HomeScreenBody
 import com.victor.feature_pokedex.presentation.ui.pokemons.PokemonsScreenBody
 import com.victor.feature_pokedex.presentation.ui.types.PokemonTypesScreenBody
 
-@ExperimentalMaterialApi
 @ExperimentalFoundationApi
 @Composable
 internal fun PokedexNavHost(
@@ -24,9 +22,13 @@ internal fun PokedexNavHost(
 ) {
     NavHost(
         navController = navController,
-        startDestination = Screens.PokemonTypesScreen.name,
+        startDestination = Screens.HomeScreen.name,
         modifier = modifier
     ) {
+        composable(Screens.HomeScreen.name) {
+            HomeScreenBody(viewModel = viewModel)
+        }
+
         composable(Screens.PokemonTypesScreen.name) {
             PokemonTypesScreenBody(
                 viewModel = viewModel,
