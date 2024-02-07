@@ -6,6 +6,8 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.paging.PagingData
+import androidx.paging.cachedIn
 import com.victor.feature_pokedex.domain.model.Pokemon
 import com.victor.feature_pokedex.domain.model.PokemonDetails
 import com.victor.feature_pokedex.domain.model.PokemonType
@@ -14,6 +16,8 @@ import com.victor.feature_pokedex.domain.service.PokedexService
 import com.victor.features_common.Resource
 import com.victor.features_common.getAsSuccessResource
 import com.victor.features_common.manageResourcesDuring
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.launch
 
 internal class PokedexViewModel(
@@ -22,17 +26,19 @@ internal class PokedexViewModel(
 
     var toolbarTitle by mutableStateOf("")
 
-    val pokemonList = mutableStateOf<Resource>(Resource.Empty)
+    val pokemonList = MutableStateFlow<PagingData<Pokemon>>(PagingData.empty())
     var pokemonTypes = mutableStateOf<Resource>(Resource.Empty)
     var typeDetails = mutableStateOf<Resource>(Resource.Empty)
     val pokemonDetails = mutableStateMapOf<Long, PokemonDetails>()
 
     fun loadPokemonList() {
-        val list = pokemonList.getAsSuccessResource<List<Pokemon>>()?.data
-        if (list.isNullOrEmpty()) {
-            manageResourcesDuring(pokemonList) {
-                infrastructure.getPokemonList()
-            }
+        viewModelScope.launch {
+            infrastructure.getPokemonList()
+                .distinctUntilChanged()
+                .cachedIn(viewModelScope)
+                .collect {
+                    pokemonList.value = it
+                }
         }
     }
 

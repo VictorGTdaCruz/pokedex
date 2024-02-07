@@ -4,18 +4,22 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment.Companion.BottomCenter
+import androidx.compose.ui.Alignment.Companion.Center
 import androidx.compose.ui.Alignment.Companion.CenterEnd
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -26,9 +30,10 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.paging.LoadState
+import androidx.paging.compose.collectAsLazyPagingItems
 import coil.compose.rememberImagePainter
 import com.victor.feature_pokedex.R
-import com.victor.feature_pokedex.domain.model.Pokemon
 import com.victor.feature_pokedex.domain.model.PokemonDetails
 import com.victor.feature_pokedex.domain.model.PokemonSprite
 import com.victor.feature_pokedex.domain.model.PokemonStat
@@ -36,29 +41,37 @@ import com.victor.feature_pokedex.domain.model.PokemonType
 import com.victor.feature_pokedex.domain.model.PokemonTypeWithSlot
 import com.victor.feature_pokedex.presentation.PokedexViewModel
 import com.victor.feature_pokedex.presentation.ui.components.PokemonTypeBadge
+import com.victor.feature_pokedex.presentation.ui.theme.PokedexBlue
 import com.victor.feature_pokedex.presentation.ui.utils.TypeColorHelper
 import com.victor.feature_pokedex.presentation.ui.utils.formatPokedexNumber
 import com.victor.feature_pokedex.presentation.ui.utils.formatPokemonName
-import com.victor.features_common.ObserveResource
 
 @Composable
 internal fun HomeScreenBody(viewModel: PokedexViewModel) {
     with(viewModel) {
-        ObserveResource<List<Pokemon>>(
-            state = pokemonList,
-            onRetry = { loadPokemonList() },
-            onSuccess = {
-                LazyColumn {
-                    items(it) {
-                        PokemonCard(it, pokemonDetails) {
-                            LaunchedEffect(Unit) { // TODO n sei se precisa desse launched aqui
-                                loadPokemonDetails(it)
-                            }
-                        }
+        val pokemonList = pokemonList.collectAsLazyPagingItems()
+
+        LazyColumn {
+            items(pokemonList.itemCount) {
+                val pokemon = pokemonList[it]
+                val pokemonDetails = pokemonDetails[pokemon?.id]
+
+                if (pokemonDetails == null) {
+                    PokemonCardLoading()
+                    LaunchedEffect(Unit) {
+                        loadPokemonDetails(pokemon?.id ?: 0)
                     }
+                } else {
+                    PokemonCard(pokemonDetails)
                 }
             }
-        )
+
+            when (pokemonList.loadState.source.append) {
+                is LoadState.Loading -> item { PokemonPagingListLoading() }
+                is LoadState.Error -> item { PokemonPagingListError() }
+                else -> { }
+            }
+        }
 
         LaunchedEffect(Unit) {
             loadPokemonList()
@@ -67,25 +80,63 @@ internal fun HomeScreenBody(viewModel: PokedexViewModel) {
 }
 
 @Composable
-private fun PokemonCard(
-    pokemon: Pokemon,
-    pokemonDetailsMap: Map<Long, PokemonDetails>,
-    loadDetails: @Composable (Long) -> Unit,
-) {
-    val details = pokemonDetailsMap[pokemon.id]
-    val typeId = details?.types?.firstOrNull()?.type?.id
-    if (details == null)
-        loadDetails(pokemon.id)
+private fun PokemonPagingListLoading() {
+    Box (
+        modifier = Modifier.fillMaxWidth().padding(vertical = 24.dp)
+    ) {
+        CircularProgressIndicator(
+            color = PokedexBlue,
+            modifier = Modifier.align(Center)
+        )
+    }
+}
 
+@Composable
+private fun PokemonPagingListError() {
+    Box (
+        modifier = Modifier.fillMaxWidth().padding(vertical = 24.dp)
+    ) {
+        Row(modifier = Modifier.align(Center)) {
+            Text("Looks like there was a problem!")
+            Button(onClick = { /*TODO*/ }) {
+                Text("Retry!")
+            }
+        }
+    }
+}
+
+@Composable
+private fun PokemonCardLoading() {
+    Card(
+        colors = CardDefaults.cardColors(
+            containerColor = Color.LightGray
+        ),
+        shape = RoundedCornerShape(8.dp),
+        modifier = Modifier
+            .padding(top = 26.dp, start = 24.dp, end = 24.dp)
+            .fillMaxWidth()
+            .height(136.dp)
+    ) {
+            Box(
+                modifier = Modifier.fillMaxSize()
+            ) {
+                CircularProgressIndicator(
+                    color = PokedexBlue,
+                    strokeWidth = 2.dp,
+                    modifier = Modifier.align(Center)
+                )
+            }
+    }
+}
+
+@Composable
+private fun PokemonCard(pokemonDetails: PokemonDetails) {
     Box (
         modifier = Modifier.padding(horizontal = 24.dp, vertical = 2.dp)
     ) {
         Card(
             colors = CardDefaults.cardColors(
-                containerColor = if (typeId == null)
-                        Color.White
-                    else
-                        TypeColorHelper.findBackground(typeId),
+                containerColor = TypeColorHelper.findBackground(pokemonDetails.types.firstOrNull()?.type?.id),
             ),
             shape = RoundedCornerShape(8.dp),
             elevation = CardDefaults.cardElevation(
@@ -106,54 +157,50 @@ private fun PokemonCard(
                     modifier = Modifier.matchParentSize()
                 )
                 PokemonDetailsColumn(
-                    pokemon = pokemon,
-                    pokemonDetails = details,
-                    modifier = Modifier
-                        .padding(start = 24.dp, end = 8.dp, top = 24.dp, bottom = 24.dp)
+                    pokemonDetails = pokemonDetails,
+                    modifier = Modifier.padding(start = 24.dp, end = 8.dp, top = 24.dp, bottom = 24.dp)
                 )
             }
         }
-        if (details != null)
-            Image(
-                painter = rememberImagePainter(
-                    data = details.sprites.otherFrontDefault,
-                    builder = {
-                        crossfade(true)
-                        crossfade(500)
-                    }
-                ),
-                contentDescription = stringResource(id = R.string.content_description_pokemon_image),
-                modifier = Modifier
-                    .size(160.dp)
-                    .padding(bottom = 8.dp, end = 8.dp)
-                    .align(CenterEnd)
-            )
+        Image(
+            painter = rememberImagePainter(
+                data = pokemonDetails.sprites.otherFrontDefault,
+                builder = {
+                    crossfade(true)
+                    crossfade(500)
+                }
+            ),
+            contentDescription = stringResource(id = R.string.content_description_pokemon_image),
+            modifier = Modifier
+                .size(160.dp)
+                .padding(bottom = 8.dp, end = 8.dp)
+                .align(CenterEnd)
+        )
     }
 }
 
 @Composable
 private fun PokemonDetailsColumn(
-    pokemon: Pokemon,
-    pokemonDetails: PokemonDetails?,
+    pokemonDetails: PokemonDetails,
     modifier: Modifier = Modifier
 ) {
     Column(
         modifier = modifier
     ) {
         Text(
-            text = pokemon.id.formatPokedexNumber(),
+            text = pokemonDetails.id.formatPokedexNumber(),
             color = Color.DarkGray,
             fontWeight = FontWeight.W700,
             fontSize = 12.sp,
         )
         Text(
-            text = pokemon.name.formatPokemonName(),
+            text = pokemonDetails.name.formatPokemonName(),
             color = Color.White,
             fontWeight = FontWeight.W700,
             fontSize = 26.sp,
         )
         Row {
-            pokemonDetails?.types?.forEach {
+            pokemonDetails.types.forEach {
                 Box(
                     modifier = Modifier.padding(end = 6.dp, top = 4.dp)
                 ) {
@@ -174,15 +221,9 @@ private fun PokemonDetailsColumn(
 @Preview
 @Composable
 private fun Preview() {
-    val pokemonList = listOf(
-        Pokemon(name = "Pichu", id = 1, slot = 0),
-        Pokemon(name = "Pikachu", id = 2, slot = 0),
-        Pokemon(name = "Raichu", id = 3, slot = 0),
-    )
-
     LazyColumn {
-        items(pokemonList) {
-            val details = PokemonDetails(
+        items(3) {
+            val pokemonDetails = PokemonDetails(
                 id = 1L,
                 name = "Name",
                 height = 20,
@@ -201,11 +242,7 @@ private fun Preview() {
                     PokemonStat(name = "test", baseStat = 6)
                 )
             )
-            PokemonCard(
-                pokemon = it,
-                pokemonDetailsMap = mapOf(1L to details),
-                loadDetails = { }
-            )
+            PokemonCard(pokemonDetails = pokemonDetails)
         }
     }
 }
