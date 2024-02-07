@@ -14,6 +14,8 @@ dependencies {
     implementation kodein_android
     implementation compose
     implementation compose_tooling_preview
+    implementation paging
+    implementation kotlin_flow
     implementation retrofit2
     implementation retrofit2_gson
     implementation androidx_lifecycle
