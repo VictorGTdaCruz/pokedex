@@ -44,7 +44,7 @@ internal fun PokemonTypesScreenBody(
                 is Resource.Empty -> Column {}
                 is Resource.Loading -> LoadingUI()
                 is Resource.Error -> {
-                    val exception = pokemonTypes.getAsErrorResource()?.exception ?: UnexpectedException
+                    val exception = pokemonTypes.getAsErrorResource()?.exception ?: UnexpectedException()
                     ErrorUI(
                         message = stringResource(
                             id = ErrorHandler.handleMessage(exception)

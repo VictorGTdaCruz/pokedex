@@ -6,6 +6,7 @@ import com.victor.feature_pokedex.data.model.PokemonDetailsResponse
 import com.victor.feature_pokedex.data.model.TypeDetailsResponse
 import retrofit2.http.GET
 import retrofit2.http.Path
+import retrofit2.http.Query
 
 internal interface PokedexGateway {
 
@@ -16,7 +17,10 @@ internal interface PokedexGateway {
     suspend fun getTypeDetails(@Path("id") typeId: Long): TypeDetailsResponse
 
     @GET("pokemon/")
-    suspend fun getPokemonList(): PagedResponse<NameAndUrlResponse>
+    suspend fun getPokemonList(
+        @Query("offset") offset: Int,
+        @Query("limit") limit: Int,
+    ): PagedResponse<NameAndUrlResponse>
 
     @GET("pokemon/{id}")
     suspend fun getPokemonDetails(@Path("id") pokemonId: Long): PokemonDetailsResponse

@@ -3,11 +3,13 @@ buildscript {
         // Versions
         kotlin_version = '1.7.10'
         kotlin_coroutines_version = '1.4.1'
+        kotlin_flow_version = '1.7.3'
         android_gradle_support_version = '8.1.2'
 
         androidx_appcompat_version = '1.4.0'
         androidx_lifecycle_version = '2.4.0'
         androidx_core_version = '1.7.0'
+        androidx_paging_version = '3.2.1'
         compose_version = '1.3.0'
         compose_navigation_version = '2.4.0-rc01'
 
@@ -24,6 +26,7 @@ buildscript {
         android_gradle = "com.android.tools.build:gradle:$android_gradle_support_version"
         kotlin_gradle = "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
         kotlin_coroutines = "org.jetbrains.kotlinx:kotlinx-coroutines-core:$kotlin_coroutines_version"
+        kotlin_flow = "org.jetbrains.kotlinx:kotlinx-coroutines-core:$kotlin_flow_version"
         coroutines_test = "org.jetbrains.kotlinx:kotlinx-coroutines-test:$kotlin_coroutines_version"
 
         okhttp3_interceptor = "com.squareup.okhttp3:logging-interceptor:$okhttp3_version"
@@ -34,12 +37,15 @@ buildscript {
         androidx_activity_compose = "androidx.activity:activity-compose:$androidx_appcompat_version"
         androidx_lifecycle = "androidx.lifecycle:lifecycle-runtime-ktx:$androidx_lifecycle_version"
         androidx_core = "androidx.core:core-ktx:$androidx_core_version"
+        androidx_paging = "androidx.paging:paging-runtime:$androidx_paging_version"
+
         material_design = "com.google.android.material:material:$androidx_appcompat_version"
         compose_standard = "androidx.compose.ui:ui:$compose_version"
         compose_material = "androidx.compose.material3:material3:1.0.1"
         compose_tooling_preview = "androidx.compose.ui:ui-tooling-preview:$compose_version"
         compose_tooling = "androidx.compose.ui:ui-tooling:$compose_version"
         compose_navigation = "androidx.navigation:navigation-compose:$compose_navigation_version"
+        compose_paging = "androidx.paging:paging-compose:$androidx_paging_version"
 
         kodein = "org.kodein.di:kodein-di:$kodein_version"
         kodein_android = "org.kodein.di:kodein-di-framework-android-x:$kodein_version"
@@ -50,7 +56,9 @@ buildscript {
         mockk = "io.mockk:mockk:$mockk_version"
 
         // Grouped dependencies
-        compose = [compose_standard, compose_material, androidx_activity_compose, compose_tooling, compose_navigation]
+        compose = [compose_standard, compose_material, androidx_activity_compose, compose_tooling,
+                   compose_navigation]
+        paging = [androidx_paging, compose_paging]
     }
 
     repositories {
