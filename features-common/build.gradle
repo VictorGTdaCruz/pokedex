@@ -10,7 +10,6 @@ dependencies {
     implementation project(':networking')
 
     implementation compose
-    implementation paging
     implementation kodein
     implementation kodein_android
     implementation junit
