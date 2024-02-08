@@ -79,7 +79,6 @@ private fun TypeList(
                 PokemonTypeBadge(
                     type = types[it],
                     iconSize = 30.dp,
-                    fontSize = 20.sp
                 )
             }
         }

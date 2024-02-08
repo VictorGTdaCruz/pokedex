@@ -16,11 +16,13 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.victor.feature_pokedex.R
+import com.victor.features_common.components.PokedexTextStyle
+import com.victor.features_common.components.PokedexTextStyle.bold
+import com.victor.features_common.components.PokedexTextStyle.noColor
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -44,15 +46,12 @@ internal fun AppBar() {
                 ) {
                     Text(
                         text = stringResource(id = R.string.home_screen_title),
-                        fontWeight = FontWeight.W700,
-                        fontSize = 28.sp
+                        style = PokedexTextStyle.subtitle.bold().noColor()
                     )
                     Text(
                         text = stringResource(id = R.string.home_screen_subtitle),
-                        fontWeight = FontWeight.W400,
-                        fontSize = 14.sp,
+                        style = PokedexTextStyle.body.noColor(),
                         lineHeight = 14.sp,
-//                        color = Gray, //TODO for some reason using a color makes the text appear twice ???
                     )
                 }
             },

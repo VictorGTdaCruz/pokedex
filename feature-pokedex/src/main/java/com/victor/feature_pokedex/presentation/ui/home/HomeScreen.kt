@@ -25,16 +25,13 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.paging.compose.collectAsLazyPagingItems
 import coil.compose.rememberImagePainter
 import com.victor.feature_pokedex.R
 import com.victor.feature_pokedex.domain.model.PokemonDetails
 import com.victor.feature_pokedex.domain.model.PokemonSprite
-import com.victor.feature_pokedex.domain.model.PokemonStat
 import com.victor.feature_pokedex.domain.model.PokemonType
 import com.victor.feature_pokedex.domain.model.PokemonTypeWithSlot
 import com.victor.feature_pokedex.presentation.PokedexViewModel
@@ -44,6 +41,8 @@ import com.victor.feature_pokedex.presentation.ui.utils.TypeColorHelper
 import com.victor.feature_pokedex.presentation.ui.utils.formatPokedexNumber
 import com.victor.feature_pokedex.presentation.ui.utils.formatPokemonName
 import com.victor.features_common.components.PaginatedLazyColumn
+import com.victor.features_common.components.PokedexTextStyle
+import com.victor.features_common.components.PokedexTextStyle.bold
 
 @Composable
 internal fun HomeScreenBody(viewModel: PokedexViewModel) {
@@ -150,15 +149,13 @@ private fun PokemonDetailsColumn(
     ) {
         Text(
             text = pokemonDetails.id.formatPokedexNumber(),
+            style = PokedexTextStyle.description.bold(),
             color = Color.DarkGray,
-            fontWeight = FontWeight.W700,
-            fontSize = 12.sp,
         )
         Text(
             text = pokemonDetails.name.formatPokemonName(),
+            style = PokedexTextStyle.subtitle.bold(),
             color = Color.White,
-            fontWeight = FontWeight.W700,
-            fontSize = 26.sp,
         )
         Row {
             pokemonDetails.types.forEach {
@@ -171,7 +168,6 @@ private fun PokemonDetailsColumn(
                             name = it.type.name
                         ),
                         iconSize = 14.dp,
-                        fontSize = 12.sp,
                     )
                 }
             }
@@ -194,14 +190,7 @@ private fun Preview() {
                     PokemonTypeWithSlot(slot = 1, PokemonType(id = 9, name = "steel"))
                 ),
                 sprites = PokemonSprite("", ""),
-                stats = listOf(
-                    PokemonStat(name = "test", baseStat = 1),
-                    PokemonStat(name = "test", baseStat = 2),
-                    PokemonStat(name = "test", baseStat = 3),
-                    PokemonStat(name = "test", baseStat = 4),
-                    PokemonStat(name = "test", baseStat = 5),
-                    PokemonStat(name = "test", baseStat = 6)
-                )
+                stats = listOf()
             )
             PokemonCard(pokemonDetails = pokemonDetails)
         }
