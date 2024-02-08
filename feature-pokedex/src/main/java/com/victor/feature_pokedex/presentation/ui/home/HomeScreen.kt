@@ -27,9 +27,9 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.paging.compose.collectAsLazyPagingItems
 import coil.compose.rememberImagePainter
 import com.victor.feature_pokedex.R
+import com.victor.feature_pokedex.domain.model.Pokemon
 import com.victor.feature_pokedex.domain.model.PokemonDetails
 import com.victor.feature_pokedex.domain.model.PokemonSprite
 import com.victor.feature_pokedex.domain.model.PokemonType
@@ -40,23 +40,27 @@ import com.victor.feature_pokedex.presentation.ui.theme.PokedexBlue
 import com.victor.feature_pokedex.presentation.ui.utils.TypeColorHelper
 import com.victor.feature_pokedex.presentation.ui.utils.formatPokedexNumber
 import com.victor.feature_pokedex.presentation.ui.utils.formatPokemonName
-import com.victor.features_common.components.PaginatedLazyColumn
+import com.victor.features_common.ObserveResource
 import com.victor.features_common.components.PokedexTextStyle
 import com.victor.features_common.components.PokedexTextStyle.bold
 
 @Composable
 internal fun HomeScreenBody(viewModel: PokedexViewModel) {
     with(viewModel) {
-        val pokemonList = pokemonList.collectAsLazyPagingItems()
+        ObserveResource<List<Pokemon>>(state = pokemonList) { pokemonList ->
+            LazyColumn {
+                items(pokemonList.count()) {
+                    val pokemon = pokemonList[it]
+                    val pokemonDetails = pokemonDetails[pokemon?.id]
 
-        PaginatedLazyColumn(pokemonList) {
-            val pokemon = pokemonList[it]
-            val pokemonDetails = pokemonDetails[pokemon?.id]
-
-            if (pokemonDetails == null)
-                PokemonCardLoading()
-            else
-                PokemonCard(pokemonDetails)
+                    if (pokemonDetails == null) {
+                        PokemonCardLoading()
+                        loadPokemonDetails(pokemon.id)
+                    } else {
+                        PokemonCard(pokemonDetails)
+                    }
+                }
+            }
         }
 
         LaunchedEffect(Unit) {
