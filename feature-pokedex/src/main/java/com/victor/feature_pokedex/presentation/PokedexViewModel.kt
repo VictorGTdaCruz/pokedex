@@ -22,17 +22,33 @@ internal class PokedexViewModel(
 
     var toolbarTitle by mutableStateOf("")
 
-    val pokemonList = mutableStateOf<Resource>(Resource.Empty)
+    val currentPokemonList = mutableStateOf<Resource>(Resource.Empty)
+    private var fullPokemonList = emptyList<Pokemon>()
     var pokemonTypes = mutableStateOf<Resource>(Resource.Empty)
     var typeDetails = mutableStateOf<Resource>(Resource.Empty)
     val pokemonDetails = mutableStateMapOf<Long, PokemonDetails>()
 
     fun loadPokemonList() {
-        val pokemonListData = pokemonList.getAsSuccessResource<List<Pokemon>>()?.data
+        val pokemonListData = currentPokemonList.getAsSuccessResource<List<Pokemon>>()?.data
         if(pokemonListData.isNullOrEmpty()) {
-            manageResourcesDuring(pokemonList) {
+            manageResourcesDuring(currentPokemonList) {
                 infrastructure.getPokemonList()
             }
+        }
+    }
+
+    fun searchPokemon(text: String) {
+        if (text.isEmpty() && fullPokemonList.isNotEmpty()) {
+            currentPokemonList.value = Resource.Success(fullPokemonList)
+            return
+        }
+        val currentList = currentPokemonList.getAsSuccessResource<List<Pokemon>>()?.data
+        if(currentList != null) {
+            if (currentList.size > fullPokemonList.size) fullPokemonList = currentList
+            val filteredPokemonList = fullPokemonList.filter {
+                it.name.contains(text) || it.id.toString().contains(text)
+            }
+            currentPokemonList.value = Resource.Success(filteredPokemonList)
         }
     }
 

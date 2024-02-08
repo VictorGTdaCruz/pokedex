@@ -14,13 +14,22 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
+import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment.Companion.BottomCenter
 import androidx.compose.ui.Alignment.Companion.Center
 import androidx.compose.ui.Alignment.Companion.CenterEnd
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
@@ -47,17 +56,22 @@ import com.victor.features_common.components.PokedexTextStyle.bold
 @Composable
 internal fun HomeScreenBody(viewModel: PokedexViewModel) {
     with(viewModel) {
-        ObserveResource<List<Pokemon>>(state = pokemonList) { pokemonList ->
-            LazyColumn {
-                items(pokemonList.count()) {
-                    val pokemon = pokemonList[it]
-                    val pokemonDetails = pokemonDetails[pokemon?.id]
+        Column {
+            PokemonSearchTextField { searchPokemon(it) }
+            ObserveResource<List<Pokemon>>(state = currentPokemonList) { pokemonList ->
+                LazyColumn(modifier = Modifier.weight(1f)) {
+                    items(pokemonList.count()) {
+                        val pokemon = pokemonList[it]
+                        val pokemonDetails = pokemonDetails[pokemon.id]
 
-                    if (pokemonDetails == null) {
-                        PokemonCardLoading()
-                        loadPokemonDetails(pokemon.id)
-                    } else {
-                        PokemonCard(pokemonDetails)
+                        if (pokemonDetails == null) {
+                            PokemonCardLoading()
+                            LaunchedEffect(Unit) {
+                                loadPokemonDetails(pokemon.id)
+                            }
+                        } else {
+                            PokemonCard(pokemonDetails)
+                        }
                     }
                 }
             }
@@ -67,6 +81,42 @@ internal fun HomeScreenBody(viewModel: PokedexViewModel) {
             loadPokemonList()
         }
     }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+private fun PokemonSearchTextField(onSearch: (String) -> Unit) {
+    var searchText by remember { mutableStateOf("") }
+    TextField(
+        value = searchText,
+        onValueChange = {
+            searchText = it
+            onSearch.invoke(it)
+        },
+        placeholder = {
+            Text(
+                text = stringResource(id = R.string.search_placeholder),
+                color = Color.Gray,
+                style = PokedexTextStyle.body
+            )
+        },
+        leadingIcon = {
+            Icon(
+                painter = painterResource(id = R.drawable.baseline_search_24),
+                contentDescription = null,
+                tint = Color.Gray
+            )
+        },
+        colors = TextFieldDefaults.textFieldColors(
+            focusedIndicatorColor = Color.Transparent,
+            unfocusedIndicatorColor = Color.Transparent,
+            disabledIndicatorColor = Color.Transparent
+        ),
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 24.dp, vertical = 8.dp)
+            .clip(RoundedCornerShape(12.dp))
+    )
 }
 
 @Composable
