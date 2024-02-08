@@ -32,9 +32,18 @@ fun PaginatedLazyColumn(
     LazyColumn {
         items(pagingItems.itemCount, itemContent = itemContent)
 
-        when (pagingItems.loadState.source.append) {
-            is LoadState.Loading -> item { PaginatedLoading() }
-            is LoadState.Error -> item { PaginatedError { pagingItems.retry() } }
+        when {
+            pagingItems.loadState.source.append is LoadState.Loading -> item { PaginatedLoading() }
+            pagingItems.loadState.source.append is LoadState.Error ->
+                item { PaginatedError { pagingItems.retry() } }
+            pagingItems.loadState.source.refresh is LoadState.Loading -> item { LoadingUI() }
+            pagingItems.loadState.source.refresh is LoadState.Error -> item {
+                ErrorUI(message =
+                    (pagingItems.loadState.source.refresh as LoadState.Error).error.message.toString())
+                {
+                    pagingItems.refresh()
+                }
+            }
             else -> { }
         }
     }
