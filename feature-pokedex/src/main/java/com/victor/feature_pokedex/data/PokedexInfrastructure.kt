@@ -9,9 +9,10 @@ import com.victor.networking.request
 
 internal class PokedexInfrastructure(private val api: PokedexGateway) : PokedexService {
 
-    override suspend fun getPokemonList() = Pager(PagingConfig(pageSize = 20)) {
-        PokemonPagingDataSource(api)
-    }.flow
+    override suspend fun getPokemonList() =
+        Pager(PagingConfig(pageSize = PokemonPagingDataSource.PAGE_SIZE)) {
+            PokemonPagingDataSource(api)
+        }.flow
 
     override suspend fun getPokemonTypes() = request {
         api.getPokemonTypes().toPokemonTypesDomain()

@@ -21,7 +21,7 @@ fun <T> ObserveResource(state: MutableState<Resource>, onRetry: () -> Unit = {},
         is Resource.Empty -> EmptyUI()
         is Resource.Loading -> LoadingUI()
         is Resource.Error -> {
-            val exception = state.getAsErrorResource()?.exception ?: PokedexException.UnexpectedException
+            val exception = state.getAsErrorResource()?.exception ?: PokedexException.UnexpectedException()
             ErrorUI(
                 message = stringResource(
                     id = ErrorHandler.handleMessage(exception)
@@ -32,7 +32,7 @@ fun <T> ObserveResource(state: MutableState<Resource>, onRetry: () -> Unit = {},
         is Resource.Success<*> -> {
             val resource = state.getAsSuccessResource<T>()?.data
             when {
-                resource == null -> state.value = Resource.Error(PokedexException.FormatException)
+                resource == null -> state.value = Resource.Error(PokedexException.FormatException())
                 resource is List<*> && resource.isEmpty() -> EmptyUI()
                 else -> onSuccess.invoke(resource)
             }

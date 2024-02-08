@@ -6,7 +6,6 @@ import kotlinx.coroutines.withContext
 import retrofit2.HttpException
 import java.io.IOException
 import java.lang.IllegalArgumentException
-import java.net.SocketException
 import java.util.concurrent.TimeoutException
 
 suspend fun <T> request(
@@ -25,8 +24,7 @@ private fun Throwable.toPokedexException(): PokedexException =
     when (this) {
         is IOException,
         is HttpException,
-        is TimeoutException,
-        is SocketException -> PokedexException.ConnectionException
-        is IllegalArgumentException -> PokedexException.FormatException
-        else -> PokedexException.UnexpectedException
+        is TimeoutException -> PokedexException.ConnectionException()
+        is IllegalArgumentException -> PokedexException.FormatException()
+        else -> PokedexException.UnexpectedException()
     }

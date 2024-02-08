@@ -11,7 +11,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
@@ -30,7 +29,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.paging.LoadState
 import androidx.paging.compose.collectAsLazyPagingItems
 import coil.compose.rememberImagePainter
 import com.victor.feature_pokedex.R
@@ -45,62 +43,29 @@ import com.victor.feature_pokedex.presentation.ui.theme.PokedexBlue
 import com.victor.feature_pokedex.presentation.ui.utils.TypeColorHelper
 import com.victor.feature_pokedex.presentation.ui.utils.formatPokedexNumber
 import com.victor.feature_pokedex.presentation.ui.utils.formatPokemonName
+import com.victor.features_common.components.PaginatedLazyColumn
 
 @Composable
 internal fun HomeScreenBody(viewModel: PokedexViewModel) {
     with(viewModel) {
         val pokemonList = pokemonList.collectAsLazyPagingItems()
 
-        LazyColumn {
-            items(pokemonList.itemCount) {
-                val pokemon = pokemonList[it]
-                val pokemonDetails = pokemonDetails[pokemon?.id]
+        PaginatedLazyColumn(pokemonList) {
+            val pokemon = pokemonList[it]
+            val pokemonDetails = pokemonDetails[pokemon?.id]
 
-                if (pokemonDetails == null) {
-                    PokemonCardLoading()
-                    LaunchedEffect(Unit) {
-                        loadPokemonDetails(pokemon?.id ?: 0)
-                    }
-                } else {
-                    PokemonCard(pokemonDetails)
+            if (pokemonDetails == null) {
+                PokemonCardLoading()
+                LaunchedEffect(Unit) {
+                    loadPokemonDetails(pokemon?.id ?: 0)
                 }
-            }
-
-            when (pokemonList.loadState.source.append) {
-                is LoadState.Loading -> item { PokemonPagingListLoading() }
-                is LoadState.Error -> item { PokemonPagingListError() }
-                else -> { }
+            } else {
+                PokemonCard(pokemonDetails)
             }
         }
 
         LaunchedEffect(Unit) {
             loadPokemonList()
-        }
-    }
-}
-
-@Composable
-private fun PokemonPagingListLoading() {
-    Box (
-        modifier = Modifier.fillMaxWidth().padding(vertical = 24.dp)
-    ) {
-        CircularProgressIndicator(
-            color = PokedexBlue,
-            modifier = Modifier.align(Center)
-        )
-    }
-}
-
-@Composable
-private fun PokemonPagingListError() {
-    Box (
-        modifier = Modifier.fillMaxWidth().padding(vertical = 24.dp)
-    ) {
-        Row(modifier = Modifier.align(Center)) {
-            Text("Looks like there was a problem!")
-            Button(onClick = { /*TODO*/ }) {
-                Text("Retry!")
-            }
         }
     }
 }
