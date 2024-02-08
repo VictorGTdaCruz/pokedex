@@ -7,7 +7,7 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
-import androidx.paging.cachedIn
+import androidx.paging.map
 import com.victor.feature_pokedex.domain.model.Pokemon
 import com.victor.feature_pokedex.domain.model.PokemonDetails
 import com.victor.feature_pokedex.domain.model.PokemonType
@@ -35,9 +35,14 @@ internal class PokedexViewModel(
         viewModelScope.launch {
             infrastructure.getPokemonList()
                 .distinctUntilChanged()
-                .cachedIn(viewModelScope)
                 .collect {
-                    pokemonList.value = it
+                    pokemonList.value = it.map { pokemon ->
+                        val pokemonDetails = pokemonDetails[pokemon.id]
+                        if (pokemonDetails == null) {
+                            loadPokemonDetails(pokemon.id)
+                        }
+                        pokemon
+                    }
                 }
         }
     }

@@ -54,14 +54,10 @@ internal fun HomeScreenBody(viewModel: PokedexViewModel) {
             val pokemon = pokemonList[it]
             val pokemonDetails = pokemonDetails[pokemon?.id]
 
-            if (pokemonDetails == null) {
+            if (pokemonDetails == null)
                 PokemonCardLoading()
-                LaunchedEffect(Unit) {
-                    loadPokemonDetails(pokemon?.id ?: 0)
-                }
-            } else {
+            else
                 PokemonCard(pokemonDetails)
-            }
         }
 
         LaunchedEffect(Unit) {
