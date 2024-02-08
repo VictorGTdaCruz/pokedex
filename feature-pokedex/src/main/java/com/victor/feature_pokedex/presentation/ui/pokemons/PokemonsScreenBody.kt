@@ -44,7 +44,6 @@ import com.victor.feature_pokedex.domain.model.PokemonTypeWithSlot
 import com.victor.feature_pokedex.domain.model.TypeDetails
 import com.victor.feature_pokedex.presentation.PokedexViewModel
 import com.victor.feature_pokedex.presentation.ui.components.PokemonTypeBadge
-import com.victor.feature_pokedex.presentation.ui.components.WhiteText
 import com.victor.feature_pokedex.presentation.ui.theme.Background
 import com.victor.feature_pokedex.presentation.ui.utils.TypeColorHelper
 import com.victor.feature_pokedex.presentation.ui.utils.formatPokedexNumber
@@ -234,7 +233,6 @@ private fun PokemonTypesColumn(
                     name = it.type.name
                 ),
                 iconSize = 14.dp,
-                fontSize = 10.sp,
             )
         }
     }
@@ -303,27 +301,27 @@ private fun HeightAndWeightColumn(
         horizontalAlignment = CenterHorizontally,
         modifier = modifier
     ) {
-        WhiteText(
-            text = stringResource(id = R.string.height),
-            fontSize = 18.sp,
-            modifier = Modifier.align(CenterHorizontally)
-        )
-        WhiteText(
-            text = height.formatPokemonHeight(),
-            modifier = Modifier.align(CenterHorizontally)
-        )
-        Spacer(
-            modifier = Modifier.size(24.dp)
-        )
-        WhiteText(
-            text = stringResource(id = R.string.weight),
-            fontSize = 18.sp,
-            modifier = Modifier.align(CenterHorizontally)
-        )
-        WhiteText(
-            text = weight.formatPokemonWeight(),
-            modifier = Modifier.align(CenterHorizontally)
-        )
+//        WhiteText(
+//            text = stringResource(id = R.string.height),
+//            fontSize = 18.sp,
+//            modifier = Modifier.align(CenterHorizontally)
+//        )
+//        WhiteText(
+//            text = height.formatPokemonHeight(),
+//            modifier = Modifier.align(CenterHorizontally)
+//        )
+//        Spacer(
+//            modifier = Modifier.size(24.dp)
+//        )
+//        WhiteText(
+//            text = stringResource(id = R.string.weight),
+//            fontSize = 18.sp,
+//            modifier = Modifier.align(CenterHorizontally)
+//        )
+//        WhiteText(
+//            text = weight.formatPokemonWeight(),
+//            modifier = Modifier.align(CenterHorizontally)
+//        )
     }
 }
 
@@ -335,21 +333,21 @@ private fun BaseStatsColumn(
     Column(
         modifier = modifier
     ) {
-        WhiteText(
-            text = stringResource(id = R.string.pokemon_base_stats),
-            fontSize = 18.sp,
-            modifier = Modifier
-                .padding(8.dp)
-                .align(CenterHorizontally)
-        )
-        stats.forEach {
-            WhiteText(
-                text = stringResource(
-                    id = R.string.stat, it.name, it.baseStat
-                ),
-                modifier = Modifier.align(CenterHorizontally)
-            )
-        }
+//        WhiteText(
+//            text = stringResource(id = R.string.pokemon_base_stats),
+//            fontSize = 18.sp,
+//            modifier = Modifier
+//                .padding(8.dp)
+//                .align(CenterHorizontally)
+//        )
+//        stats.forEach {
+//            WhiteText(
+//                text = stringResource(
+//                    id = R.string.stat, it.name, it.baseStat
+//                ),
+//                modifier = Modifier.align(CenterHorizontally)
+//            )
+//        }
     }
 }
 

@@ -19,6 +19,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
@@ -29,12 +30,12 @@ import com.victor.feature_pokedex.R
 import com.victor.feature_pokedex.domain.model.PokemonType
 import com.victor.feature_pokedex.presentation.ui.utils.TypeColorHelper
 import com.victor.feature_pokedex.presentation.ui.utils.TypeDrawableHelper
+import com.victor.features_common.components.PokedexTextStyle
 
 @Composable
 fun PokemonTypeBadge(
     type: PokemonType,
     iconSize: Dp = 24.dp,
-    fontSize: TextUnit = 14.sp,
 ) {
     Box(
         modifier = Modifier
@@ -57,9 +58,8 @@ fun PokemonTypeBadge(
             Spacer(modifier = Modifier.width(4.dp))
             Text(
                 text = type.name.replaceFirstChar { it.titlecase() },
+                style = PokedexTextStyle.description,
                 color = Color.White,
-                fontSize = fontSize,
-                fontWeight = FontWeight.W400,
                 modifier = Modifier.align(Alignment.CenterVertically)
             )
         }

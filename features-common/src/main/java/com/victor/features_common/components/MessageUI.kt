@@ -39,6 +39,7 @@ fun MessageUI(
         )
         Text(
             text = message,
+            style = PokedexTextStyle.body,
             textAlign = TextAlign.Center,
             modifier = Modifier.padding(16.dp)
         )
@@ -50,7 +51,11 @@ fun MessageUI(
                     .padding(8.dp)
                     .align(Alignment.CenterHorizontally)
             ) {
-                Text(text = stringResource(id = R.string.error_button))
+                Text(
+                    text = stringResource(id = R.string.error_button),
+                    style = PokedexTextStyle.body,
+                    color = Color.White
+                )
             }
     }
 }
