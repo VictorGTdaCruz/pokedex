@@ -49,16 +49,23 @@ import com.victor.feature_pokedex.presentation.ui.theme.PokedexBlue
 import com.victor.feature_pokedex.presentation.ui.utils.TypeColorHelper
 import com.victor.feature_pokedex.presentation.ui.utils.formatPokedexNumber
 import com.victor.feature_pokedex.presentation.ui.utils.formatPokemonName
-import com.victor.features_common.ObserveResource
+import com.victor.features_common.ObserveState
+import com.victor.features_common.State
 import com.victor.features_common.components.PokedexTextStyle
 import com.victor.features_common.components.PokedexTextStyle.bold
 
 @Composable
 internal fun HomeScreenBody(viewModel: PokedexViewModel) {
     with(viewModel) {
+        LaunchedEffect(Unit) {
+            loadPokemonList()
+        }
+
         Column {
-            PokemonSearchTextField { searchPokemon(it) }
-            ObserveResource<List<Pokemon>>(state = currentPokemonList) { pokemonList ->
+            PokemonSearchTextField(isEnabled = currentPokemonList.value is State.Success<*>) {
+                searchPokemon(it)
+            }
+            ObserveState<List<Pokemon>>(state = currentPokemonList) { pokemonList ->
                 LazyColumn(modifier = Modifier.weight(1f)) {
                     items(pokemonList.count()) {
                         val pokemon = pokemonList[it]
@@ -66,7 +73,7 @@ internal fun HomeScreenBody(viewModel: PokedexViewModel) {
 
                         if (pokemonDetails == null) {
                             PokemonCardLoading()
-                            LaunchedEffect(Unit) {
+                            LaunchedEffect(pokemon.id) {
                                 loadPokemonDetails(pokemon.id)
                             }
                         } else {
@@ -76,16 +83,12 @@ internal fun HomeScreenBody(viewModel: PokedexViewModel) {
                 }
             }
         }
-
-        LaunchedEffect(Unit) {
-            loadPokemonList()
-        }
     }
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun PokemonSearchTextField(onSearch: (String) -> Unit) {
+private fun PokemonSearchTextField(isEnabled: Boolean, onSearch: (String) -> Unit) {
     var searchText by remember { mutableStateOf("") }
     TextField(
         value = searchText,
@@ -93,6 +96,7 @@ private fun PokemonSearchTextField(onSearch: (String) -> Unit) {
             searchText = it
             onSearch.invoke(it)
         },
+        enabled = isEnabled,
         placeholder = {
             Text(
                 text = stringResource(id = R.string.search_placeholder),

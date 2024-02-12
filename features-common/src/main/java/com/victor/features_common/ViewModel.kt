@@ -25,20 +25,23 @@ inline fun <reified VM : ViewModel, T> T.viewModel()
         ViewModelProvider(this, factory).get(VM::class.java)
     }
 
-fun <T> ViewModel.manageResourcesDuring(
-    mutableResource: MutableState<Resource>,
-    request: suspend () -> T
+fun <T> ViewModel.manageStateDuringRequest(
+    mutableState: MutableState<State>,
+    onSuccess: (T) -> Unit = {},
+    request: suspend () -> T,
 ) {
     viewModelScope.launch {
-        mutableResource.value = Resource.Loading
+        mutableState.value = State.Loading
         runCatching {
             val response = request()
-            if (response is Collection<*> && response.isEmpty())
-                mutableResource.value = Resource.Empty
-            else
-                mutableResource.value = Resource.Success(response)
+            if (response is Collection<*> && response.isEmpty()) {
+                mutableState.value = State.Empty
+            } else {
+                mutableState.value = State.Success(response)
+                onSuccess.invoke(response)
+            }
         }.getOrElse {
-            mutableResource.value = Resource.Error(it as PokedexException)
+            mutableState.value = State.Error(it as PokedexException)
         }
     }
 }

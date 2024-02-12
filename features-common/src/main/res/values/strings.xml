@@ -4,7 +4,7 @@
     <string name="error_unknown_exception">Something went wrong, we\'re sorry. Please try again.</string>
 
     <string name="error_button">Reload</string>
-    <string name="type_empty_message">We haven\'t detected any Pokémon of the %s type yet!</string>
+    <string name="type_empty_message">We haven\'t detected any Pokémon yet!</string>
     <string name="content_description_feedback_image">Feedback image</string>
 
     <string name="search_placeholder">What Pokémon are you looking for?</string>
