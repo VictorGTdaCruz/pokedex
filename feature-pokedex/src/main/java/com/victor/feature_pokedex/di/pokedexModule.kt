@@ -2,6 +2,7 @@ package com.victor.feature_pokedex.di
 
 import com.victor.feature_pokedex.data.PokedexGateway
 import com.victor.feature_pokedex.data.PokedexInfrastructure
+import com.victor.feature_pokedex.domain.PokedexUseCase
 import com.victor.feature_pokedex.domain.service.PokedexService
 import com.victor.feature_pokedex.presentation.PokedexViewModel
 import org.kodein.di.DI
@@ -20,6 +21,10 @@ val pokedexModule = DI.Module("pokedex") {
 
     bind<PokedexService>() with provider {
         PokedexInfrastructure(instance())
+    }
+
+    bind<PokedexUseCase>() with provider {
+        PokedexUseCase(instance())
     }
 
     bind<PokedexViewModel>() with provider {

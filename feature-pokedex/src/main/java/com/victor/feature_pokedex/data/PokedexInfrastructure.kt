@@ -8,8 +8,8 @@ import com.victor.networking.request
 
 internal class PokedexInfrastructure(private val api: PokedexGateway) : PokedexService {
 
-    override suspend fun getPokemonList() = request {
-        api.getPokemonList(offset = 0, limit = 9999).toPokemonListDomain()
+    override suspend fun getPokemonList(offset: Int, limit: Int) = request {
+        api.getPokemonList(offset = offset, limit = limit).toPokemonListDomain()
     }
 
     override suspend fun getPokemonTypes() = request {

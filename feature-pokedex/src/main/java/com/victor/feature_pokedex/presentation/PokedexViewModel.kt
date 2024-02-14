@@ -6,18 +6,18 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.victor.feature_pokedex.domain.PokedexUseCase
 import com.victor.feature_pokedex.domain.model.Pokemon
 import com.victor.feature_pokedex.domain.model.PokemonDetails
 import com.victor.feature_pokedex.domain.model.PokemonType
 import com.victor.feature_pokedex.domain.model.TypeDetails
-import com.victor.feature_pokedex.domain.service.PokedexService
 import com.victor.features_common.State
 import com.victor.features_common.getAsSuccessResource
 import com.victor.features_common.manageStateDuringRequest
 import kotlinx.coroutines.launch
 
 internal class PokedexViewModel(
-    private val infrastructure: PokedexService
+    private val useCase: PokedexUseCase
 ) : ViewModel() {
 
     var toolbarTitle by mutableStateOf("")
@@ -33,7 +33,7 @@ internal class PokedexViewModel(
         if (pokemonListData.isNullOrEmpty()) {
             manageStateDuringRequest(
                 mutableState = currentPokemonList,
-                request = { infrastructure.getPokemonList() },
+                request = { useCase.getPokemonList() },
                 onSuccess = { fullPokemonList = it },
             )
         }
@@ -53,7 +53,7 @@ internal class PokedexViewModel(
         val types = pokemonTypes.getAsSuccessResource<List<PokemonType>>()?.data
         if (types.isNullOrEmpty()) {
             manageStateDuringRequest(pokemonTypes) {
-                infrastructure.getPokemonTypes()
+                useCase.getPokemonTypes()
             }
         }
     }
@@ -62,7 +62,7 @@ internal class PokedexViewModel(
         val details = typeDetails.getAsSuccessResource<TypeDetails>()?.data
         if (details?.id != typeId) {
             manageStateDuringRequest(typeDetails) {
-                infrastructure.getTypeDetails(typeId)
+                useCase.getTypeDetails(typeId)
             }
         }
     }
@@ -70,7 +70,7 @@ internal class PokedexViewModel(
     fun loadPokemonDetails(pokemonId: Long) {
         viewModelScope.launch {
             runCatching {
-                val response = infrastructure.getPokemonDetails(pokemonId)
+                val response = useCase.getPokemonDetails(pokemonId)
                 pokemonDetails[response.id] = response
             }
         }
