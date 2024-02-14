@@ -1,5 +1,7 @@
 package com.victor.feature_pokedex.domain
 
+import com.victor.feature_pokedex.domain.model.Pokemon
+import com.victor.feature_pokedex.domain.model.PokemonType
 import com.victor.feature_pokedex.domain.service.PokedexService
 
 internal class PokedexUseCase(
@@ -12,8 +14,23 @@ internal class PokedexUseCase(
         private const val POKEMON_LIST_LIMIT = 9999
     }
 
-    suspend fun getPokemonList() =
-        infrastructure.getPokemonList(offset = POKEMON_LIST_OFFSET, limit = POKEMON_LIST_LIMIT)
+    suspend fun getPokemonList(typeList: List<PokemonType>?) =
+        if (typeList.isNullOrEmpty())
+            infrastructure.getPokemonList(offset = POKEMON_LIST_OFFSET, limit = POKEMON_LIST_LIMIT)
+        else {
+            mutableListOf<Pokemon>().apply {
+                typeList.forEach {
+                    val type = infrastructure.getTypeDetails(it.id)
+                    if (isEmpty()) {
+                        addAll(type.pokemons)
+                    } else {
+                        val intersectResult = intersect(type.pokemons.toSet())
+                        clear()
+                        addAll(intersectResult)
+                    }
+                }
+            }
+        }
 
     suspend fun getPokemonDetails(pokemonId: Long) = infrastructure.getPokemonDetails(pokemonId)
 
@@ -21,6 +38,4 @@ internal class PokedexUseCase(
         infrastructure.getPokemonTypes()
             .filter { it.id in VALID_TYPE_ID_RANGE }
             .sortedBy { it.name }
-
-    suspend fun getTypeDetails(typeId: Long) = infrastructure.getTypeDetails(typeId)
 }

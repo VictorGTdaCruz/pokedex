@@ -9,5 +9,4 @@ data class TypeDetails(
 data class Pokemon(
     val id: Long,
     val name: String,
-    val slot: Int
 )

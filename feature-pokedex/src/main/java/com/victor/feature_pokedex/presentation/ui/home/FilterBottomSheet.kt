@@ -11,10 +11,8 @@ import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -31,6 +29,8 @@ import com.victor.features_common.components.PokedexTextStyle.bold
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 internal fun FilterBottomSheet(viewModel: PokedexViewModel, onDismiss: () -> Unit) {
+    val selectedTypes = remember { mutableStateListOf<PokemonType>() }
+
     ModalBottomSheet(
         onDismissRequest = onDismiss,
         sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true),
@@ -58,12 +58,15 @@ internal fun FilterBottomSheet(viewModel: PokedexViewModel, onDismiss: () -> Uni
                 LazyRow {
                     item { Spacer(modifier = Modifier.width(16.dp)) }
                     items(typeList.size) {
-                        var isFilled by remember { mutableStateOf(false) }
                         PokemonTypeIcon(
                             type = typeList[it],
-                            isFilled = isFilled,
-                            onClick = {
-                                isFilled = !isFilled
+                            isFilled = selectedTypes.contains(typeList[it]),
+                            onClick = { clickedType ->
+                                if (selectedTypes.contains(clickedType)) {
+                                    selectedTypes.remove(clickedType)
+                                } else {
+                                    selectedTypes.add(clickedType)
+                                }
                             },
                         )
                     }
@@ -78,14 +81,17 @@ internal fun FilterBottomSheet(viewModel: PokedexViewModel, onDismiss: () -> Uni
             ) {
                 PokedexButton(
                     text = "Reset",
-                    onClick = { /*TODO*/ },
+                    onClick = { selectedTypes.clear() },
                     style = PokedexButtonStyle.Secondary,
                     modifier = Modifier.weight(1f)
                 )
                 Spacer(modifier = Modifier.width(16.dp))
                 PokedexButton(
                     text = "Apply",
-                    onClick = { /*TODO*/ },
+                    onClick = {
+                        viewModel.getPokemonList(selectedTypes)
+                        onDismiss.invoke()
+                    },
                     style = PokedexButtonStyle.Primary,
                     modifier = Modifier.weight(1f)
                 )

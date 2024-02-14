@@ -16,6 +16,5 @@ private fun List<PokemonResponse>?.toPokemonDomain() = this?.map {
     Pokemon(
         id = IdMapper.fromPokemonUrl(it.pokemon?.url),
         name = it.pokemon?.name.orEmpty(),
-        slot = it.slot ?: 0
     )
 } ?: emptyList()

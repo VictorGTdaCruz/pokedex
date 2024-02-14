@@ -76,8 +76,8 @@ internal fun HomeScreenBody(viewModel: PokedexViewModel) {
         ) {
             with(viewModel) {
                 LaunchedEffect(Unit) {
-                    loadPokemonList()
-                    loadPokemonTypes()
+                    getPokemonList()
+                    getPokemonTypes()
                 }
 
                 Column(
@@ -95,7 +95,7 @@ internal fun HomeScreenBody(viewModel: PokedexViewModel) {
                                 if (pokemonDetails == null) {
                                     PokemonCardLoading()
                                     LaunchedEffect(pokemon.id) {
-                                        loadPokemonDetails(pokemon.id)
+                                        getPokemonDetails(pokemon.id)
                                     }
                                 } else {
                                     PokemonCard(pokemonDetails)
