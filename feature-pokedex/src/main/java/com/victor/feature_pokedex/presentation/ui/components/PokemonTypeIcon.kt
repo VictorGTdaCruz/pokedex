@@ -9,6 +9,7 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.res.painterResource
@@ -35,9 +36,9 @@ fun PokemonTypeIcon(
         colors = CardDefaults.cardColors(
             containerColor = if(isFilled) typeColor else Color.Transparent
         ),
-        shape = RoundedCornerShape(50.dp),
         modifier = Modifier
             .padding(cardPadding)
+            .clip(RoundedCornerShape(50.dp))
             .clickable { onClick(type) }
     ) {
         Image(

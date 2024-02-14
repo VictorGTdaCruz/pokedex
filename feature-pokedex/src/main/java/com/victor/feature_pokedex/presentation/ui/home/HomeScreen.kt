@@ -16,6 +16,7 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
@@ -56,30 +57,56 @@ import com.victor.features_common.components.PokedexTextStyle.bold
 
 @Composable
 internal fun HomeScreenBody(viewModel: PokedexViewModel) {
-    with(viewModel) {
-        LaunchedEffect(Unit) {
-            loadPokemonList()
-        }
+    var showFilterBottomSheet by remember { mutableStateOf(false) }
 
-        Column {
-            PokemonSearchTextField(isEnabled = currentPokemonList.value is State.Success<*>) {
-                searchPokemon(it)
+    Box{
+        Image(
+            modifier = Modifier.fillMaxSize(),
+            painter = painterResource(R.drawable.home_toolbar_background),
+            contentDescription = "background_image",
+            contentScale = ContentScale.FillBounds
+        )
+        Scaffold(
+            containerColor = Color.White,
+            topBar = {
+                HomeAppBar(
+                    onFilterClick = { showFilterBottomSheet = !showFilterBottomSheet }
+                )
             }
-            ObserveState<List<Pokemon>>(state = currentPokemonList) { pokemonList ->
-                LazyColumn(modifier = Modifier.weight(1f)) {
-                    items(pokemonList.count()) {
-                        val pokemon = pokemonList[it]
-                        val pokemonDetails = pokemonDetails[pokemon.id]
+        ) {
+            with(viewModel) {
+                LaunchedEffect(Unit) {
+                    loadPokemonList()
+                    loadPokemonTypes()
+                }
 
-                        if (pokemonDetails == null) {
-                            PokemonCardLoading()
-                            LaunchedEffect(pokemon.id) {
-                                loadPokemonDetails(pokemon.id)
+                Column(
+                    modifier = Modifier.padding(it)
+                ) {
+                    PokemonSearchTextField(isEnabled = currentPokemonList.value is State.Success<*>) {
+                        searchPokemon(it)
+                    }
+                    ObserveState<List<Pokemon>>(state = currentPokemonList) { pokemonList ->
+                        LazyColumn(modifier = Modifier.weight(1f)) {
+                            items(pokemonList.count()) {
+                                val pokemon = pokemonList[it]
+                                val pokemonDetails = pokemonDetails[pokemon.id]
+
+                                if (pokemonDetails == null) {
+                                    PokemonCardLoading()
+                                    LaunchedEffect(pokemon.id) {
+                                        loadPokemonDetails(pokemon.id)
+                                    }
+                                } else {
+                                    PokemonCard(pokemonDetails)
+                                }
                             }
-                        } else {
-                            PokemonCard(pokemonDetails)
                         }
                     }
+                }
+
+                if (showFilterBottomSheet) {
+                    FilterBottomSheet(viewModel = this) { showFilterBottomSheet = false }
                 }
             }
         }
