@@ -1,7 +1,7 @@
 package com.victor.pokedex.presentation
 
 import com.victor.features_common.MainCoroutineRuleTest
-import com.victor.features_common.Resource
+import com.victor.features_common.State
 import com.victor.features_common.getAsSuccessResource
 import com.victor.pokedex.domain.model.PokemonDetails
 import com.victor.pokedex.domain.model.PokemonType
@@ -47,7 +47,7 @@ class PokedexViewModelTest {
 
     @Test
     fun whenLoadPokemonTypes_notLoadIfIsHasContent() {
-        viewModel.pokemonTypes.value = Resource.Success(listOf("test"))
+        viewModel.pokemonTypes.value = State.Success(listOf("test"))
         viewModel.loadPokemonTypes()
         coVerify(exactly = 0) { service.getPokemonTypes() }
     }
@@ -63,7 +63,7 @@ class PokedexViewModelTest {
     fun whenLoadPokemonsFromTypes_notLoadIfIsHasContentOfSameId() {
         val typeId = 0L
         val details = TypeDetails(id = typeId, name = "", pokemons = emptyList())
-        viewModel.typeDetails.value = Resource.Success(details)
+        viewModel.typeDetails.value = State.Success(details)
         viewModel.loadPokemonsFromType(typeId)
         coVerify(exactly = 0) { service.getTypeDetails(typeId) }
     }
@@ -72,7 +72,7 @@ class PokedexViewModelTest {
     fun whenLoadPokemonsFromTypes_shouldLoadIfIsHasContentOfDifferentId() {
         val typeId = 0L
         val details = TypeDetails(id = 1, name = "", pokemons = emptyList())
-        viewModel.typeDetails.value = Resource.Success(details)
+        viewModel.typeDetails.value = State.Success(details)
         viewModel.loadPokemonsFromType(typeId)
         coVerify(exactly = 1) { service.getTypeDetails(typeId) }
     }

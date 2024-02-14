@@ -42,7 +42,7 @@ internal fun AppBar() {
             ),
             title = {
                 Column(
-                    modifier = Modifier.padding(end = 32.dp)
+                    modifier = Modifier.padding(start = 12.dp, end = 24.dp)
                 ) {
                     Text(
                         text = stringResource(id = R.string.home_screen_title),
