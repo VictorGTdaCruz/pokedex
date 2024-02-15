@@ -22,10 +22,6 @@ import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment.Companion.BottomCenter
 import androidx.compose.ui.Alignment.Companion.Center
 import androidx.compose.ui.Alignment.Companion.CenterEnd
@@ -51,14 +47,11 @@ import com.victor.feature_pokedex.presentation.ui.utils.TypeColorHelper
 import com.victor.feature_pokedex.presentation.ui.utils.formatPokedexNumber
 import com.victor.feature_pokedex.presentation.ui.utils.formatPokemonName
 import com.victor.features_common.ObserveState
-import com.victor.features_common.State
 import com.victor.features_common.components.PokedexTextStyle
 import com.victor.features_common.components.PokedexTextStyle.bold
 
 @Composable
 internal fun HomeScreenBody(viewModel: PokedexViewModel) {
-    var showFilterBottomSheet by remember { mutableStateOf(false) }
-
     Box{
         Image(
             modifier = Modifier.fillMaxSize(),
@@ -70,7 +63,7 @@ internal fun HomeScreenBody(viewModel: PokedexViewModel) {
             containerColor = Color.White,
             topBar = {
                 HomeAppBar(
-                    onFilterClick = { showFilterBottomSheet = !showFilterBottomSheet }
+                    onFilterClick = { viewModel.onFilterIconClick() }
                 )
             }
         ) {
@@ -83,9 +76,7 @@ internal fun HomeScreenBody(viewModel: PokedexViewModel) {
                 Column(
                     modifier = Modifier.padding(it)
                 ) {
-                    PokemonSearchTextField(isEnabled = currentPokemonList.value is State.Success<*>) {
-                        searchPokemon(it)
-                    }
+                    PokemonSearchTextField(viewModel)
                     ObserveState<List<Pokemon>>(state = currentPokemonList) { pokemonList ->
                         LazyColumn(modifier = Modifier.weight(1f)) {
                             items(pokemonList.count()) {
@@ -105,9 +96,7 @@ internal fun HomeScreenBody(viewModel: PokedexViewModel) {
                     }
                 }
 
-                if (showFilterBottomSheet) {
-                    FilterBottomSheet(viewModel = this) { showFilterBottomSheet = false }
-                }
+                if (viewModel.showFilterBottomSheet.value) FilterBottomSheet(viewModel = this)
             }
         }
     }
@@ -115,15 +104,11 @@ internal fun HomeScreenBody(viewModel: PokedexViewModel) {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun PokemonSearchTextField(isEnabled: Boolean, onSearch: (String) -> Unit) {
-    var searchText by remember { mutableStateOf("") }
+private fun PokemonSearchTextField(viewModel: PokedexViewModel) {
     TextField(
-        value = searchText,
-        onValueChange = {
-            searchText = it
-            onSearch.invoke(it)
-        },
-        enabled = isEnabled,
+        value = viewModel.searchText.value,
+        onValueChange = { viewModel.searchPokemon(it) },
+        enabled = viewModel.isSearchEnabled(),
         placeholder = {
             Text(
                 text = stringResource(id = R.string.search_placeholder),

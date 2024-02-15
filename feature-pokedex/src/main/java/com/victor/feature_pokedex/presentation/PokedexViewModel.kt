@@ -1,5 +1,6 @@
 package com.victor.feature_pokedex.presentation
 
+import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateMapOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
@@ -20,7 +21,12 @@ internal class PokedexViewModel(
     val currentPokemonList = mutableStateOf<State>(State.Empty)
     private var fullPokemonList = emptyList<Pokemon>()
     val pokemonDetails = mutableStateMapOf<Long, PokemonDetails>()
-    var pokemonTypes = mutableStateOf<State>(State.Empty)
+    val pokemonTypes = mutableStateOf<State>(State.Empty)
+
+    var searchText = mutableStateOf("")
+
+    var showFilterBottomSheet = mutableStateOf(false)
+    private val filteredTypes = mutableStateListOf<PokemonType>()
 
     fun getPokemonList(typeList: List<PokemonType>? = null) {
         when {
@@ -38,6 +44,7 @@ internal class PokedexViewModel(
     }
 
     fun searchPokemon(text: String) {
+        searchText.value = text
         val searchResult = when {
             text.isEmpty() -> fullPokemonList
             else -> fullPokemonList.filter {
@@ -46,6 +53,8 @@ internal class PokedexViewModel(
         }
         currentPokemonList.value = State.Success(searchResult)
     }
+
+    fun isSearchEnabled() = currentPokemonList.value is State.Success<*>
 
     fun getPokemonDetails(pokemonId: Long) {
         viewModelScope.launch { // TODO sem tratamento?
@@ -63,5 +72,30 @@ internal class PokedexViewModel(
                 useCase.getPokemonTypes()
             }
         }
+    }
+
+    fun onFilterIconClick() {
+        showFilterBottomSheet.value = !showFilterBottomSheet.value
+    }
+
+    fun onDismissFilterBottomSheet() {
+        showFilterBottomSheet.value = false
+    }
+
+    fun isPokemonTypeFilterIconFilled(type: PokemonType) = filteredTypes.contains(type)
+
+    fun onPokemonTypeFilterIconClick(type: PokemonType) {
+        filteredTypes.apply {
+            if (contains(type)) remove(type) else add(type)
+        }
+    }
+
+    fun onPokemonTypeFilterResetClick() {
+        filteredTypes.clear()
+    }
+
+    fun onPokemonTypeFilterApplyClick() {
+        onDismissFilterBottomSheet()
+        getPokemonList(filteredTypes)
     }
 }

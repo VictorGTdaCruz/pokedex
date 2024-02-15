@@ -13,6 +13,12 @@
     <string name="height">Height</string>
     <string name="stat">%s: %d</string>
 
+    <string name="pokedex_filter_type_title">Filters</string>
+    <string name="pokedex_filter_type_description">Use advanced search to explore Pokémon by type and more!</string>
+    <string name="pokedex_filter_type_type_label">Types</string>
+    <string name="pokedex_filter_type_reset_button">Reset</string>
+    <string name="pokedex_filter_type_apply_button">Apply</string>
+
     <string name="content_description_back_button">Back button</string>
     <string name="content_description_type_icon">Pokémon type icon</string>
     <string name="content_description_pokemon_image">Pokémon image</string>
