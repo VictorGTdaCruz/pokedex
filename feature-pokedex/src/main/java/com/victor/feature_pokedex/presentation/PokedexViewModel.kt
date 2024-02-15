@@ -23,14 +23,18 @@ internal class PokedexViewModel(
     var pokemonTypes = mutableStateOf<State>(State.Empty)
 
     fun getPokemonList(typeList: List<PokemonType>? = null) {
-        manageStateDuringRequest( // TODO fullPokemonList estiver preenchido nao precisa pegar de novo
-            mutableState = currentPokemonList,
-            request = { useCase.getPokemonList(typeList) },
-            onSuccess = {
-                if (typeList.isNullOrEmpty() && fullPokemonList.isEmpty())
-                    fullPokemonList = it
-            },
-        )
+        when {
+            fullPokemonList.isEmpty() || typeList.isNullOrEmpty().not() ->
+                manageStateDuringRequest(
+                    mutableState = currentPokemonList,
+                    request = { useCase.getPokemonList(typeList) },
+                    onSuccess = {
+                        if (typeList.isNullOrEmpty())
+                            fullPokemonList = it
+                    },
+                )
+            else -> currentPokemonList.value = State.Success(fullPokemonList)
+        }
     }
 
     fun searchPokemon(text: String) {
