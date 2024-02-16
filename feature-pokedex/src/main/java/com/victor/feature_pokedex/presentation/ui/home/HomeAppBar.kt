@@ -1,4 +1,4 @@
-package com.victor.feature_pokedex.presentation.ui.components
+package com.victor.feature_pokedex.presentation.ui.home
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
@@ -7,6 +7,8 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.LargeTopAppBar
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
@@ -26,9 +28,13 @@ import com.victor.features_common.components.PokedexTextStyle.noColor
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-internal fun AppBar() {
+internal fun HomeAppBar(
+    onFilterClick: () -> Unit = {}
+) {
     Box (
-        modifier = Modifier.fillMaxWidth().height(150.dp)
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(150.dp)
     ) {
         Image(
             modifier = Modifier.fillMaxWidth(),
@@ -40,6 +46,17 @@ internal fun AppBar() {
             colors = TopAppBarDefaults.largeTopAppBarColors(
                 containerColor = Color.Transparent,
             ),
+            actions = {
+                IconButton(
+                    onClick = onFilterClick,
+                    modifier = Modifier.padding(end = 16.dp)
+                ) {
+                    Icon(
+                        painter = painterResource(id = R.drawable.baseline_tune_24),
+                        contentDescription = null,
+                    )
+                }
+            },
             title = {
                 Column(
                     modifier = Modifier.padding(start = 12.dp, end = 24.dp)
@@ -62,5 +79,5 @@ internal fun AppBar() {
 @Preview
 @Composable
 private fun Preview() {
-    AppBar()
+    HomeAppBar()
 }

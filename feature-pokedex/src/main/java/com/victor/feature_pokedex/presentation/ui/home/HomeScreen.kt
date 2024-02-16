@@ -4,6 +4,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -16,15 +17,12 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment.Companion.BottomCenter
 import androidx.compose.ui.Alignment.Companion.Center
 import androidx.compose.ui.Alignment.Companion.CenterEnd
@@ -50,37 +48,59 @@ import com.victor.feature_pokedex.presentation.ui.utils.TypeColorHelper
 import com.victor.feature_pokedex.presentation.ui.utils.formatPokedexNumber
 import com.victor.feature_pokedex.presentation.ui.utils.formatPokemonName
 import com.victor.features_common.ObserveState
-import com.victor.features_common.State
 import com.victor.features_common.components.PokedexTextStyle
 import com.victor.features_common.components.PokedexTextStyle.bold
 
 @Composable
 internal fun HomeScreenBody(viewModel: PokedexViewModel) {
-    with(viewModel) {
-        LaunchedEffect(Unit) {
-            loadPokemonList()
-        }
-
-        Column {
-            PokemonSearchTextField(isEnabled = currentPokemonList.value is State.Success<*>) {
-                searchPokemon(it)
+    Box{
+        Image(
+            modifier = Modifier.fillMaxSize(),
+            painter = painterResource(R.drawable.home_toolbar_background),
+            contentDescription = "background_image",
+            contentScale = ContentScale.FillBounds
+        )
+        Scaffold(
+            containerColor = Color.White,
+            topBar = {
+                HomeAppBar(
+                    onFilterClick = { viewModel.onFilterIconClick() }
+                )
             }
-            ObserveState<List<Pokemon>>(state = currentPokemonList) { pokemonList ->
-                LazyColumn(modifier = Modifier.weight(1f)) {
-                    items(pokemonList.count()) {
-                        val pokemon = pokemonList[it]
-                        val pokemonDetails = pokemonDetails[pokemon.id]
+        ) {
+            with(viewModel) {
+                LaunchedEffect(Unit) {
+                    getPokemonList()
+                    getPokemonTypes()
+                }
 
-                        if (pokemonDetails == null) {
-                            PokemonCardLoading()
-                            LaunchedEffect(pokemon.id) {
-                                loadPokemonDetails(pokemon.id)
+                Column(
+                    modifier = Modifier.padding(it)
+                ) {
+                    PokemonSearchTextField(viewModel)
+                    ObserveState<List<Pokemon>>(state = currentPokemonList) { pokemonList ->
+                        LazyColumn(modifier = Modifier.weight(1f)) {
+                            items(pokemonList.count()) {
+                                val pokemon = pokemonList[it]
+                                val pokemonDetails = pokemonDetails[pokemon.id]
+
+                                if (pokemonDetails == null) {
+                                    PokemonCardLoading()
+                                    LaunchedEffect(pokemon.id) {
+                                        getPokemonDetails(pokemon.id)
+                                    }
+                                } else {
+                                    PokemonCard(pokemonDetails)
+                                }
                             }
-                        } else {
-                            PokemonCard(pokemonDetails)
+                            item {
+                                Spacer(modifier = Modifier.height(32.dp))
+                            }
                         }
                     }
                 }
+
+                if (viewModel.showFilterBottomSheet.value) FilterBottomSheet(viewModel = this)
             }
         }
     }
@@ -88,15 +108,11 @@ internal fun HomeScreenBody(viewModel: PokedexViewModel) {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun PokemonSearchTextField(isEnabled: Boolean, onSearch: (String) -> Unit) {
-    var searchText by remember { mutableStateOf("") }
+private fun PokemonSearchTextField(viewModel: PokedexViewModel) {
     TextField(
-        value = searchText,
-        onValueChange = {
-            searchText = it
-            onSearch.invoke(it)
-        },
-        enabled = isEnabled,
+        value = viewModel.searchText.value,
+        onValueChange = { viewModel.searchPokemon(it) },
+        enabled = viewModel.isSearchEnabled(),
         placeholder = {
             Text(
                 text = stringResource(id = R.string.search_placeholder),

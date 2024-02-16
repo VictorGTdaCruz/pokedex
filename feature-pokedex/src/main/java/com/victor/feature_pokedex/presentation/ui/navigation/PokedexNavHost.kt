@@ -14,7 +14,7 @@ import com.victor.feature_pokedex.presentation.ui.home.HomeScreenBody
 internal fun PokedexNavHost(
     navController: NavHostController,
     viewModel: PokedexViewModel,
-    modifier: Modifier
+    modifier: Modifier = Modifier
 ) {
     NavHost(
         navController = navController,
