@@ -4,6 +4,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -91,6 +92,9 @@ internal fun HomeScreenBody(viewModel: PokedexViewModel) {
                                 } else {
                                     PokemonCard(pokemonDetails)
                                 }
+                            }
+                            item {
+                                Spacer(modifier = Modifier.height(32.dp))
                             }
                         }
                     }

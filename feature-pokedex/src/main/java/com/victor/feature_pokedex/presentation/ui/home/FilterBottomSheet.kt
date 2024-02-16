@@ -142,7 +142,8 @@ fun SliderThumb(text: String) {
         Spacer(modifier = Modifier.height(4.dp))
         Text(
             text = text,
-            style = PokedexTextStyle.description
+            style = PokedexTextStyle.description,
+            modifier = Modifier.align(CenterHorizontally)
         )
     }
 }

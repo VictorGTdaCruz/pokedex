@@ -39,12 +39,12 @@ internal class PokedexViewModel(
                 manageStateDuringRequest(
                     mutableState = currentPokemonList,
                     request = { useCase.getPokemonList(typeList, indexRange) },
-                    onSuccess = {
+                    onSuccess = { pokemonList ->
                         if (typeList.isNullOrEmpty()) {
-                            fullPokemonList = it
+                            fullPokemonList = pokemonList
                             if (indexRange == null) {
-                                filteredRange.value = 0f..it.size.toFloat()
-                                maxRange.value = 0f..it.size.toFloat()
+                                maxRange.value = 1f..pokemonList.maxOf { it.id }.toFloat()
+                                filteredRange.value = maxRange.value
                             }
                         }
                     },

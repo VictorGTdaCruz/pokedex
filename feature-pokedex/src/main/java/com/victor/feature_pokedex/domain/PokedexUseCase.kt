@@ -10,8 +10,9 @@ internal class PokedexUseCase(
 
     companion object {
         private val VALID_TYPE_ID_RANGE = 1 until 9999
+        private val VALID_POKEMON_ID_RANGE = 1 until 9999
         private const val POKEMON_LIST_OFFSET = 0
-        private const val POKEMON_LIST_LIMIT = 99999
+        private const val POKEMON_LIST_LIMIT = 9999
     }
 
     suspend fun getPokemonList(
@@ -23,9 +24,9 @@ internal class PokedexUseCase(
         else
             getPokemonFromTypeFilter(typeList)
         return if (indexRange != null)
-            pokemonList.applyIndexRangeFilter(indexRange)
+            pokemonList.applyValidPokemonFilter().applyIndexRangeFilter(indexRange)
         else
-            pokemonList
+            pokemonList.applyValidPokemonFilter()
     }
 
     suspend fun getPokemonDetails(pokemonId: Long) = infrastructure.getPokemonDetails(pokemonId)
@@ -49,6 +50,11 @@ internal class PokedexUseCase(
             }
         }
 
-    private fun List<Pokemon>.applyIndexRangeFilter(indexRange: ClosedFloatingPointRange<Float>) =
-        filter { indexRange.contains(it.id.toFloat()) }
+    private fun List<Pokemon>.applyIndexRangeFilter(indexRange: ClosedFloatingPointRange<Float>): List<Pokemon> {
+        val intRange = indexRange.start.toInt()..indexRange.endInclusive.toInt()
+        return filter { intRange.contains(it.id) }
+    }
+
+    private fun List<Pokemon>.applyValidPokemonFilter() =
+        filter { VALID_POKEMON_ID_RANGE.contains(it.id) }
 }
