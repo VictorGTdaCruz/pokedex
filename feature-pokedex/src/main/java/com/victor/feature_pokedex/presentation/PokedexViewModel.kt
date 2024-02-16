@@ -27,16 +27,26 @@ internal class PokedexViewModel(
 
     var showFilterBottomSheet = mutableStateOf(false)
     private val filteredTypes = mutableStateListOf<PokemonType>()
+    var filteredRange = mutableStateOf(0f..0f)
+    var maxRange = mutableStateOf(0f..0f)
 
-    fun getPokemonList(typeList: List<PokemonType>? = null) {
+    fun getPokemonList(
+        typeList: List<PokemonType>? = null,
+        indexRange: ClosedFloatingPointRange<Float>? = null
+    ) {
         when {
-            fullPokemonList.isEmpty() || typeList.isNullOrEmpty().not() ->
+            fullPokemonList.isEmpty() || typeList.isNullOrEmpty().not() || indexRange != null ->
                 manageStateDuringRequest(
                     mutableState = currentPokemonList,
-                    request = { useCase.getPokemonList(typeList) },
+                    request = { useCase.getPokemonList(typeList, indexRange) },
                     onSuccess = {
-                        if (typeList.isNullOrEmpty())
+                        if (typeList.isNullOrEmpty()) {
                             fullPokemonList = it
+                            if (indexRange == null) {
+                                filteredRange.value = 0f..it.size.toFloat()
+                                maxRange.value = 0f..it.size.toFloat()
+                            }
+                        }
                     },
                 )
             else -> currentPokemonList.value = State.Success(fullPokemonList)
@@ -90,12 +100,17 @@ internal class PokedexViewModel(
         }
     }
 
+    fun onRangeFilterUpdate(range: ClosedFloatingPointRange<Float>) {
+        filteredRange.value = range
+    }
+
     fun onPokemonTypeFilterResetClick() {
         filteredTypes.clear()
+        filteredRange.value = maxRange.value
     }
 
     fun onPokemonTypeFilterApplyClick() {
         onDismissFilterBottomSheet()
-        getPokemonList(filteredTypes)
+        getPokemonList(filteredTypes, filteredRange.value)
     }
 }
