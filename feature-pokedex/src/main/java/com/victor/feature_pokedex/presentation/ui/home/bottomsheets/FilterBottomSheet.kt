@@ -1,4 +1,4 @@
-package com.victor.feature_pokedex.presentation.ui.home
+package com.victor.feature_pokedex.presentation.ui.home.bottomsheets
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -40,7 +40,7 @@ import com.victor.features_common.theme.Red
 @Composable
 internal fun FilterBottomSheet(viewModel: PokedexViewModel) {
     ModalBottomSheet(
-        onDismissRequest = { viewModel.onDismissFilterBottomSheet() },
+        onDismissRequest = { viewModel.onDismissBottomSheet() },
         sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true),
         containerColor = Color.White,
         content = {

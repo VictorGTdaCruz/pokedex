@@ -14,11 +14,18 @@
     <string name="stat">%s: %d</string>
 
     <string name="pokedex_filter_title">Filters</string>
-    <string name="pokedex_filter_description">Use advanced search to explore Pokémon by type and more!</string>
+    <string name="pokedex_filter_description">Use advanced search to explore Pokémon by type and number!</string>
     <string name="pokedex_filter_type_label">Types</string>
     <string name="pokedex_filter_number_range_label">Number Range</string>
     <string name="pokedex_filter_type_reset_button">Reset</string>
     <string name="pokedex_filter_type_apply_button">Apply</string>
+
+    <string name="pokedex_sort_title">Sort</string>
+    <string name="pokedex_sort_description">Sort Pokémons alphabetically or by National Pokédex number!</string>
+    <string name="pokedex_sort_option_1">Smallest number first</string>
+    <string name="pokedex_sort_option_2">Highest number first</string>
+    <string name="pokedex_sort_option_3">A-Z</string>
+    <string name="pokedex_sort_option_4">Z-A</string>
 
     <string name="content_description_back_button">Back button</string>
     <string name="content_description_type_icon">Pokémon type icon</string>

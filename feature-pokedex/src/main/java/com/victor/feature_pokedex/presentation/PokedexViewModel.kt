@@ -9,8 +9,10 @@ import com.victor.feature_pokedex.domain.PokedexUseCase
 import com.victor.feature_pokedex.domain.model.Pokemon
 import com.victor.feature_pokedex.domain.model.PokemonDetails
 import com.victor.feature_pokedex.domain.model.PokemonType
+import com.victor.feature_pokedex.presentation.ui.home.bottomsheets.Sort
 import com.victor.features_common.State
-import com.victor.features_common.getAsSuccessResource
+import com.victor.features_common.components.PokedexButtonStyle
+import com.victor.features_common.getAsSuccessState
 import com.victor.features_common.manageStateDuringRequest
 import kotlinx.coroutines.launch
 
@@ -21,14 +23,19 @@ internal class PokedexViewModel(
     val currentPokemonList = mutableStateOf<State>(State.Empty)
     private var fullPokemonList = emptyList<Pokemon>()
     val pokemonDetails = mutableStateMapOf<Long, PokemonDetails>()
-    val pokemonTypes = mutableStateOf<State>(State.Empty)
 
     var searchText = mutableStateOf("")
 
     var showFilterBottomSheet = mutableStateOf(false)
+    val pokemonTypes = mutableStateOf<State>(State.Empty)
     private val filteredTypes = mutableStateListOf<PokemonType>()
     var filteredRange = mutableStateOf(0f..0f)
     var maxRange = mutableStateOf(0f..0f)
+
+    var showSortBottomSheet = mutableStateOf(false)
+    var currentSort = mutableStateOf<Sort>(Sort.SmallestNumberFirst)
+
+    var showGenerationBottomSheet = mutableStateOf(false)
 
     fun getPokemonList(
         typeList: List<PokemonType>? = null,
@@ -49,6 +56,7 @@ internal class PokedexViewModel(
                         }
                     },
                 )
+
             else -> currentPokemonList.value = State.Success(fullPokemonList)
         }
     }
@@ -76,7 +84,7 @@ internal class PokedexViewModel(
     }
 
     fun getPokemonTypes() {
-        val types = pokemonTypes.getAsSuccessResource<List<PokemonType>>()?.data
+        val types = pokemonTypes.getAsSuccessState<List<PokemonType>>()?.data
         if (types.isNullOrEmpty()) {
             manageStateDuringRequest(pokemonTypes) {
                 useCase.getPokemonTypes()
@@ -88,8 +96,18 @@ internal class PokedexViewModel(
         showFilterBottomSheet.value = !showFilterBottomSheet.value
     }
 
-    fun onDismissFilterBottomSheet() {
+    fun onSortIconClick() {
+        showSortBottomSheet.value = !showSortBottomSheet.value
+    }
+
+    fun onGenerationIconClick() {
+        showGenerationBottomSheet.value = !showGenerationBottomSheet.value
+    }
+
+    fun onDismissBottomSheet() {
         showFilterBottomSheet.value = false
+        showSortBottomSheet.value = false
+        showGenerationBottomSheet.value = false
     }
 
     fun isPokemonTypeFilterIconFilled(type: PokemonType) = filteredTypes.contains(type)
@@ -110,7 +128,22 @@ internal class PokedexViewModel(
     }
 
     fun onPokemonTypeFilterApplyClick() {
-        onDismissFilterBottomSheet()
+        onDismissBottomSheet()
         getPokemonList(filteredTypes, filteredRange.value)
     }
+
+    fun onPokemonSortClick(sort: Sort) {
+        currentSort.value = sort
+        val currentList = currentPokemonList.getAsSuccessState<List<Pokemon>>()?.data
+        val result = when (sort) {
+            Sort.SmallestNumberFirst -> currentList?.sortedBy { it.id }
+            Sort.HighestNumberFirst -> currentList?.sortedByDescending { it.id }
+            Sort.AtoZ -> currentList?.sortedBy { it.name }
+            Sort.ZtoA -> currentList?.sortedByDescending { it.name }
+        }
+        currentPokemonList.value = State.Success(result)
+    }
+
+    fun isSortButtonEnabled(sort: Sort) =
+        if (currentSort.value == sort) PokedexButtonStyle.Primary else PokedexButtonStyle.Secondary
 }

@@ -52,6 +52,6 @@ class ViewModelTest {
             "data"
         }
 
-        assertEquals("data", state.getAsSuccessResource<String>()?.data)
+        assertEquals("data", state.getAsSuccessState<String>()?.data)
     }
 }

@@ -21,7 +21,7 @@ fun <T> ObserveState(state: MutableState<State>, onRetry: () -> Unit = {}, onSuc
         is State.Empty -> EmptyUI()
         is State.Loading -> LoadingUI()
         is State.Error -> {
-            val exception = state.getAsErrorResource()?.exception ?: PokedexException.UnexpectedException()
+            val exception = state.getAsErrorState()?.exception ?: PokedexException.UnexpectedException()
             ErrorUI(
                 message = stringResource(
                     id = ErrorHandler.handleMessage(exception)
@@ -30,7 +30,7 @@ fun <T> ObserveState(state: MutableState<State>, onRetry: () -> Unit = {}, onSuc
             )
         }
         is State.Success<*> -> {
-            val resource = state.getAsSuccessResource<T>()?.data
+            val resource = state.getAsSuccessState<T>()?.data
             when {
                 resource == null -> state.value = State.Error(PokedexException.FormatException())
                 resource is List<*> && resource.isEmpty() -> EmptyUI()
@@ -41,5 +41,5 @@ fun <T> ObserveState(state: MutableState<State>, onRetry: () -> Unit = {}, onSuc
 }
 
 @Suppress("UNCHECKED_CAST")
-fun <T> MutableState<State>.getAsSuccessResource() = value as? State.Success<T>
-fun MutableState<State>.getAsErrorResource() = value as? State.Error
+fun <T> MutableState<State>.getAsSuccessState() = value as? State.Success<T>
+fun MutableState<State>.getAsErrorState() = value as? State.Error

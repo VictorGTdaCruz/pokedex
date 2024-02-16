@@ -43,6 +43,8 @@ import com.victor.feature_pokedex.domain.model.PokemonType
 import com.victor.feature_pokedex.domain.model.PokemonTypeWithSlot
 import com.victor.feature_pokedex.presentation.PokedexViewModel
 import com.victor.feature_pokedex.presentation.ui.components.PokemonTypeBadge
+import com.victor.feature_pokedex.presentation.ui.home.bottomsheets.FilterBottomSheet
+import com.victor.feature_pokedex.presentation.ui.home.bottomsheets.SortBottomSheet
 import com.victor.feature_pokedex.presentation.ui.theme.PokedexBlue
 import com.victor.feature_pokedex.presentation.ui.utils.TypeColorHelper
 import com.victor.feature_pokedex.presentation.ui.utils.formatPokedexNumber
@@ -64,7 +66,9 @@ internal fun HomeScreenBody(viewModel: PokedexViewModel) {
             containerColor = Color.White,
             topBar = {
                 HomeAppBar(
-                    onFilterClick = { viewModel.onFilterIconClick() }
+                    onFilterClick = { viewModel.onFilterIconClick() },
+                    onSortClick = { viewModel.onSortIconClick() },
+                    onGenerationClick = { viewModel.onGenerationIconClick() }
                 )
             }
         ) {
@@ -101,6 +105,7 @@ internal fun HomeScreenBody(viewModel: PokedexViewModel) {
                 }
 
                 if (viewModel.showFilterBottomSheet.value) FilterBottomSheet(viewModel = this)
+                if (viewModel.showSortBottomSheet.value) SortBottomSheet(viewModel = this)
             }
         }
     }

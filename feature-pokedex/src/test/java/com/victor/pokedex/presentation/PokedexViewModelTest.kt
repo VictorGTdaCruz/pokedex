@@ -2,7 +2,6 @@ package com.victor.pokedex.presentation
 
 import com.victor.features_common.MainCoroutineRuleTest
 import com.victor.features_common.State
-import com.victor.features_common.getAsSuccessResource
 import com.victor.pokedex.domain.model.PokemonDetails
 import com.victor.pokedex.domain.model.PokemonType
 import com.victor.pokedex.domain.model.TypeDetails
