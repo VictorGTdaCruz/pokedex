@@ -12,49 +12,49 @@ class StateTest {
     fun shouldGetResourceAsSuccess() {
         val successState = State.Success(data = "")
         val mutableState = mutableStateOf<State>(successState)
-        assertEquals(successState, mutableState.getAsSuccessResource<String>())
+        assertEquals(successState, mutableState.getAsSuccessState<String>())
     }
 
     @Test
     fun shouldFailToGetLoadingResourceAsSuccess() {
         val mutableState = mutableStateOf<State>(State.Loading)
-        assertNull(mutableState.getAsSuccessResource<String>())
+        assertNull(mutableState.getAsSuccessState<String>())
     }
 
     @Test
     fun shouldFailToGetEmptyResourceAsSuccess() {
         val mutableState = mutableStateOf<State>(State.Empty)
-        assertNull(mutableState.getAsSuccessResource<String>())
+        assertNull(mutableState.getAsSuccessState<String>())
     }
 
     @Test
     fun shouldFailToGetErrorResourceAsSuccess() {
         val mutableState = mutableStateOf<State>(State.Error(UnexpectedException))
-        assertNull(mutableState.getAsSuccessResource<String>())
+        assertNull(mutableState.getAsSuccessState<String>())
     }
 
     @Test
     fun shouldGetResourceAsError() {
         val errorState = State.Error(UnexpectedException)
         val mutableState = mutableStateOf<State>(errorState)
-        assertEquals(errorState, mutableState.getAsErrorResource())
+        assertEquals(errorState, mutableState.getAsErrorState())
     }
 
     @Test
     fun shouldFailToGetSuccessResourceAsError() {
         val mutableState = mutableStateOf<State>(State.Success(""))
-        assertNull(mutableState.getAsErrorResource())
+        assertNull(mutableState.getAsErrorState())
     }
 
     @Test
     fun shouldFailToGetLoadingResourceAsError() {
         val mutableState = mutableStateOf<State>(State.Loading)
-        assertNull(mutableState.getAsErrorResource())
+        assertNull(mutableState.getAsErrorState())
     }
 
     @Test
     fun shouldFailToGetEmptyResourceAsError() {
         val mutableState = mutableStateOf<State>(State.Empty)
-        assertNull(mutableState.getAsErrorResource())
+        assertNull(mutableState.getAsErrorState())
     }
 }

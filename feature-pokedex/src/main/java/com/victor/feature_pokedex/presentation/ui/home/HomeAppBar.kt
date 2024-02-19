@@ -29,7 +29,9 @@ import com.victor.features_common.components.PokedexTextStyle.noColor
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 internal fun HomeAppBar(
-    onFilterClick: () -> Unit = {}
+    onFilterClick: () -> Unit = {},
+    onSortClick: () -> Unit = {},
+    onGenerationClick: () -> Unit = {}
 ) {
     Box (
         modifier = Modifier
@@ -48,11 +50,27 @@ internal fun HomeAppBar(
             ),
             actions = {
                 IconButton(
+                    onClick = onGenerationClick,
+                ) {
+                    Icon(
+                        painter = painterResource(id = R.drawable.ic_generation),
+                        contentDescription = null,
+                    )
+                }
+                IconButton(
+                    onClick = onSortClick,
+                ) {
+                    Icon(
+                        painter = painterResource(id = R.drawable.ic_sort),
+                        contentDescription = null,
+                    )
+                }
+                IconButton(
                     onClick = onFilterClick,
                     modifier = Modifier.padding(end = 16.dp)
                 ) {
                     Icon(
-                        painter = painterResource(id = R.drawable.baseline_tune_24),
+                        painter = painterResource(id = R.drawable.ic_filter),
                         contentDescription = null,
                     )
                 }
