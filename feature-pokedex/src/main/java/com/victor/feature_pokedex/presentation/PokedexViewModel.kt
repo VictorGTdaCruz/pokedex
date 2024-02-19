@@ -33,32 +33,28 @@ internal class PokedexViewModel(
     var maxRange = mutableStateOf(0f..0f)
 
     var showSortBottomSheet = mutableStateOf(false)
-    var currentSort = mutableStateOf<Sort>(Sort.SmallestNumberFirst)
+    private var currentSort = mutableStateOf<Sort>(Sort.SmallestNumberFirst)
 
     var showGenerationBottomSheet = mutableStateOf(false)
+    val generations = 1..8
+    private val selectedGenerations = mutableStateListOf<Int>()
 
-    fun getPokemonList(
-        typeList: List<PokemonType>? = null,
-        indexRange: ClosedFloatingPointRange<Float>? = null
-    ) {
-        when {
-            fullPokemonList.isEmpty() || typeList.isNullOrEmpty().not() || indexRange != null ->
-                manageStateDuringRequest(
-                    mutableState = currentPokemonList,
-                    request = { useCase.getPokemonList(typeList, indexRange) },
-                    onSuccess = { pokemonList ->
-                        if (typeList.isNullOrEmpty()) {
-                            fullPokemonList = pokemonList
-                            if (indexRange == null) {
-                                maxRange.value = 1f..pokemonList.maxOf { it.id }.toFloat()
-                                filteredRange.value = maxRange.value
-                            }
-                        }
-                    },
-                )
-
-            else -> currentPokemonList.value = State.Success(fullPokemonList)
-        }
+    fun getPokemonList() {
+        manageStateDuringRequest(
+            mutableState = currentPokemonList,
+            request = {
+                useCase.getPokemonList(filteredTypes, filteredRange.value, selectedGenerations)
+            },
+            onSuccess = { pokemonList ->
+                if (filteredTypes.isEmpty() && filteredRange.value == 0f..0f && selectedGenerations.isEmpty()) {
+                    fullPokemonList = pokemonList
+                    if (filteredRange.value == 0f..0f) {
+                        maxRange.value = 1f..pokemonList.maxOf { it.id }.toFloat()
+                        filteredRange.value = maxRange.value
+                    }
+                }
+            },
+        )
     }
 
     fun searchPokemon(text: String) {
@@ -129,7 +125,7 @@ internal class PokedexViewModel(
 
     fun onPokemonTypeFilterApplyClick() {
         onDismissBottomSheet()
-        getPokemonList(filteredTypes, filteredRange.value)
+        getPokemonList()
     }
 
     fun onPokemonSortClick(sort: Sort) {
@@ -146,4 +142,14 @@ internal class PokedexViewModel(
 
     fun isSortButtonEnabled(sort: Sort) =
         if (currentSort.value == sort) PokedexButtonStyle.Primary else PokedexButtonStyle.Secondary
+
+    fun onPokemonGenerationClick(generation: Int) {
+        selectedGenerations.apply {
+            if (contains(generation)) remove(generation) else add(generation)
+        }
+        getPokemonList()
+    }
+
+    fun isGenerationButtonEnabled(generation: Int) =
+        if (selectedGenerations.contains(generation)) PokedexButtonStyle.Primary else PokedexButtonStyle.Secondary
 }

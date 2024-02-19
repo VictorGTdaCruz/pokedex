@@ -27,6 +27,10 @@
     <string name="pokedex_sort_option_3">A-Z</string>
     <string name="pokedex_sort_option_4">Z-A</string>
 
+    <string name="pokedex_generation_title">Generations</string>
+    <string name="pokedex_generation_description">Use search for generations to explore your Pokémon!</string>
+    <string name="pokedex_generation_option">Generation %d</string>
+
     <string name="content_description_back_button">Back button</string>
     <string name="content_description_type_icon">Pokémon type icon</string>
     <string name="content_description_pokemon_image">Pokémon image</string>

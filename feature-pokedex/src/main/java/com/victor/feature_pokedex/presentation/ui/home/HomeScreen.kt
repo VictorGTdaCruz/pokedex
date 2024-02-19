@@ -44,6 +44,7 @@ import com.victor.feature_pokedex.domain.model.PokemonTypeWithSlot
 import com.victor.feature_pokedex.presentation.PokedexViewModel
 import com.victor.feature_pokedex.presentation.ui.components.PokemonTypeBadge
 import com.victor.feature_pokedex.presentation.ui.home.bottomsheets.FilterBottomSheet
+import com.victor.feature_pokedex.presentation.ui.home.bottomsheets.GenerationBottomSheet
 import com.victor.feature_pokedex.presentation.ui.home.bottomsheets.SortBottomSheet
 import com.victor.feature_pokedex.presentation.ui.theme.PokedexBlue
 import com.victor.feature_pokedex.presentation.ui.utils.TypeColorHelper
@@ -106,6 +107,7 @@ internal fun HomeScreenBody(viewModel: PokedexViewModel) {
 
                 if (viewModel.showFilterBottomSheet.value) FilterBottomSheet(viewModel = this)
                 if (viewModel.showSortBottomSheet.value) SortBottomSheet(viewModel = this)
+                if (viewModel.showGenerationBottomSheet.value) GenerationBottomSheet(viewModel = this)
             }
         }
     }
