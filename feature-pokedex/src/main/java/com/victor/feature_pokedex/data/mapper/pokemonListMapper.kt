@@ -10,7 +10,7 @@ internal fun PagedResponse<NameAndUrlResponse>.toPokemonListDomain() =
 
 internal fun List<NameAndUrlResponse>?.toPokemonDomain() = this?.map {
     Pokemon(
-        id = IdMapper.fromPokemonUrl(it.url),
+        id = IdMapper.mapIdFromUrl(it.url),
         name = it.name.orEmpty(),
     )
 } ?: emptyList()

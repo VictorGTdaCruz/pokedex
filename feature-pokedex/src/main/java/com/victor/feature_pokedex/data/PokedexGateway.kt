@@ -1,5 +1,6 @@
 package com.victor.feature_pokedex.data
 
+import com.victor.feature_pokedex.data.model.GenerationResponse
 import com.victor.feature_pokedex.data.model.NameAndUrlResponse
 import com.victor.feature_pokedex.data.model.PagedResponse
 import com.victor.feature_pokedex.data.model.PokemonDetailsResponse
@@ -24,4 +25,7 @@ internal interface PokedexGateway {
 
     @GET("pokemon/{id}")
     suspend fun getPokemonDetails(@Path("id") pokemonId: Long): PokemonDetailsResponse
+
+    @GET("generation/{generation}")
+    suspend fun getPokemonListByGeneration(@Path("generation") generation: Int): GenerationResponse
 }
