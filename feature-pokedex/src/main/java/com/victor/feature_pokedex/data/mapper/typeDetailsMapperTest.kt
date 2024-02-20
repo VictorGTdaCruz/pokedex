@@ -14,7 +14,7 @@ internal fun TypeDetailsResponse.toDomain() =
 
 private fun List<PokemonResponse>?.toPokemonDomain() = this?.map {
     Pokemon(
-        id = IdMapper.fromPokemonUrl(it.pokemon?.url),
+        id = IdMapper.mapIdFromUrl(it.pokemon?.url),
         name = it.pokemon?.name.orEmpty(),
     )
 } ?: emptyList()

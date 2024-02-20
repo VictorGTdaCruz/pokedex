@@ -21,37 +21,39 @@ internal class PokedexViewModel(
 ) : ViewModel() {
 
     val currentPokemonList = mutableStateOf<State>(State.Empty)
-    private var fullPokemonList = emptyList<Pokemon>()
     val pokemonDetails = mutableStateMapOf<Long, PokemonDetails>()
 
     var searchText = mutableStateOf("")
+    private var fullPokemonList = emptyList<Pokemon>()
 
     var showFilterBottomSheet = mutableStateOf(false)
     val pokemonTypes = mutableStateOf<State>(State.Empty)
-    private val filteredTypes = mutableStateListOf<PokemonType>()
-    var filteredRange = mutableStateOf(0f..0f)
-    var maxRange = mutableStateOf(0f..0f)
+    private val selectedTypes = mutableStateListOf<PokemonType>()
+    var selectedIdRange = mutableStateOf<ClosedFloatingPointRange<Float>?>(null)
+    var fullIdRange = mutableStateOf<ClosedFloatingPointRange<Float>?>(null)
 
     var showSortBottomSheet = mutableStateOf(false)
-    private var currentSort = mutableStateOf<Sort>(Sort.SmallestNumberFirst)
+    private var selectedSort = mutableStateOf<Sort>(Sort.SmallestNumberFirst)
 
     var showGenerationBottomSheet = mutableStateOf(false)
-    val generations = 1..8
-    private val selectedGenerations = mutableStateListOf<Int>()
+    private val selectedGeneration = mutableStateOf<Int?>(null)
 
     fun getPokemonList() {
         manageStateDuringRequest(
             mutableState = currentPokemonList,
             request = {
-                useCase.getPokemonList(filteredTypes, filteredRange.value, selectedGenerations)
+                useCase.getPokemonList(
+                    selectedTypes,
+                    selectedGeneration.value,
+                    selectedIdRange.value,
+                    selectedSort.value,
+                )
             },
             onSuccess = { pokemonList ->
-                if (filteredTypes.isEmpty() && filteredRange.value == 0f..0f && selectedGenerations.isEmpty()) {
+                if (selectedTypes.isEmpty() && selectedIdRange.value == null && selectedGeneration.value == 0) {
                     fullPokemonList = pokemonList
-                    if (filteredRange.value == 0f..0f) {
-                        maxRange.value = 1f..pokemonList.maxOf { it.id }.toFloat()
-                        filteredRange.value = maxRange.value
-                    }
+                    fullIdRange.value = 1f..pokemonList.maxOf { it.id }.toFloat()
+                    selectedIdRange.value = fullIdRange.value
                 }
             },
         )
@@ -106,21 +108,21 @@ internal class PokedexViewModel(
         showGenerationBottomSheet.value = false
     }
 
-    fun isPokemonTypeFilterIconFilled(type: PokemonType) = filteredTypes.contains(type)
+    fun isPokemonTypeFilterIconFilled(type: PokemonType) = selectedTypes.contains(type)
 
     fun onPokemonTypeFilterIconClick(type: PokemonType) {
-        filteredTypes.apply {
+        selectedTypes.apply {
             if (contains(type)) remove(type) else add(type)
         }
     }
 
     fun onRangeFilterUpdate(range: ClosedFloatingPointRange<Float>) {
-        filteredRange.value = range
+        selectedIdRange.value = range
     }
 
     fun onPokemonTypeFilterResetClick() {
-        filteredTypes.clear()
-        filteredRange.value = maxRange.value
+        selectedTypes.clear()
+        selectedIdRange.value = fullIdRange.value
     }
 
     fun onPokemonTypeFilterApplyClick() {
@@ -129,27 +131,20 @@ internal class PokedexViewModel(
     }
 
     fun onPokemonSortClick(sort: Sort) {
-        currentSort.value = sort
+        selectedSort.value = sort
         val currentList = currentPokemonList.getAsSuccessState<List<Pokemon>>()?.data
-        val result = when (sort) {
-            Sort.SmallestNumberFirst -> currentList?.sortedBy { it.id }
-            Sort.HighestNumberFirst -> currentList?.sortedByDescending { it.id }
-            Sort.AtoZ -> currentList?.sortedBy { it.name }
-            Sort.ZtoA -> currentList?.sortedByDescending { it.name }
-        }
-        currentPokemonList.value = State.Success(result)
+        if (currentList != null)
+            currentPokemonList.value = State.Success(useCase.sort(currentList, sort))
     }
 
     fun isSortButtonEnabled(sort: Sort) =
-        if (currentSort.value == sort) PokedexButtonStyle.Primary else PokedexButtonStyle.Secondary
+        if (selectedSort.value == sort) PokedexButtonStyle.Primary else PokedexButtonStyle.Secondary
 
     fun onPokemonGenerationClick(generation: Int) {
-        selectedGenerations.apply {
-            if (contains(generation)) remove(generation) else add(generation)
-        }
+        selectedGeneration.value = if (selectedGeneration.value == generation) 0 else generation
         getPokemonList()
     }
 
     fun isGenerationButtonEnabled(generation: Int) =
-        if (selectedGenerations.contains(generation)) PokedexButtonStyle.Primary else PokedexButtonStyle.Secondary
+        if (selectedGeneration.value == generation) PokedexButtonStyle.Primary else PokedexButtonStyle.Secondary
 }

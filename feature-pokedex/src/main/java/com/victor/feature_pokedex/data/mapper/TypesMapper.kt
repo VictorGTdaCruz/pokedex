@@ -15,5 +15,5 @@ internal fun List<NameAndUrlResponse>?.toPokemonTypeDomain() =
 internal fun NameAndUrlResponse?.toPokemonTypeDomain() =
     PokemonType(
         name = this?.name.orEmpty(),
-        id = IdMapper.fromTypeUrl(this?.url)
+        id = IdMapper.mapIdFromUrl(this?.url)
     )

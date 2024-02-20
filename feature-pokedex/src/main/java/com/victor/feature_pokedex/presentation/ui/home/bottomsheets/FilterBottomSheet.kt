@@ -84,8 +84,8 @@ internal fun FilterBottomSheet(viewModel: PokedexViewModel) {
                 modifier = Modifier.padding(horizontal = 24.dp),
             )
             RangeSlider(
-                value = viewModel.filteredRange.value,
-                valueRange = viewModel.maxRange.value,
+                value = viewModel.selectedIdRange.value ?: 0f..0f,
+                valueRange = viewModel.fullIdRange.value ?: 0f..0f,
                 onValueChange = { viewModel.onRangeFilterUpdate(it) },
                 modifier = Modifier.padding(horizontal = 24.dp),
                 colors = SliderDefaults.colors(
