@@ -12,7 +12,7 @@ internal class PokedexUseCase(
     companion object {
         private val VALID_TYPE_ID_RANGE = 1 until 9999
         private val VALID_POKEMON_ID_RANGE = 1 until 9999
-        internal val SELECTABLE_POKEMON_GENERATION_RANGE = 1 until 8
+        internal val SELECTABLE_POKEMON_GENERATION_RANGE = 1 .. 8
         private const val POKEMON_LIST_OFFSET = 0
         private const val POKEMON_LIST_LIMIT = 9999
     }
