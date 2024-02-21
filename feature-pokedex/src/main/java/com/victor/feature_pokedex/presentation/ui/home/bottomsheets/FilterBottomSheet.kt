@@ -5,9 +5,13 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.statusBars
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.shape.CircleShape
@@ -43,6 +47,10 @@ internal fun FilterBottomSheet(viewModel: PokedexViewModel) {
         onDismissRequest = { viewModel.onDismissBottomSheet() },
         sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true),
         containerColor = Color.White,
+        windowInsets = WindowInsets(
+            top = WindowInsets.navigationBars.asPaddingValues().calculateTopPadding(),
+            bottom = WindowInsets.statusBars.asPaddingValues().calculateBottomPadding()
+        ),
         content = {
             Text(
                 text = stringResource(id = R.string.pokedex_filter_title),
@@ -99,7 +107,7 @@ internal fun FilterBottomSheet(viewModel: PokedexViewModel) {
             Row(
                 modifier = Modifier
                     .align(CenterHorizontally)
-                    .padding(start = 24.dp, end = 24.dp, bottom = 48.dp)
+                    .padding(start = 24.dp, end = 24.dp, bottom = 36.dp)
             ) {
                 PokedexButton(
                     text = stringResource(id = R.string.pokedex_filter_type_reset_button),
@@ -115,6 +123,7 @@ internal fun FilterBottomSheet(viewModel: PokedexViewModel) {
                     modifier = Modifier.weight(1f)
                 )
             }
+            Spacer(modifier = Modifier.height(WindowInsets.navigationBars.asPaddingValues().calculateBottomPadding()))
         }
     )
 }

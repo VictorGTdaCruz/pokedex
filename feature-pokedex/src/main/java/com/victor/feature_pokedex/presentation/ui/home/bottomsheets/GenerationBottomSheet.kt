@@ -2,8 +2,12 @@ package com.victor.feature_pokedex.presentation.ui.home.bottomsheets
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.statusBars
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -29,6 +33,10 @@ internal fun GenerationBottomSheet(viewModel: PokedexViewModel) {
         onDismissRequest = { viewModel.onDismissBottomSheet() },
         sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true),
         containerColor = Color.White,
+        windowInsets = WindowInsets(
+            top = WindowInsets.navigationBars.asPaddingValues().calculateTopPadding(),
+            bottom = WindowInsets.statusBars.asPaddingValues().calculateBottomPadding()
+        ),
         content = {
             Text(
                 text = stringResource(id = R.string.pokedex_generation_title),
@@ -59,7 +67,9 @@ internal fun GenerationBottomSheet(viewModel: PokedexViewModel) {
                 },
                 modifier = Modifier.padding(horizontal = 24.dp)
             )
-            Spacer(modifier = Modifier.height(48.dp))
+            Spacer(modifier = Modifier.height(
+                36.dp + WindowInsets.navigationBars.asPaddingValues().calculateBottomPadding())
+            )
         }
     )
 }

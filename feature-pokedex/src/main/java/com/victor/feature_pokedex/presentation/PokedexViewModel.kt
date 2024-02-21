@@ -50,7 +50,7 @@ internal class PokedexViewModel(
                 )
             },
             onSuccess = { pokemonList ->
-                if (selectedTypes.isEmpty() && selectedIdRange.value == null && selectedGeneration.value == 0) {
+                if (selectedTypes.isEmpty() && selectedIdRange.value == null && selectedGeneration.value == null) {
                     fullPokemonList = pokemonList
                     fullIdRange.value = 1f..pokemonList.maxOf { it.id }.toFloat()
                     selectedIdRange.value = fullIdRange.value
