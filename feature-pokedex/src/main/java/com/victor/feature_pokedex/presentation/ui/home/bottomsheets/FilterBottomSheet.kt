@@ -29,11 +29,11 @@ import com.victor.feature_pokedex.R
 import com.victor.feature_pokedex.domain.model.PokemonType
 import com.victor.feature_pokedex.presentation.PokedexViewModel
 import com.victor.feature_pokedex.presentation.ui.components.PokemonTypeIcon
-import com.victor.features_common.ObserveState
 import com.victor.features_common.components.PokedexButton
 import com.victor.features_common.components.PokedexButtonStyle
 import com.victor.features_common.components.PokedexTextStyle
 import com.victor.features_common.components.PokedexTextStyle.bold
+import com.victor.features_common.observeStateInsideLazyList
 import com.victor.features_common.theme.Red
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -62,9 +62,9 @@ internal fun FilterBottomSheet(viewModel: PokedexViewModel) {
                 color = Color.Black,
                 modifier = Modifier.padding(horizontal = 24.dp),
             )
-            ObserveState<List<PokemonType>>(state = viewModel.pokemonTypes) { typeList ->
-                LazyRow {
-                    item { Spacer(modifier = Modifier.width(16.dp)) }
+            LazyRow {
+                item { Spacer(modifier = Modifier.width(16.dp)) }
+                observeStateInsideLazyList<List<PokemonType>>(state = viewModel.pokemonTypes) { typeList ->
                     items(typeList.size) { index ->
                         val type = typeList[index]
                         PokemonTypeIcon(
@@ -73,8 +73,8 @@ internal fun FilterBottomSheet(viewModel: PokedexViewModel) {
                             onClick = { viewModel.onPokemonTypeFilterIconClick(it) },
                         )
                     }
-                    item { Spacer(modifier = Modifier.width(24.dp)) }
                 }
+                item { Spacer(modifier = Modifier.width(24.dp)) }
             }
             Spacer(modifier = Modifier.height(24.dp))
             Text(

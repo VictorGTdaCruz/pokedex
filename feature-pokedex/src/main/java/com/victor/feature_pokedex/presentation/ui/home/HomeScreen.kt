@@ -1,5 +1,8 @@
 package com.victor.feature_pokedex.presentation.ui.home
 
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.slideInVertically
+import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -11,19 +14,24 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyListState
+import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.derivedStateOf
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment.Companion.BottomCenter
+import androidx.compose.ui.Alignment.Companion.BottomEnd
 import androidx.compose.ui.Alignment.Companion.Center
 import androidx.compose.ui.Alignment.Companion.CenterEnd
 import androidx.compose.ui.Modifier
@@ -50,70 +58,62 @@ import com.victor.feature_pokedex.presentation.ui.theme.PokedexBlue
 import com.victor.feature_pokedex.presentation.ui.utils.TypeColorHelper
 import com.victor.feature_pokedex.presentation.ui.utils.formatPokedexNumber
 import com.victor.feature_pokedex.presentation.ui.utils.formatPokemonName
-import com.victor.features_common.ObserveState
 import com.victor.features_common.components.PokedexTextStyle
 import com.victor.features_common.components.PokedexTextStyle.bold
+import com.victor.features_common.observeStateInsideLazyList
+import com.victor.features_common.theme.LightGray
+import kotlinx.coroutines.launch
 
 @Composable
 internal fun HomeScreenBody(viewModel: PokedexViewModel) {
-    Box{
-        Image(
-            modifier = Modifier.fillMaxSize(),
-            painter = painterResource(R.drawable.home_toolbar_background),
-            contentDescription = "background_image",
-            contentScale = ContentScale.FillBounds
-        )
-        Scaffold(
-            containerColor = Color.White,
-            topBar = {
-                HomeAppBar(
-                    onFilterClick = { viewModel.onFilterIconClick() },
-                    onSortClick = { viewModel.onSortIconClick() },
-                    onGenerationClick = { viewModel.onGenerationIconClick() }
-                )
-            }
+    val scrollState = rememberLazyListState()
+    with(viewModel) {
+        LaunchedEffect(Unit) {
+            getPokemonList()
+            getPokemonTypes()
+        }
+
+
+        LazyColumn(
+            state = scrollState
         ) {
-            with(viewModel) {
-                LaunchedEffect(Unit) {
-                    getPokemonList()
-                    getPokemonTypes()
-                }
-
-                Column(
-                    modifier = Modifier.padding(it)
-                ) {
+            item {
+                Column {
+                    HomeAppBar(
+                        onFilterClick = { onFilterIconClick() },
+                        onSortClick = { onSortIconClick() },
+                        onGenerationClick = { onGenerationIconClick() }
+                    )
                     PokemonSearchTextField(viewModel)
-                    ObserveState<List<Pokemon>>(state = currentPokemonList) { pokemonList ->
-                        LazyColumn(modifier = Modifier.weight(1f)) {
-                            items(pokemonList.count()) {
-                                val pokemon = pokemonList[it]
-                                val pokemonDetails = pokemonDetails[pokemon.id]
-
-                                if (pokemonDetails == null) {
-                                    PokemonCardLoading()
-                                    LaunchedEffect(pokemon.id) {
-                                        getPokemonDetails(pokemon.id)
-                                    }
-                                } else {
-                                    PokemonCard(pokemonDetails)
-                                }
-                            }
-                            item {
-                                Spacer(modifier = Modifier.height(32.dp))
-                            }
+                }
+            }
+            observeStateInsideLazyList<List<Pokemon>>(state = currentPokemonList) { pokemonList ->
+                items(pokemonList.count()) {
+                    val pokemon = pokemonList[it]
+                    val pokemonDetails = pokemonDetails[pokemon.id]
+                    if (pokemonDetails == null) {
+                        PokemonCardLoading()
+                        LaunchedEffect(pokemon.id) {
+                            getPokemonDetails(pokemon.id)
                         }
+                    } else {
+                        PokemonCard(pokemonDetails)
                     }
                 }
-
-                if (viewModel.showFilterBottomSheet.value) FilterBottomSheet(viewModel = this)
-                if (viewModel.showSortBottomSheet.value) SortBottomSheet(viewModel = this)
-                if (viewModel.showGenerationBottomSheet.value) GenerationBottomSheet(viewModel = this)
+            }
+            item {
+                Spacer(modifier = Modifier.height(32.dp))
             }
         }
+
+        scrollToTopFAB(scrollState)
+
+        if (showFilterBottomSheet.value) FilterBottomSheet(viewModel = this)
+        if (showSortBottomSheet.value) SortBottomSheet(viewModel = this)
+        if (showGenerationBottomSheet.value) GenerationBottomSheet(viewModel = this)
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun PokemonSearchTextField(viewModel: PokedexViewModel) {
     TextField(
@@ -134,14 +134,16 @@ private fun PokemonSearchTextField(viewModel: PokedexViewModel) {
                 tint = Color.Gray
             )
         },
-        colors = TextFieldDefaults.textFieldColors(
+        colors = TextFieldDefaults.colors(
             focusedIndicatorColor = Color.Transparent,
             unfocusedIndicatorColor = Color.Transparent,
-            disabledIndicatorColor = Color.Transparent
+            disabledIndicatorColor = Color.Transparent,
+            unfocusedContainerColor = LightGray,
+            focusedContainerColor = LightGray
         ),
         modifier = Modifier
             .fillMaxWidth()
-            .padding(horizontal = 24.dp, vertical = 8.dp)
+            .padding(start = 24.dp, end = 24.dp, bottom = 8.dp)
             .clip(RoundedCornerShape(12.dp))
     )
 }
@@ -251,6 +253,42 @@ private fun PokemonDetailsColumn(
                         iconSize = 14.dp,
                     )
                 }
+            }
+        }
+    }
+}
+
+@Composable
+fun scrollToTopFAB(scrollState: LazyListState) {
+    Box(
+        Modifier.fillMaxSize()
+    ) {
+        AnimatedVisibility(
+            visible = derivedStateOf { scrollState.firstVisibleItemIndex }.value > 1,
+            enter = slideInVertically(
+                initialOffsetY = { 300 }
+            ),
+            exit = slideOutVertically(
+                targetOffsetY = { 300 }
+            ),
+            modifier = Modifier
+                .align(BottomEnd)
+                .padding(24.dp)
+        ) {
+            val scope = rememberCoroutineScope()
+            FloatingActionButton(
+                shape = CircleShape,
+                containerColor = Color.White,
+                onClick = {
+                    scope.launch {
+                        scrollState.animateScrollToItem(0)
+                    }
+                },
+            ) {
+                Image(
+                    painter = painterResource(R.drawable.baseline_keyboard_arrow_up_24),
+                    contentDescription = null
+                )
             }
         }
     }

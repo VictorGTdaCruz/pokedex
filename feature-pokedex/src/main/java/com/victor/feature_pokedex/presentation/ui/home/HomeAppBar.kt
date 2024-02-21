@@ -4,7 +4,6 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -15,7 +14,6 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -34,15 +32,12 @@ internal fun HomeAppBar(
     onGenerationClick: () -> Unit = {}
 ) {
     Box (
-        modifier = Modifier
-            .fillMaxWidth()
-            .height(150.dp)
+        modifier = Modifier.fillMaxWidth()
     ) {
         Image(
             modifier = Modifier.fillMaxWidth(),
             painter = painterResource(R.drawable.home_toolbar_background),
             contentDescription = "background_image",
-            contentScale = ContentScale.Crop
         )
         LargeTopAppBar(
             colors = TopAppBarDefaults.largeTopAppBarColors(
@@ -81,11 +76,11 @@ internal fun HomeAppBar(
                 ) {
                     Text(
                         text = stringResource(id = R.string.home_screen_title),
-                        style = PokedexTextStyle.subtitle.bold().noColor()
+                        style = PokedexTextStyle.title.bold().noColor()
                     )
                     Text(
                         text = stringResource(id = R.string.home_screen_subtitle),
-                        style = PokedexTextStyle.body.noColor(),
+                        style = PokedexTextStyle.body,
                         lineHeight = 14.sp,
                     )
                 }
