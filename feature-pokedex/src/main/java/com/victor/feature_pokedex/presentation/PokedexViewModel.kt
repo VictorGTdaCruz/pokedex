@@ -141,7 +141,7 @@ internal class PokedexViewModel(
         if (selectedSort.value == sort) PokedexButtonStyle.Primary else PokedexButtonStyle.Secondary
 
     fun onPokemonGenerationClick(generation: Int) {
-        selectedGeneration.value = if (selectedGeneration.value == generation) 0 else generation
+        selectedGeneration.value = if (selectedGeneration.value == generation) null else generation
         getPokemonList()
     }
 

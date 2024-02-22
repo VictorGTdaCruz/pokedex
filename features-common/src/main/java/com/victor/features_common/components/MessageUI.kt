@@ -44,19 +44,13 @@ fun MessageUI(
             modifier = Modifier.padding(16.dp)
         )
         if (reload != null)
-            Button(
+            PokedexButton(
+                text = stringResource(id = R.string.error_button),
                 onClick = reload,
-                colors = ButtonDefaults.buttonColors(Color(0xFF3B4CCA)), // TODO fix this
                 modifier = Modifier
                     .padding(8.dp)
                     .align(Alignment.CenterHorizontally)
-            ) {
-                Text(
-                    text = stringResource(id = R.string.error_button),
-                    style = PokedexTextStyle.body,
-                    color = Color.White
-                )
-            }
+            )
     }
 }
 
