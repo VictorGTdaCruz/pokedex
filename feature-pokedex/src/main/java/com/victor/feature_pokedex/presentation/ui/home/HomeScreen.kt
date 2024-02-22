@@ -4,7 +4,9 @@ import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -40,6 +42,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.rememberImagePainter
@@ -74,39 +77,46 @@ internal fun HomeScreenBody(viewModel: PokedexViewModel) {
         }
 
 
-        LazyColumn(
-            state = scrollState
+        Box(
+            modifier = Modifier.fillMaxSize().background(Color.White)
         ) {
-            item {
-                Column {
-                    HomeAppBar(
-                        onFilterClick = { onFilterIconClick() },
-                        onSortClick = { onSortIconClick() },
-                        onGenerationClick = { onGenerationIconClick() }
-                    )
-                    PokemonSearchTextField(viewModel)
-                }
-            }
-            observeStateInsideLazyList<List<Pokemon>>(state = currentPokemonList) { pokemonList ->
-                items(pokemonList.count()) {
-                    val pokemon = pokemonList[it]
-                    val pokemonDetails = pokemonDetails[pokemon.id]
-                    if (pokemonDetails == null) {
-                        PokemonCardLoading()
-                        LaunchedEffect(pokemon.id) {
-                            getPokemonDetails(pokemon.id)
-                        }
-                    } else {
-                        PokemonCard(pokemonDetails)
+            LazyColumn(
+                state = scrollState
+            ) {
+                item {
+                    Column {
+                        HomeAppBar(
+                            onFilterClick = { onFilterIconClick() },
+                            onSortClick = { onSortIconClick() },
+                            onGenerationClick = { onGenerationIconClick() }
+                        )
+                        PokemonSearchTextField(viewModel)
                     }
                 }
+                observeStateInsideLazyList<List<Pokemon>>(
+                    state = currentPokemonList,
+                    onRetry = { getPokemonList() }
+                ) { pokemonList ->
+                    items(pokemonList.count()) {
+                        val pokemon = pokemonList[it]
+                        val pokemonDetails = pokemonDetails[pokemon.id]
+                        if (pokemonDetails == null) {
+                            PokemonCardLoading()
+                            LaunchedEffect(pokemon.id) {
+                                getPokemonDetails(pokemon.id)
+                            }
+                        } else {
+                            PokemonCard(pokemonDetails)
+                        }
+                    }
+                }
+                item {
+                    Spacer(modifier = Modifier.height(32.dp))
+                }
             }
-            item {
-                Spacer(modifier = Modifier.height(32.dp))
-            }
-        }
 
-        scrollToTopFAB(scrollState)
+            scrollToTopFAB(scrollState)
+        }
 
         if (showFilterBottomSheet.value) FilterBottomSheet(viewModel = this)
         if (showSortBottomSheet.value) SortBottomSheet(viewModel = this)
@@ -124,7 +134,9 @@ private fun PokemonSearchTextField(viewModel: PokedexViewModel) {
             Text(
                 text = stringResource(id = R.string.search_placeholder),
                 color = Color.Gray,
-                style = PokedexTextStyle.body
+                overflow = TextOverflow.Ellipsis,
+                maxLines = 1,
+                style = PokedexTextStyle.body,
             )
         },
         leadingIcon = {
@@ -259,37 +271,33 @@ private fun PokemonDetailsColumn(
 }
 
 @Composable
-fun scrollToTopFAB(scrollState: LazyListState) {
-    Box(
-        Modifier.fillMaxSize()
+fun BoxScope.scrollToTopFAB(scrollState: LazyListState) {
+    AnimatedVisibility(
+        visible = derivedStateOf { scrollState.firstVisibleItemIndex }.value > 1,
+        enter = slideInVertically(
+            initialOffsetY = { 300 }
+        ),
+        exit = slideOutVertically(
+            targetOffsetY = { 300 }
+        ),
+        modifier = Modifier
+            .align(BottomEnd)
+            .padding(24.dp)
     ) {
-        AnimatedVisibility(
-            visible = derivedStateOf { scrollState.firstVisibleItemIndex }.value > 1,
-            enter = slideInVertically(
-                initialOffsetY = { 300 }
-            ),
-            exit = slideOutVertically(
-                targetOffsetY = { 300 }
-            ),
-            modifier = Modifier
-                .align(BottomEnd)
-                .padding(24.dp)
+        val scope = rememberCoroutineScope()
+        FloatingActionButton(
+            shape = CircleShape,
+            containerColor = Color.White,
+            onClick = {
+                scope.launch {
+                    scrollState.animateScrollToItem(0)
+                }
+            },
         ) {
-            val scope = rememberCoroutineScope()
-            FloatingActionButton(
-                shape = CircleShape,
-                containerColor = Color.White,
-                onClick = {
-                    scope.launch {
-                        scrollState.animateScrollToItem(0)
-                    }
-                },
-            ) {
-                Image(
-                    painter = painterResource(R.drawable.baseline_keyboard_arrow_up_24),
-                    contentDescription = null
-                )
-            }
+            Image(
+                painter = painterResource(R.drawable.baseline_keyboard_arrow_up_24),
+                contentDescription = null
+            )
         }
     }
 }
