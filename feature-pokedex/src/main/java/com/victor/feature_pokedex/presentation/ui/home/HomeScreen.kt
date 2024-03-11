@@ -5,10 +5,10 @@ import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -53,29 +53,25 @@ import com.victor.feature_pokedex.domain.model.PokemonSprite
 import com.victor.feature_pokedex.domain.model.PokemonType
 import com.victor.feature_pokedex.domain.model.PokemonTypeWithSlot
 import com.victor.feature_pokedex.presentation.PokedexViewModel
-import com.victor.feature_pokedex.presentation.ui.components.PokemonTypeBadge
+import com.victor.feature_pokedex.presentation.ui.components.PokemonDetailsColumn
 import com.victor.feature_pokedex.presentation.ui.home.bottomsheets.FilterBottomSheet
 import com.victor.feature_pokedex.presentation.ui.home.bottomsheets.GenerationBottomSheet
 import com.victor.feature_pokedex.presentation.ui.home.bottomsheets.SortBottomSheet
 import com.victor.feature_pokedex.presentation.ui.theme.PokedexBlue
 import com.victor.feature_pokedex.presentation.ui.utils.TypeColorHelper
-import com.victor.feature_pokedex.presentation.ui.utils.formatPokedexNumber
-import com.victor.feature_pokedex.presentation.ui.utils.formatPokemonName
 import com.victor.features_common.components.PokedexTextStyle
-import com.victor.features_common.components.PokedexTextStyle.bold
 import com.victor.features_common.observeStateInsideLazyList
 import com.victor.features_common.theme.LightGray
 import kotlinx.coroutines.launch
 
 @Composable
-internal fun HomeScreenBody(viewModel: PokedexViewModel) {
+internal fun HomeScreenBody(viewModel: PokedexViewModel, onPokemonClick: (Long) -> Unit) {
     val scrollState = rememberLazyListState()
     with(viewModel) {
         LaunchedEffect(Unit) {
             getPokemonList()
             getPokemonTypes()
         }
-
 
         Box(
             modifier = Modifier.fillMaxSize().background(Color.White)
@@ -106,7 +102,7 @@ internal fun HomeScreenBody(viewModel: PokedexViewModel) {
                                 getPokemonDetails(pokemon.id)
                             }
                         } else {
-                            PokemonCard(pokemonDetails)
+                            PokemonCard(pokemonDetails, onPokemonClick)
                         }
                     }
                 }
@@ -185,7 +181,7 @@ private fun PokemonCardLoading() {
 }
 
 @Composable
-private fun PokemonCard(pokemonDetails: PokemonDetails) {
+private fun PokemonCard(pokemonDetails: PokemonDetails, onPokemonClick: (Long) -> Unit) {
     Box (
         modifier = Modifier.padding(horizontal = 24.dp, vertical = 2.dp)
     ) {
@@ -201,6 +197,7 @@ private fun PokemonCard(pokemonDetails: PokemonDetails) {
                 .padding(top = 24.dp)
                 .align(BottomCenter)
                 .fillMaxWidth()
+                .clickable { onPokemonClick.invoke(pokemonDetails.id) }
         ) {
             Box(
                 modifier = Modifier.fillMaxWidth()
@@ -231,42 +228,6 @@ private fun PokemonCard(pokemonDetails: PokemonDetails) {
                 .padding(bottom = 8.dp, end = 8.dp)
                 .align(CenterEnd)
         )
-    }
-}
-
-@Composable
-private fun PokemonDetailsColumn(
-    pokemonDetails: PokemonDetails,
-    modifier: Modifier = Modifier
-) {
-    Column(
-        modifier = modifier
-    ) {
-        Text(
-            text = pokemonDetails.id.formatPokedexNumber(),
-            style = PokedexTextStyle.description.bold(),
-            color = Color.DarkGray,
-        )
-        Text(
-            text = pokemonDetails.name.formatPokemonName(),
-            style = PokedexTextStyle.subtitle.bold(),
-            color = Color.White,
-        )
-        Row {
-            pokemonDetails.types.forEach {
-                Box(
-                    modifier = Modifier.padding(end = 6.dp, top = 4.dp)
-                ) {
-                    PokemonTypeBadge(
-                        type = PokemonType(
-                            id = it.type.id,
-                            name = it.type.name
-                        ),
-                        iconSize = 14.dp,
-                    )
-                }
-            }
-        }
     }
 }
 
@@ -319,7 +280,7 @@ private fun Preview() {
                 sprites = PokemonSprite("", ""),
                 stats = listOf()
             )
-            PokemonCard(pokemonDetails = pokemonDetails)
+            PokemonCard(pokemonDetails = pokemonDetails, onPokemonClick = {})
         }
     }
 }
