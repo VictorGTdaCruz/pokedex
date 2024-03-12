@@ -4,6 +4,7 @@ import com.victor.feature_pokedex.data.model.GenerationResponse
 import com.victor.feature_pokedex.data.model.NameAndUrlResponse
 import com.victor.feature_pokedex.data.model.PagedResponse
 import com.victor.feature_pokedex.data.model.PokemonDetailsResponse
+import com.victor.feature_pokedex.data.model.SpeciesResponse
 import com.victor.feature_pokedex.data.model.TypeDetailsResponse
 import retrofit2.http.GET
 import retrofit2.http.Path
@@ -28,4 +29,7 @@ internal interface PokedexGateway {
 
     @GET("generation/{generation}")
     suspend fun getPokemonListByGeneration(@Path("generation") generation: Int): GenerationResponse
+
+    @GET("pokemon-species/{id}")
+    suspend fun getPokemonSpecies(@Path("id") pokemonId: Long): SpeciesResponse
 }

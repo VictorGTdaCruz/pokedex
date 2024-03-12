@@ -34,4 +34,27 @@
     <string name="content_description_back_button">Back button</string>
     <string name="content_description_type_icon">Pokémon type icon</string>
     <string name="content_description_pokemon_image">Pokémon image</string>
+
+    <string name="about_tab_pokedex_data">Pokédex Data</string>
+    <string name="about_tab_species">Species</string>
+    <string name="about_tab_height">Height</string>
+    <string name="about_tab_height_in_meters">%1s m</string>
+    <string name="about_tab_weight">Weight</string>
+    <string name="about_tab_weight_in_kilograms">%1s kg</string>
+    <string name="about_tab_abilities">Abilities</string>
+    <string name="about_tab_weakness">Weakness</string>
+    <string name="about_tab_training">Training</string>
+    <string name="about_tab_ev_yield">EV Yield</string>
+    <string name="about_tab_catch_rate">Catch Rate</string>
+    <string name="about_tab_catch_rate_with_pokeball">"(%1s%% with PokéBall, full HP)"</string>
+    <string name="about_tab_base_friendship">Base Friendship</string>
+    <string name="about_tab_base_xp">Base Exp</string>
+    <string name="about_tab_growth_rate">Growth Rate</string>
+    <string name="about_tab_breeding">Breeding</string>
+    <string name="about_tab_gender">Gender</string>
+    <string name="about_tab_gender_male">♂%1s%%</string>
+    <string name="about_tab_gender_female">♀%1s%%</string>
+    <string name="about_tab_egg_groups">Egg Groups</string>
+    <string name="about_tab_egg_cycles">Egg Cycles</string>
+    <string name="about_tab_egg_cycles_in_steps">(%1s steps)</string>
 </resources>

@@ -3,6 +3,8 @@ package com.victor.feature_pokedex.presentation.ui.details
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.gestures.Orientation
+import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -13,7 +15,9 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -38,6 +42,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import coil.compose.rememberImagePainter
 import com.victor.feature_pokedex.R
+import com.victor.feature_pokedex.domain.model.PokemonSpecies
 import com.victor.feature_pokedex.presentation.PokedexViewModel
 import com.victor.feature_pokedex.presentation.ui.components.PokemonDetailsColumn
 import com.victor.feature_pokedex.presentation.ui.details.tabs.aboutTab
@@ -46,19 +51,24 @@ import com.victor.feature_pokedex.presentation.ui.details.tabs.statsTab
 import com.victor.feature_pokedex.presentation.ui.utils.TypeColorHelper
 import com.victor.features_common.components.PokedexTextStyle
 import com.victor.features_common.components.PokedexTextStyle.bold
+import com.victor.features_common.observeState
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
 @Composable
 internal fun DetailsScreenBody(navController: NavController, viewModel: PokedexViewModel, pokemonId: Long) {
     val pokemonDetails = viewModel.pokemonDetails[pokemonId]
-    val tabs = listOf(
-        PokedexTabItem("About") { aboutTab(pokemonDetails = pokemonDetails) },
-        PokedexTabItem("Stats") { statsTab(pokemonDetails = pokemonDetails) },
-        PokedexTabItem("Evolution") { evolutionTab(pokemonDetails = pokemonDetails) },
-    )
+    val tabs = listOf("About", "Stats", "Evolution")
+//    val tabs = listOf(
+//        PokedexTabItem("About") { aboutTab(pokemonDetails = pokemonDetails) },
+//        PokedexTabItem("Stats") { statsTab(pokemonDetails = pokemonDetails) },
+//        PokedexTabItem("Evolution") { evolutionTab(pokemonDetails = pokemonDetails) },
+//    )
     var selectedTabIndex by remember { mutableStateOf(0) }
     val pagerState = rememberPagerState { tabs.size }
 
+    LaunchedEffect(Unit) {
+        viewModel.getPokemonSpecies(pokemonId)
+    }
     LaunchedEffect(selectedTabIndex) {
         pagerState.animateScrollToPage(selectedTabIndex)
     }
@@ -70,10 +80,11 @@ internal fun DetailsScreenBody(navController: NavController, viewModel: PokedexV
     Column(
         Modifier
             .fillMaxSize()
+            .verticalScroll(rememberScrollState())
             .background(TypeColorHelper.findBackground(pokemonDetails?.types?.first()?.type?.id))
     ) {
         TopAppBar(
-            colors = TopAppBarDefaults.largeTopAppBarColors(
+            colors = TopAppBarDefaults.topAppBarColors(
                 containerColor = Color.Transparent,
             ),
             navigationIcon = {
@@ -124,7 +135,7 @@ internal fun DetailsScreenBody(navController: NavController, viewModel: PokedexV
                     selected = selectedTabIndex == index,
                     text = {
                         Text(
-                            text = item.name,
+                            text = item,
                             color = Color.White,
                             style = if (index == selectedTabIndex)
                                 PokedexTextStyle.body.bold()
@@ -139,21 +150,31 @@ internal fun DetailsScreenBody(navController: NavController, viewModel: PokedexV
             }
         }
 
-        HorizontalPager(
-            state = pagerState,
-            modifier = Modifier.fillMaxSize()
-        ) { index ->
-            Box(
-                modifier = Modifier
-                    .background(
-                        Color.White,
-                        shape = RoundedCornerShape(topStart = 24.dp, topEnd = 24.dp)
-                    )
-                    .fillMaxSize()
-            ) {
-                tabs[index].content.invoke()
+        observeState<PokemonSpecies>(
+            state = viewModel.pokemonSpecies,
+            onSuccess = {
+                Box(
+                    modifier = Modifier
+                        .background(
+                            Color.White,
+                            shape = RoundedCornerShape(topStart = 24.dp, topEnd = 24.dp)
+                        )
+                        .fillMaxSize()
+                ) {
+                    HorizontalPager(
+                        state = pagerState,
+                        modifier = Modifier.fillMaxSize()
+                    ) { index ->
+
+                        when (index) {
+                            0 -> aboutTab(pokemonDetails = pokemonDetails, pokemonSpecies = it)
+                            1 -> statsTab(pokemonDetails = pokemonDetails)
+                            2 -> evolutionTab(pokemonDetails = pokemonDetails)
+                        }
+                    }
+                }
             }
-        }
+        )
     }
 }
 

@@ -27,4 +27,8 @@ internal class PokedexInfrastructure(private val api: PokedexGateway) : PokedexS
     override suspend fun getPokemonListByGeneration(generation: Int) = request {
         api.getPokemonListByGeneration(generation).toDomain()
     }
+
+    override suspend fun getPokemonSpecies(pokemonId: Long) = request {
+        api.getPokemonSpecies(pokemonId).toDomain()
+    }
 }

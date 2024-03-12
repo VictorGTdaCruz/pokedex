@@ -1,6 +1,7 @@
 package com.victor.feature_pokedex.domain
 
 import com.victor.feature_pokedex.domain.model.Pokemon
+import com.victor.feature_pokedex.domain.model.PokemonSpecies
 import com.victor.feature_pokedex.domain.model.PokemonType
 import com.victor.feature_pokedex.domain.service.PokedexService
 import com.victor.feature_pokedex.presentation.ui.home.bottomsheets.Sort
@@ -49,6 +50,12 @@ internal class PokedexUseCase(
     }
 
     suspend fun getPokemonDetails(pokemonId: Long) = infrastructure.getPokemonDetails(pokemonId)
+
+    suspend fun getPokemonSpecies(pokemonId: Long) = infrastructure.getPokemonSpecies(pokemonId).run {
+        val f = (255 * 4) / 12
+        captureProbability = (((captureRate + 1f) * (f + 1))/((255 + 1) * 256))
+        this
+    }
 
     suspend fun getPokemonTypes() =
         infrastructure.getPokemonTypes()

@@ -9,7 +9,9 @@ data class PokemonDetailsResponse(
     val weight: Int? = null,
     val types: List<PokemonTypeWithSlotResponse>? = null,
     val stats: List<PokemonStatsResponse>? = null,
-    val sprites: PokemonSpriteResponse? = null
+    val sprites: PokemonSpriteResponse? = null,
+    val abilities: List<PokemonAbilityResponse>? = null,
+    @SerializedName("base_experience") val baseXp: Int? = null,
 )
 
 data class PokemonTypeWithSlotResponse(
@@ -29,8 +31,14 @@ data class PokemonOtherSpritesResponse(
 data class PokemonOfficialArtworkSpriteResponse(
     @SerializedName("front_default") val frontDefault: String? = null
 )
+
 data class PokemonStatsResponse(
     val base_stat: Int? = null,
     val effort: Int? = null,
     val stat: NameAndUrlResponse? = null
+)
+
+data class PokemonAbilityResponse(
+    val ability: NameAndUrlResponse? = null,
+    @SerializedName("is_hidden") val isHidden: Boolean? = null
 )

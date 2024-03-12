@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.victor.feature_pokedex.domain.model.PokemonDetails
 import com.victor.feature_pokedex.presentation.ui.utils.TypeColorHelper
@@ -21,42 +22,49 @@ fun statsTab(pokemonDetails: PokemonDetails?) {
         Text(
             text = "Base Stats",
             color = TypeColorHelper.findBackground(pokemonDetails?.types?.first()?.type?.id),
-            style = PokedexTextStyle.body,
+            style = PokedexTextStyle.body.bold(),
         )
         Spacer(modifier = Modifier.height(12.dp))
         Text(
             text = "HP",
-            style = PokedexTextStyle.description.bold(),
+            color = Color.Black,
+            style = PokedexTextStyle.description,
         )
         Spacer(modifier = Modifier.height(8.dp))
         Text(
             text = "Attack",
-            style = PokedexTextStyle.description.bold(),
+            color = Color.Black,
+            style = PokedexTextStyle.description,
         )
         Spacer(modifier = Modifier.height(8.dp))
         Text(
             text = "Defense",
-            style = PokedexTextStyle.description.bold(),
+            color = Color.Black,
+            style = PokedexTextStyle.description,
         )
         Spacer(modifier = Modifier.height(8.dp))
         Text(
             text = "Sp. Attack",
-            style = PokedexTextStyle.description.bold(),
+            color = Color.Black,
+            style = PokedexTextStyle.description,
         )
         Spacer(modifier = Modifier.height(8.dp))
         Text(
             text = "Sp. Defense",
-            style = PokedexTextStyle.description.bold(),
+            color = Color.Black,
+            style = PokedexTextStyle.description,
         )
         Spacer(modifier = Modifier.height(8.dp))
         Text(
             text = "Speed",
-            style = PokedexTextStyle.description.bold(),
+            color = Color.Black,
+            style = PokedexTextStyle.description,
         )
         Spacer(modifier = Modifier.height(8.dp))
         Text(
             text = "Total",
-            style = PokedexTextStyle.description.bold(),
+            color = Color.Black,
+            style = PokedexTextStyle.description,
         )
         Spacer(modifier = Modifier.height(16.dp))
         Text(
@@ -67,7 +75,7 @@ fun statsTab(pokemonDetails: PokemonDetails?) {
         Text(
             text = "Type Defenses",
             color = TypeColorHelper.findBackground(pokemonDetails?.types?.first()?.type?.id),
-            style = PokedexTextStyle.body,
+            style = PokedexTextStyle.body.bold(),
         )
         Spacer(modifier = Modifier.height(12.dp))
         Text(

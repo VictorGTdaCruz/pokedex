@@ -38,6 +38,16 @@ internal class PokedexViewModel(
     var showGenerationBottomSheet = mutableStateOf(false)
     private val selectedGeneration = mutableStateOf<Int?>(null)
 
+    val pokemonSpecies = mutableStateOf<State>(State.Empty)
+
+    fun getPokemonSpecies(pokemonId: Long) {
+        manageStateDuringRequest(
+            mutableState = pokemonSpecies,
+        ) {
+            useCase.getPokemonSpecies(pokemonId)
+        }
+    }
+
     fun getPokemonList() {
         manageStateDuringRequest(
             mutableState = currentPokemonList,

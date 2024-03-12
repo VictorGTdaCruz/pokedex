@@ -278,7 +278,9 @@ private fun Preview() {
                     PokemonTypeWithSlot(slot = 1, PokemonType(id = 9, name = "steel"))
                 ),
                 sprites = PokemonSprite("", ""),
-                stats = listOf()
+                stats = listOf(),
+                abilities = emptyList(),
+                baseXp = 0
             )
             PokemonCard(pokemonDetails = pokemonDetails, onPokemonClick = {})
         }

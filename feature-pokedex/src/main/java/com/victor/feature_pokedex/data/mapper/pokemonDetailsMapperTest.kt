@@ -1,9 +1,11 @@
 package com.victor.feature_pokedex.data.mapper
 
+import com.victor.feature_pokedex.data.model.PokemonAbilityResponse
 import com.victor.feature_pokedex.data.model.PokemonDetailsResponse
 import com.victor.feature_pokedex.data.model.PokemonSpriteResponse
 import com.victor.feature_pokedex.data.model.PokemonStatsResponse
 import com.victor.feature_pokedex.data.model.PokemonTypeWithSlotResponse
+import com.victor.feature_pokedex.domain.model.PokemonAbility
 import com.victor.feature_pokedex.domain.model.PokemonDetails
 import com.victor.feature_pokedex.domain.model.PokemonSprite
 import com.victor.feature_pokedex.domain.model.PokemonStat
@@ -17,7 +19,9 @@ internal fun PokemonDetailsResponse.toDomain() =
         weight = weight ?: 0,
         types = types?.map { it.toDomain() } ?: emptyList(),
         stats = stats?.map { it.toDomain() } ?: emptyList(),
-        sprites = sprites.toDomain()
+        sprites = sprites.toDomain(),
+        abilities = abilities?.map { it.toDomain() } ?: emptyList(),
+        baseXp = baseXp ?: 0,
     )
 
 internal fun PokemonTypeWithSlotResponse.toDomain() =
@@ -36,4 +40,10 @@ internal fun PokemonStatsResponse?.toDomain() =
     PokemonStat(
         name = this?.stat?.name.orEmpty(),
         baseStat = this?.base_stat ?: 0
+    )
+
+internal fun PokemonAbilityResponse?.toDomain() =
+    PokemonAbility(
+        name = this?.ability?.name.orEmpty(),
+        isHidden = this?.isHidden ?: false
     )

@@ -7,7 +7,9 @@ data class PokemonDetails(
     val weight: Int,
     val types: List<PokemonTypeWithSlot>,
     val stats: List<PokemonStat>,
-    val sprites: PokemonSprite
+    val sprites: PokemonSprite,
+    val abilities: List<PokemonAbility>,
+    val baseXp: Int,
 )
 
 data class PokemonTypeWithSlot(
@@ -23,4 +25,9 @@ data class PokemonSprite(
 data class PokemonStat(
     val name: String,
     val baseStat: Int
+)
+
+data class PokemonAbility(
+    val name: String,
+    val isHidden: Boolean
 )
