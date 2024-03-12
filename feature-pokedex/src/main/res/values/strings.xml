@@ -38,9 +38,9 @@
     <string name="about_tab_pokedex_data">Pokédex Data</string>
     <string name="about_tab_species">Species</string>
     <string name="about_tab_height">Height</string>
-    <string name="about_tab_height_in_meters">%1s m</string>
+    <string name="about_tab_height_in_meters">%1sm</string>
     <string name="about_tab_weight">Weight</string>
-    <string name="about_tab_weight_in_kilograms">%1s kg</string>
+    <string name="about_tab_weight_in_kilograms">%1skg</string>
     <string name="about_tab_abilities">Abilities</string>
     <string name="about_tab_weakness">Weakness</string>
     <string name="about_tab_training">Training</string>

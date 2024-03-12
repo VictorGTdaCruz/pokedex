@@ -56,8 +56,8 @@ fun aboutTab(pokemonDetails: PokemonDetails?, pokemonSpecies: PokemonSpecies) {
                 modifier = Modifier.weight(weight = 0.7f)
             ) {
                 pokemonDetails?.abilities?.forEachIndexed { index, item ->
-                    Text(
-                        text = "${index + 1}. ${item.name.replaceFirstChar { it.titlecase(Locale.getDefault()) }} ${if(item.isHidden) " (hidden ability)" else ""}",
+                    Text( // TODO format correctly here
+                        text = "${index + 1}. ${item.name.replace("-", " ").replaceFirstChar { it.titlecase(Locale.getDefault()) }} ${if(item.isHidden) " (hidden ability)" else ""}",
                         style = if (index == 0)
                             PokedexTextStyle.body
                         else

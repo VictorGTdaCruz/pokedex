@@ -24,14 +24,14 @@ fun String.formatPokemonName() =
 @Composable
 fun Int?.formatPokemonHeight(): String {
     val heightInMeters = (this?.toFloat() ?: 0.0f) / 10
-    val heightInMetersFormatted = formatter.format(heightInMeters)
+    val heightInMetersFormatted = DecimalFormat(FLOAT_FORMAT_TEMPLATE).format(heightInMeters)
     return stringResource(id = R.string.about_tab_height_in_meters, heightInMetersFormatted)
 }
 
 @Composable
 fun Int?.formatPokemonWeight(): String {
     val weightInKg = (this?.toFloat() ?: 0.0f) / 10
-    val weightInKgFormatted = formatter.format(weightInKg)
+    val weightInKgFormatted = DecimalFormat(FLOAT_FORMAT_TEMPLATE).format(weightInKg)
     return stringResource(id = R.string.about_tab_weight_in_kilograms, weightInKgFormatted)
 }
 
@@ -48,8 +48,11 @@ fun Int.formatHatchCounter() =
     stringResource(id = R.string.about_tab_egg_cycles_in_steps, 255.times(this + 1).toString())
 
 @Composable
-fun Float.formatCatchProbability() =
-    stringResource(id = R.string.about_tab_catch_rate_with_pokeball, times(100).toString())
+fun Float.formatCatchProbability(): String {
+    val probability = times(100)
+    val probabilityFormatted = DecimalFormat(FLOAT_TWO_DECIMALS_FORMAT_TEMPLATE).format(probability)
+    return stringResource(id = R.string.about_tab_catch_rate_with_pokeball, probabilityFormatted.toString())
+}
 
 private const val FLOAT_FORMAT_TEMPLATE = "#.#"
-private val formatter = DecimalFormat(FLOAT_FORMAT_TEMPLATE)
+private const val FLOAT_TWO_DECIMALS_FORMAT_TEMPLATE = "#.##"
