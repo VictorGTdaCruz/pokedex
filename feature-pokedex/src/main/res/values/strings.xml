@@ -57,4 +57,15 @@
     <string name="about_tab_egg_groups">Egg Groups</string>
     <string name="about_tab_egg_cycles">Egg Cycles</string>
     <string name="about_tab_egg_cycles_in_steps">(%1s steps)</string>
+
+    <string name="stats_tab_base_stats">Base Stats</string>
+    <string name="stats_tab_hp">HP</string>
+    <string name="stats_tab_attack">Attack</string>
+    <string name="stats_tab_defense">Defense</string>
+    <string name="stats_tab_sp_attack">Sp. Attack</string>
+    <string name="stats_tab_sp_defense">Defense</string>
+    <string name="stats_tab_speed">Speed</string>
+    <string name="stats_tab_total">Total</string>
+    <string name="stats_tab_type_defenses">Type Defenses</string>
+    <string name="stats_tab_type_defenses_description">The effectiveness of each type on Bulbasaur.</string>
 </resources>
