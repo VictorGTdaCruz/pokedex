@@ -18,10 +18,10 @@ import com.victor.feature_pokedex.presentation.ui.theme.Fairy
 import com.victor.feature_pokedex.presentation.ui.theme.Ghost
 import com.victor.feature_pokedex.presentation.ui.utils.TypeColorHelper
 import com.victor.feature_pokedex.presentation.ui.utils.beautifyString
+import com.victor.feature_pokedex.presentation.ui.utils.formatEV
 import com.victor.feature_pokedex.presentation.ui.utils.formatEggGroups
 import com.victor.feature_pokedex.presentation.ui.utils.formatFlavorText
-import com.victor.feature_pokedex.presentation.ui.utils.formatHeightToKg
-import com.victor.feature_pokedex.presentation.ui.utils.formatWeightToKg
+import com.victor.feature_pokedex.presentation.ui.utils.formatPercentage
 import com.victor.features_common.components.PokedexTextStyle
 import com.victor.features_common.components.PokedexTextStyle.bold
 
@@ -51,7 +51,7 @@ fun aboutTab(pokemonInformation: PokemonInformation) {
             title = stringResource(id = R.string.about_tab_height),
             value = stringResource(
                 id = R.string.about_tab_height_in_meters,
-                pokemonInformation.height.formatHeightToKg()
+                pokemonInformation.height.toString()
             )
         )
         Spacer(modifier = Modifier.height(12.dp))
@@ -59,7 +59,7 @@ fun aboutTab(pokemonInformation: PokemonInformation) {
             title = stringResource(id = R.string.about_tab_weight),
             value = stringResource(
                 id = R.string.about_tab_weight_in_kilograms,
-                pokemonInformation.weight.formatWeightToKg()
+                pokemonInformation.weight.toString()
             )
         )
         Spacer(modifier = Modifier.height(12.dp))
@@ -98,7 +98,10 @@ fun aboutTab(pokemonInformation: PokemonInformation) {
             style = PokedexTextStyle.body.bold(),
         )
         Spacer(modifier = Modifier.height(12.dp))
-        TabCell(title = stringResource(id = R.string.about_tab_ev_yield), value = "??")
+        TabCell(
+            title = stringResource(id = R.string.about_tab_ev_yield),
+            value = pokemonInformation.stats.formatEV()
+        )
         Spacer(modifier = Modifier.height(12.dp))
         TabCell(title = stringResource(id = R.string.about_tab_catch_rate), description = {
             Row(
@@ -112,15 +115,13 @@ fun aboutTab(pokemonInformation: PokemonInformation) {
                 Text(
                     text = stringResource(
                         id = R.string.about_tab_catch_rate_with_pokeball,
-                        pokemonInformation.captureProbability
+                        pokemonInformation.captureProbability.formatPercentage()
                     ),
                     style = PokedexTextStyle.description,
                     modifier = Modifier.align(CenterVertically)
                 )
             }
         })
-        Spacer(modifier = Modifier.height(12.dp))
-        TabCell(title = stringResource(id = R.string.about_tab_base_friendship), value = "??")
         Spacer(modifier = Modifier.height(12.dp))
         TabCell(
             title = stringResource(id = R.string.about_tab_base_xp),
@@ -179,7 +180,7 @@ fun aboutTab(pokemonInformation: PokemonInformation) {
                 Text(
                     text = stringResource(
                         id = R.string.about_tab_egg_cycles_in_steps,
-                        pokemonInformation.hatchCounter
+                        pokemonInformation.hatchSteps
                     ),
                     style = PokedexTextStyle.description,
                     modifier = Modifier.align(CenterVertically)

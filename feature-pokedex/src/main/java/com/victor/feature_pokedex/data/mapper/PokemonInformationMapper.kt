@@ -8,6 +8,7 @@ internal object PokemonInformationMapper {
 
     private const val ONE_HUNDRED_PERCENT = 100.0
     private const val PERCENT_IN_EIGHTHS = ONE_HUNDRED_PERCENT / 8
+    private const val TEN = 10f
 
     /**
      * For more information about F and how to calculate capture probability:
@@ -38,11 +39,14 @@ internal object PokemonInformationMapper {
         val femaleRate = calculateFemaleRate(genderRate = pokemonSpecies.genderRate)
         val maleRate = ONE_HUNDRED_PERCENT - femaleRate
 
+        val heightInKg = pokemon.height / TEN
+        val weightInKg = pokemon.weight / TEN
+
         return PokemonInformation(
             id = pokemon.id,
             name = pokemon.name,
-            height = pokemon.height,
-            weight = pokemon.weight,
+            height = heightInKg,
+            weight = weightInKg,
             types = pokemon.types,
             stats = pokemon.stats,
             sprites = pokemon.sprites,

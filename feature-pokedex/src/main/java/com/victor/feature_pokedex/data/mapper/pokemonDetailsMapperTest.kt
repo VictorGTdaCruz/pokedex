@@ -39,7 +39,8 @@ internal fun PokemonSpriteResponse?.toDomain() =
 internal fun PokemonStatsResponse?.toDomain() =
     PokemonStat(
         name = this?.stat?.name.orEmpty(),
-        baseStat = this?.base_stat ?: 0
+        baseStat = this?.base_stat ?: 0,
+        effort = this?.effort ?: 0
     )
 
 internal fun PokemonAbilityResponse?.toDomain() =

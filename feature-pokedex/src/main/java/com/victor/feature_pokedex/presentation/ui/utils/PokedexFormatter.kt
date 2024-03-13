@@ -1,6 +1,7 @@
 package com.victor.feature_pokedex.presentation.ui.utils
 
 import com.victor.feature_pokedex.domain.model.PokemonInformation
+import com.victor.feature_pokedex.domain.model.PokemonStat
 import java.text.DecimalFormat
 import java.util.Locale
 
@@ -17,33 +18,26 @@ fun String.formatPokemonName() =
             it.capitalize()
         }
 
-fun Int?.formatHeightToKg(): String {
-    val heightInMeters = (this?.toFloat() ?: 0.0f) / 10
-    return DecimalFormat(FLOAT_FORMAT_TEMPLATE).format(heightInMeters)
-}
-
-fun Int?.formatWeightToKg(): String {
-    val weightInKg = (this?.toFloat() ?: 0.0f) / 10
-    return DecimalFormat(FLOAT_FORMAT_TEMPLATE).format(weightInKg)
-}
-
 fun PokemonInformation?.formatFlavorText() =
     this?.flavorText
         ?.replace("\n", "")
-        ?.replace(
-            name?.uppercase(Locale.ROOT).toString(),
-            name?.replaceFirstChar { it.titlecase(Locale.getDefault()) }.toString()
-        )
         ?.replace(".", ". ")
+        ?.replace(name.uppercase(Locale.ROOT), name.capitalize())
         ?: ""
+
+fun List<PokemonStat>.formatEV() =
+    this.filter { it.effort > 0 }
+        .joinToString(separator = STRING_SEPARATOR) {
+            "${it.effort} ${it.name.beautifyString()}"
+        }
 
 fun String?.beautifyString() =
     this?.replace("-", " ")
-        ?.replaceFirstChar { it.titlecase(Locale.getDefault()) }
+        ?.capitalize()
         ?: ""
 
 fun List<String>.formatEggGroups() =
-    joinToString(", ") {
+    joinToString(separator = STRING_SEPARATOR) {
         it.capitalize()
     }
 
@@ -52,5 +46,9 @@ fun String.capitalize() =
         it.titlecase(Locale.getDefault())
     }
 
-private const val FLOAT_FORMAT_TEMPLATE = "#.#"
-private const val FLOAT_TWO_DECIMALS_FORMAT_TEMPLATE = "#.##"
+fun Float.formatPercentage(): String =
+    DecimalFormat(FLOAT_FORMAT_TEMPLATE_TWO_DECIMALS).format(this * 100)
+
+private const val STRING_SEPARATOR = ", "
+private const val FLOAT_FORMAT_TEMPLATE_ONE_DECIMAL = "#.#"
+private const val FLOAT_FORMAT_TEMPLATE_TWO_DECIMALS = "#.##"

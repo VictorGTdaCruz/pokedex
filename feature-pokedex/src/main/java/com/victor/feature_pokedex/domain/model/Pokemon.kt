@@ -24,7 +24,8 @@ data class PokemonSprite(
 
 data class PokemonStat(
     val name: String,
-    val baseStat: Int
+    val baseStat: Int,
+    val effort: Int
 )
 
 data class PokemonAbility(

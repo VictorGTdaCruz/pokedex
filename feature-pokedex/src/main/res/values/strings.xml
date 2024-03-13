@@ -42,8 +42,8 @@
     <string name="about_tab_weight">Weight</string>
     <string name="about_tab_weight_in_kilograms">%1skg</string>
     <string name="about_tab_abilities">Abilities</string>
-    <string name="about_tab_ability_item">%1d. $2s</string>
-    <string name="about_tab_ability_item_hidden">%1d. $2s (hidden ability)</string>
+    <string name="about_tab_ability_item">%1d. %2s</string>
+    <string name="about_tab_ability_item_hidden">%1d. %2s (hidden ability)</string>
     <string name="about_tab_weakness">Weakness</string>
     <string name="about_tab_training">Training</string>
     <string name="about_tab_ev_yield">EV Yield</string>

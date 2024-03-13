@@ -3,8 +3,8 @@ package com.victor.feature_pokedex.domain.model
 data class PokemonInformation(
     val id: Long,
     val name: String,
-    val height: Int,
-    val weight: Int,
+    val height: Float,
+    val weight: Float,
     val types: List<PokemonTypeWithSlot>,
     val stats: List<PokemonStat>,
     val sprites: PokemonSprite,
