@@ -40,7 +40,7 @@ internal class PokedexViewModel(
 
     val pokemonInformation = mutableStateOf<State>(State.Empty)
 
-    fun getPokemonSpecies(pokemonId: Long) {
+    fun getPokemonInformation(pokemonId: Long) {
         manageStateDuringRequest(
             mutableState = pokemonInformation,
         ) {

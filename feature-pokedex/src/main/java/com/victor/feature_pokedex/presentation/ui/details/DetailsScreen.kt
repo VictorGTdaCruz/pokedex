@@ -46,7 +46,6 @@ import androidx.navigation.NavController
 import coil.compose.rememberImagePainter
 import com.victor.feature_pokedex.R
 import com.victor.feature_pokedex.domain.model.PokemonInformation
-import com.victor.feature_pokedex.domain.model.PokemonSpecies
 import com.victor.feature_pokedex.presentation.PokedexViewModel
 import com.victor.feature_pokedex.presentation.ui.components.PokemonColumn
 import com.victor.feature_pokedex.presentation.ui.details.tabs.aboutTab
@@ -60,12 +59,11 @@ import com.victor.features_common.observeState
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
 @Composable
 internal fun DetailsScreenBody(navController: NavController, viewModel: PokedexViewModel, pokemonId: Long) {
-    val pokemon = viewModel.pokemon[pokemonId]
     var selectedTabIndex by remember { mutableStateOf(0) }
     val pagerState = rememberPagerState { Tabs.values().size }
 
     LaunchedEffect(Unit) {
-        viewModel.getPokemonSpecies(pokemonId)
+        viewModel.getPokemonInformation(pokemonId)
     }
     LaunchedEffect(selectedTabIndex) {
         pagerState.animateScrollToPage(selectedTabIndex)
@@ -75,108 +73,109 @@ internal fun DetailsScreenBody(navController: NavController, viewModel: PokedexV
             selectedTabIndex = pagerState.currentPage
     }
 
-    Column(
-        Modifier
-            .fillMaxSize()
-            .verticalScroll(rememberScrollState())
-            .background(TypeColorHelper.findBackground(pokemon?.types?.first()?.type?.id))
-    ) {
-        TopAppBar(
-            colors = TopAppBarDefaults.topAppBarColors(
-                containerColor = Color.Transparent,
-            ),
-            navigationIcon = {
-                IconButton(
-                    onClick = {
-                        navController.popBackStack()
-                    }) {
-                    Icon(
-                        painter = painterResource(id = R.drawable.baseline_arrow_back_24),
-                        tint = Color.White,
-                        contentDescription = stringResource(id = R.string.content_description_back_button),
-                    )
-                }
-            },
-            title = { }
-        )
-        Box(
-            Modifier.fillMaxWidth()
-        ) {
-            Image(
-                painterResource(id = R.drawable.dotted_pattern),
-                contentDescription = null,
-                modifier = Modifier.align(BottomEnd)
-            )
-            Row(
-                Modifier.align(Center)
+    observeState<PokemonInformation>(
+        state = viewModel.pokemonInformation,
+        onSuccess = {
+            Column(
+                Modifier
+                    .fillMaxSize()
+                    .verticalScroll(rememberScrollState())
+                    .background(TypeColorHelper.findBackground(it.types.firstOrNull()?.type?.id))
             ) {
-                Box(
-                    modifier = Modifier.size(125.dp)
-                ) {
-                    Image(
-                        painterResource(id = R.drawable.circle_for_pokemon_image),
-                        contentDescription = stringResource(id = R.string.content_description_pokemon_image),
-                    )
-                    Image(
-                        painter = rememberImagePainter(
-                            data = pokemon?.sprites?.otherFrontDefault,
-                            builder = {
-                                crossfade(true)
-                                crossfade(500)
-                            }
-                        ),
-                        contentDescription = stringResource(id = R.string.content_description_pokemon_image),
-                    )
-                }
-                Spacer(modifier = Modifier.width(16.dp))
-                if (pokemon != null)
-                    PokemonColumn(
-                        pokemon = pokemon,
-                        modifier = Modifier.align(CenterVertically)
-                    )
-            }
-        }
-
-        Spacer(modifier = Modifier.height(24.dp))
-        TabRow(
-            selectedTabIndex = selectedTabIndex,
-            containerColor = Color.Transparent,
-            indicator = { },
-            divider = { }
-        ) {
-            Tabs.values().forEachIndexed { index, item ->
-                Tab(
-                    selected = selectedTabIndex == index,
-                    text = {
-                        Box{
-                            if (index == selectedTabIndex)
-                                Image(
-                                    painterResource(id = R.drawable.home_toolbar_background),
-                                    contentDescription = null,
-                                    modifier = Modifier.rotate(180f).alpha(0.25f)
-                                )
-                            Text(
-                                text = item.name,
-                                color = Color.White,
-                                style = if (index == selectedTabIndex)
-                                    PokedexTextStyle.body.bold()
-                                else
-                                    PokedexTextStyle.body,
-                                modifier = Modifier.align(Center)
+                TopAppBar(
+                    colors = TopAppBarDefaults.topAppBarColors(
+                        containerColor = Color.Transparent,
+                    ),
+                    navigationIcon = {
+                        IconButton(
+                            onClick = {
+                                navController.popBackStack()
+                            }) {
+                            Icon(
+                                painter = painterResource(id = R.drawable.baseline_arrow_back_24),
+                                tint = Color.White,
+                                contentDescription = stringResource(id = R.string.content_description_back_button),
                             )
                         }
                     },
-                    onClick = {
-                        selectedTabIndex = index
-                    },
-                    modifier = Modifier.clip(RoundedCornerShape(12.dp))
+                    title = { }
                 )
-            }
-        }
+                Box(
+                    Modifier.fillMaxWidth()
+                ) {
+                    Image(
+                        painterResource(id = R.drawable.dotted_pattern),
+                        contentDescription = null,
+                        modifier = Modifier.align(BottomEnd)
+                    )
+                    Row(
+                        Modifier.align(Center)
+                    ) {
+                        Box(
+                            modifier = Modifier.size(125.dp)
+                        ) {
+                            Image(
+                                painterResource(id = R.drawable.circle_for_pokemon_image),
+                                contentDescription = stringResource(id = R.string.content_description_pokemon_image),
+                            )
+                            Image(
+                                painter = rememberImagePainter(
+                                    data = it.sprites.otherFrontDefault,
+                                    builder = {
+                                        crossfade(true)
+                                        crossfade(500)
+                                    }
+                                ),
+                                contentDescription = stringResource(id = R.string.content_description_pokemon_image),
+                            )
+                        }
+                        Spacer(modifier = Modifier.width(16.dp))
+                        PokemonColumn(
+                            id = it.id,
+                            name = it.name,
+                            types = it.types,
+                            modifier = Modifier.align(CenterVertically)
+                        )
+                    }
+                }
 
-        observeState<PokemonInformation>(
-            state = viewModel.pokemonInformation,
-            onSuccess = {
+                Spacer(modifier = Modifier.height(24.dp))
+                TabRow(
+                    selectedTabIndex = selectedTabIndex,
+                    containerColor = Color.Transparent,
+                    indicator = { },
+                    divider = { }
+                ) {
+                    Tabs.values().forEachIndexed { index, item ->
+                        Tab(
+                            selected = selectedTabIndex == index,
+                            text = {
+                                Box {
+                                    if (index == selectedTabIndex)
+                                        Image(
+                                            painterResource(id = R.drawable.home_toolbar_background),
+                                            contentDescription = null,
+                                            modifier = Modifier.rotate(180f).alpha(0.25f)
+                                        )
+                                    Text(
+                                        text = item.name,
+                                        color = Color.White,
+                                        style = if (index == selectedTabIndex)
+                                            PokedexTextStyle.body.bold()
+                                        else
+                                            PokedexTextStyle.body,
+                                        modifier = Modifier.align(Center)
+                                    )
+                                }
+                            },
+                            onClick = {
+                                selectedTabIndex = index
+                            },
+                            modifier = Modifier.clip(RoundedCornerShape(12.dp))
+                        )
+                    }
+                }
+
                 Box(
                     modifier = Modifier
                         .background(
@@ -197,8 +196,8 @@ internal fun DetailsScreenBody(navController: NavController, viewModel: PokedexV
                     }
                 }
             }
-        )
-    }
+        }
+    )
 }
 
 private enum class Tabs { //TODO localize those!

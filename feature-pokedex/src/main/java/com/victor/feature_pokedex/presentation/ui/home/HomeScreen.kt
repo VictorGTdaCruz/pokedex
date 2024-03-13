@@ -209,7 +209,9 @@ private fun PokemonCard(pokemon: Pokemon, onPokemonClick: (Long) -> Unit) {
                     modifier = Modifier.matchParentSize()
                 )
                 PokemonColumn(
-                    pokemon = pokemon,
+                    id = pokemon.id,
+                    name = pokemon.name,
+                    types = pokemon.types,
                     modifier = Modifier.padding(start = 24.dp, end = 8.dp, top = 24.dp, bottom = 24.dp)
                 )
             }
