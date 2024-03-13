@@ -47,13 +47,13 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.rememberImagePainter
 import com.victor.feature_pokedex.R
+import com.victor.feature_pokedex.domain.model.PokemonSimple
 import com.victor.feature_pokedex.domain.model.Pokemon
-import com.victor.feature_pokedex.domain.model.PokemonDetails
 import com.victor.feature_pokedex.domain.model.PokemonSprite
 import com.victor.feature_pokedex.domain.model.PokemonType
 import com.victor.feature_pokedex.domain.model.PokemonTypeWithSlot
 import com.victor.feature_pokedex.presentation.PokedexViewModel
-import com.victor.feature_pokedex.presentation.ui.components.PokemonDetailsColumn
+import com.victor.feature_pokedex.presentation.ui.components.PokemonColumn
 import com.victor.feature_pokedex.presentation.ui.home.bottomsheets.FilterBottomSheet
 import com.victor.feature_pokedex.presentation.ui.home.bottomsheets.GenerationBottomSheet
 import com.victor.feature_pokedex.presentation.ui.home.bottomsheets.SortBottomSheet
@@ -89,20 +89,20 @@ internal fun HomeScreenBody(viewModel: PokedexViewModel, onPokemonClick: (Long) 
                         PokemonSearchTextField(viewModel)
                     }
                 }
-                observeStateInsideLazyList<List<Pokemon>>(
+                observeStateInsideLazyList<List<PokemonSimple>>(
                     state = currentPokemonList,
                     onRetry = { getPokemonList() }
                 ) { pokemonList ->
                     items(pokemonList.count()) {
-                        val pokemon = pokemonList[it]
-                        val pokemonDetails = pokemonDetails[pokemon.id]
-                        if (pokemonDetails == null) {
+                        val pokemonSimple = pokemonList[it]
+                        val pokemon = pokemon[pokemonSimple.id]
+                        if (pokemon == null) {
                             PokemonCardLoading()
-                            LaunchedEffect(pokemon.id) {
-                                getPokemonDetails(pokemon.id)
+                            LaunchedEffect(pokemonSimple.id) {
+                                getPokemon(pokemonSimple.id)
                             }
                         } else {
-                            PokemonCard(pokemonDetails, onPokemonClick)
+                            PokemonCard(pokemon, onPokemonClick)
                         }
                     }
                 }
@@ -181,13 +181,13 @@ private fun PokemonCardLoading() {
 }
 
 @Composable
-private fun PokemonCard(pokemonDetails: PokemonDetails, onPokemonClick: (Long) -> Unit) {
+private fun PokemonCard(pokemon: Pokemon, onPokemonClick: (Long) -> Unit) {
     Box (
         modifier = Modifier.padding(horizontal = 24.dp, vertical = 2.dp)
     ) {
         Card(
             colors = CardDefaults.cardColors(
-                containerColor = TypeColorHelper.findBackground(pokemonDetails.types.firstOrNull()?.type?.id),
+                containerColor = TypeColorHelper.findBackground(pokemon.types.firstOrNull()?.type?.id),
             ),
             shape = RoundedCornerShape(8.dp),
             elevation = CardDefaults.cardElevation(
@@ -197,7 +197,7 @@ private fun PokemonCard(pokemonDetails: PokemonDetails, onPokemonClick: (Long) -
                 .padding(top = 24.dp)
                 .align(BottomCenter)
                 .fillMaxWidth()
-                .clickable { onPokemonClick.invoke(pokemonDetails.id) }
+                .clickable { onPokemonClick.invoke(pokemon.id) }
         ) {
             Box(
                 modifier = Modifier.fillMaxWidth()
@@ -208,15 +208,15 @@ private fun PokemonCard(pokemonDetails: PokemonDetails, onPokemonClick: (Long) -
                     contentScale = ContentScale.Crop,
                     modifier = Modifier.matchParentSize()
                 )
-                PokemonDetailsColumn(
-                    pokemonDetails = pokemonDetails,
+                PokemonColumn(
+                    pokemon = pokemon,
                     modifier = Modifier.padding(start = 24.dp, end = 8.dp, top = 24.dp, bottom = 24.dp)
                 )
             }
         }
         Image(
             painter = rememberImagePainter(
-                data = pokemonDetails.sprites.otherFrontDefault,
+                data = pokemon.sprites.otherFrontDefault,
                 builder = {
                     crossfade(true)
                     crossfade(500)
@@ -268,7 +268,7 @@ fun BoxScope.scrollToTopFAB(scrollState: LazyListState) {
 private fun Preview() {
     LazyColumn {
         items(3) {
-            val pokemonDetails = PokemonDetails(
+            val pokemon = Pokemon(
                 id = 1L,
                 name = "Name",
                 height = 20,
@@ -282,7 +282,7 @@ private fun Preview() {
                 abilities = emptyList(),
                 baseXp = 0
             )
-            PokemonCard(pokemonDetails = pokemonDetails, onPokemonClick = {})
+            PokemonCard(pokemon = pokemon, onPokemonClick = {})
         }
     }
 }

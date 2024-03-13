@@ -34,22 +34,21 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment.Companion.BottomEnd
 import androidx.compose.ui.Alignment.Companion.Center
 import androidx.compose.ui.Alignment.Companion.CenterVertically
-import androidx.compose.ui.Alignment.Companion.TopCenter
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import coil.compose.rememberImagePainter
 import com.victor.feature_pokedex.R
+import com.victor.feature_pokedex.domain.model.PokemonInformation
 import com.victor.feature_pokedex.domain.model.PokemonSpecies
 import com.victor.feature_pokedex.presentation.PokedexViewModel
-import com.victor.feature_pokedex.presentation.ui.components.PokemonDetailsColumn
+import com.victor.feature_pokedex.presentation.ui.components.PokemonColumn
 import com.victor.feature_pokedex.presentation.ui.details.tabs.aboutTab
 import com.victor.feature_pokedex.presentation.ui.details.tabs.evolutionTab
 import com.victor.feature_pokedex.presentation.ui.details.tabs.statsTab
@@ -61,7 +60,7 @@ import com.victor.features_common.observeState
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
 @Composable
 internal fun DetailsScreenBody(navController: NavController, viewModel: PokedexViewModel, pokemonId: Long) {
-    val pokemonDetails = viewModel.pokemonDetails[pokemonId]
+    val pokemon = viewModel.pokemon[pokemonId]
     var selectedTabIndex by remember { mutableStateOf(0) }
     val pagerState = rememberPagerState { Tabs.values().size }
 
@@ -80,7 +79,7 @@ internal fun DetailsScreenBody(navController: NavController, viewModel: PokedexV
         Modifier
             .fillMaxSize()
             .verticalScroll(rememberScrollState())
-            .background(TypeColorHelper.findBackground(pokemonDetails?.types?.first()?.type?.id))
+            .background(TypeColorHelper.findBackground(pokemon?.types?.first()?.type?.id))
     ) {
         TopAppBar(
             colors = TopAppBarDefaults.topAppBarColors(
@@ -120,7 +119,7 @@ internal fun DetailsScreenBody(navController: NavController, viewModel: PokedexV
                     )
                     Image(
                         painter = rememberImagePainter(
-                            data = pokemonDetails?.sprites?.otherFrontDefault,
+                            data = pokemon?.sprites?.otherFrontDefault,
                             builder = {
                                 crossfade(true)
                                 crossfade(500)
@@ -130,9 +129,9 @@ internal fun DetailsScreenBody(navController: NavController, viewModel: PokedexV
                     )
                 }
                 Spacer(modifier = Modifier.width(16.dp))
-                if (pokemonDetails != null)
-                    PokemonDetailsColumn(
-                        pokemonDetails = pokemonDetails,
+                if (pokemon != null)
+                    PokemonColumn(
+                        pokemon = pokemon,
                         modifier = Modifier.align(CenterVertically)
                     )
             }
@@ -175,8 +174,8 @@ internal fun DetailsScreenBody(navController: NavController, viewModel: PokedexV
             }
         }
 
-        observeState<PokemonSpecies>(
-            state = viewModel.pokemonSpecies,
+        observeState<PokemonInformation>(
+            state = viewModel.pokemonInformation,
             onSuccess = {
                 Box(
                     modifier = Modifier
@@ -190,11 +189,10 @@ internal fun DetailsScreenBody(navController: NavController, viewModel: PokedexV
                         state = pagerState,
                         modifier = Modifier.fillMaxSize()
                     ) { index ->
-
                         when (index) {
-                            0 -> aboutTab(pokemonDetails = pokemonDetails, pokemonSpecies = it)
-                            1 -> statsTab(pokemonDetails = pokemonDetails)
-                            2 -> evolutionTab(pokemonDetails = pokemonDetails)
+                            0 -> aboutTab(pokemonInformation = it)
+                            1 -> statsTab(pokemonInformation = it)
+                            2 -> evolutionTab(pokemonInformation = it)
                         }
                     }
                 }

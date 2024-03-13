@@ -1,8 +1,6 @@
 package com.victor.feature_pokedex.presentation.ui.utils
 
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.res.stringResource
-import com.victor.feature_pokedex.R
+import com.victor.feature_pokedex.domain.model.PokemonInformation
 import java.text.DecimalFormat
 import java.util.Locale
 
@@ -16,43 +14,43 @@ fun Long.formatPokedexNumber() =
 fun String.formatPokemonName() =
     split("-")
         .joinToString(" ") {
-            it.replaceFirstChar { firstChar ->
-                firstChar.titlecase()
-            }
+            it.capitalize()
         }
 
-@Composable
-fun Int?.formatPokemonHeight(): String {
+fun Int?.formatHeightToKg(): String {
     val heightInMeters = (this?.toFloat() ?: 0.0f) / 10
-    val heightInMetersFormatted = DecimalFormat(FLOAT_FORMAT_TEMPLATE).format(heightInMeters)
-    return stringResource(id = R.string.about_tab_height_in_meters, heightInMetersFormatted)
+    return DecimalFormat(FLOAT_FORMAT_TEMPLATE).format(heightInMeters)
 }
 
-@Composable
-fun Int?.formatPokemonWeight(): String {
+fun Int?.formatWeightToKg(): String {
     val weightInKg = (this?.toFloat() ?: 0.0f) / 10
-    val weightInKgFormatted = DecimalFormat(FLOAT_FORMAT_TEMPLATE).format(weightInKg)
-    return stringResource(id = R.string.about_tab_weight_in_kilograms, weightInKgFormatted)
+    return DecimalFormat(FLOAT_FORMAT_TEMPLATE).format(weightInKg)
 }
 
-fun String?.formatFlavorText(name: String?) =
-    this?.replace("\n", "")
+fun PokemonInformation?.formatFlavorText() =
+    this?.flavorText
+        ?.replace("\n", "")
         ?.replace(
             name?.uppercase(Locale.ROOT).toString(),
             name?.replaceFirstChar { it.titlecase(Locale.getDefault()) }.toString()
         )
         ?.replace(".", ". ")
+        ?: ""
 
-@Composable
-fun Int.formatHatchCounter() =
-    stringResource(id = R.string.about_tab_egg_cycles_in_steps, 255.times(this + 1).toString())
+fun String?.beautifyString() =
+    this?.replace("-", " ")
+        ?.replaceFirstChar { it.titlecase(Locale.getDefault()) }
+        ?: ""
 
-@Composable
-fun Float.formatCatchProbability(): String {
-    val probability = times(100)
-    val probabilityFormatted = DecimalFormat(FLOAT_TWO_DECIMALS_FORMAT_TEMPLATE).format(probability)
-    return stringResource(id = R.string.about_tab_catch_rate_with_pokeball, probabilityFormatted.toString())
-}
+fun List<String>.formatEggGroups() =
+    joinToString(", ") {
+        it.capitalize()
+    }
+
+fun String.capitalize() =
+    replaceFirstChar {
+        it.titlecase(Locale.getDefault())
+    }
 
 private const val FLOAT_FORMAT_TEMPLATE = "#.#"
 private const val FLOAT_TWO_DECIMALS_FORMAT_TEMPLATE = "#.##"

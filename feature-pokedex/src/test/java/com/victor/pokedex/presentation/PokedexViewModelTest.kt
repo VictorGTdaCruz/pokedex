@@ -2,7 +2,7 @@ package com.victor.pokedex.presentation
 
 import com.victor.features_common.MainCoroutineRuleTest
 import com.victor.features_common.State
-import com.victor.pokedex.domain.model.PokemonDetails
+import com.victor.pokedex.domain.model.pokemon
 import com.victor.pokedex.domain.model.PokemonType
 import com.victor.pokedex.domain.model.TypeDetails
 import com.victor.pokedex.domain.service.PokedexService
@@ -77,20 +77,20 @@ class PokedexViewModelTest {
     }
 
     @Test
-    fun whenLoadPokemonDetails_callsInfrastructureGetPokemonDetails() {
+    fun whenLoadPokemon_callsInfrastructureGetPokemon() {
         val id = 0L
-        viewModel.loadPokemonDetails(id)
-        coVerify { service.getPokemonDetails(id) }
+        viewModel.loadPokemon(id)
+        coVerify { service.getPokemon(id) }
     }
 
     @Test
-    fun whenLoadPokemonDetails_storesResultInState() {
-        assertTrue(viewModel.pokemonDetails.isEmpty())
+    fun whenLoadPokemon_storesResultInState() {
+        assertTrue(viewModel.pokemon.isEmpty())
         val id = 0L
-        val details = mockk<PokemonDetails>(relaxed = true)
-        coEvery { service.getPokemonDetails(id) } returns details
-        viewModel.loadPokemonDetails(id)
-        assertEquals(details, viewModel.pokemonDetails[id])
-        assertEquals(1, viewModel.pokemonDetails.size)
+        val details = mockk<pokemon>(relaxed = true)
+        coEvery { service.getPokemon(id) } returns details
+        viewModel.loadPokemon(id)
+        assertEquals(details, viewModel.pokemon[id])
+        assertEquals(1, viewModel.pokemon.size)
     }
 }

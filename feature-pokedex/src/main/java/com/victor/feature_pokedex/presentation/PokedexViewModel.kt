@@ -6,8 +6,8 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.victor.feature_pokedex.domain.PokedexUseCase
+import com.victor.feature_pokedex.domain.model.PokemonSimple
 import com.victor.feature_pokedex.domain.model.Pokemon
-import com.victor.feature_pokedex.domain.model.PokemonDetails
 import com.victor.feature_pokedex.domain.model.PokemonType
 import com.victor.feature_pokedex.presentation.ui.home.bottomsheets.Sort
 import com.victor.features_common.State
@@ -21,10 +21,10 @@ internal class PokedexViewModel(
 ) : ViewModel() {
 
     val currentPokemonList = mutableStateOf<State>(State.Empty)
-    val pokemonDetails = mutableStateMapOf<Long, PokemonDetails>()
+    val pokemon = mutableStateMapOf<Long, Pokemon>()
 
     var searchText = mutableStateOf("")
-    private var fullPokemonList = emptyList<Pokemon>()
+    private var fullPokemonList = emptyList<PokemonSimple>()
 
     var showFilterBottomSheet = mutableStateOf(false)
     val pokemonTypes = mutableStateOf<State>(State.Empty)
@@ -38,13 +38,13 @@ internal class PokedexViewModel(
     var showGenerationBottomSheet = mutableStateOf(false)
     private val selectedGeneration = mutableStateOf<Int?>(null)
 
-    val pokemonSpecies = mutableStateOf<State>(State.Empty)
+    val pokemonInformation = mutableStateOf<State>(State.Empty)
 
     fun getPokemonSpecies(pokemonId: Long) {
         manageStateDuringRequest(
-            mutableState = pokemonSpecies,
+            mutableState = pokemonInformation,
         ) {
-            useCase.getPokemonSpecies(pokemonId)
+            useCase.getPokemonInformation(pokemonId)
         }
     }
 
@@ -82,11 +82,11 @@ internal class PokedexViewModel(
 
     fun isSearchEnabled() = currentPokemonList.value is State.Success<*>
 
-    fun getPokemonDetails(pokemonId: Long) {
+    fun getPokemon(pokemonId: Long) {
         viewModelScope.launch { // TODO sem tratamento?
             runCatching {
-                val response = useCase.getPokemonDetails(pokemonId)
-                pokemonDetails[response.id] = response
+                val response = useCase.getPokemon(pokemonId)
+                pokemon[response.id] = response
             }
         }
     }
@@ -142,7 +142,7 @@ internal class PokedexViewModel(
 
     fun onPokemonSortClick(sort: Sort) {
         selectedSort.value = sort
-        val currentList = currentPokemonList.getAsSuccessState<List<Pokemon>>()?.data
+        val currentList = currentPokemonList.getAsSuccessState<List<PokemonSimple>>()?.data
         if (currentList != null)
             currentPokemonList.value = State.Success(useCase.sort(currentList, sort))
     }

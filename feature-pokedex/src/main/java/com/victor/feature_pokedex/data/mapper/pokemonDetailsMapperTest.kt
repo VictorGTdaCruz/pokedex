@@ -1,18 +1,18 @@
 package com.victor.feature_pokedex.data.mapper
 
 import com.victor.feature_pokedex.data.model.PokemonAbilityResponse
-import com.victor.feature_pokedex.data.model.PokemonDetailsResponse
+import com.victor.feature_pokedex.data.model.PokemonResponse
 import com.victor.feature_pokedex.data.model.PokemonSpriteResponse
 import com.victor.feature_pokedex.data.model.PokemonStatsResponse
 import com.victor.feature_pokedex.data.model.PokemonTypeWithSlotResponse
 import com.victor.feature_pokedex.domain.model.PokemonAbility
-import com.victor.feature_pokedex.domain.model.PokemonDetails
+import com.victor.feature_pokedex.domain.model.Pokemon
 import com.victor.feature_pokedex.domain.model.PokemonSprite
 import com.victor.feature_pokedex.domain.model.PokemonStat
 import com.victor.feature_pokedex.domain.model.PokemonTypeWithSlot
 
-internal fun PokemonDetailsResponse.toDomain() =
-    PokemonDetails(
+internal fun PokemonResponse.toDomain() =
+    Pokemon(
         id = id ?: 0,
         name = name.orEmpty(),
         height = height ?: 0,

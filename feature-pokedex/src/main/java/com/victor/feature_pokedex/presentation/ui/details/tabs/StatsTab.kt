@@ -19,33 +19,34 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.victor.feature_pokedex.R
-import com.victor.feature_pokedex.domain.model.PokemonDetails
+import com.victor.feature_pokedex.domain.model.PokemonInformation
 import com.victor.feature_pokedex.presentation.ui.utils.TypeColorHelper
 import com.victor.features_common.components.PokedexTextStyle
 import com.victor.features_common.components.PokedexTextStyle.bold
 
 @Composable
-fun statsTab(pokemonDetails: PokemonDetails?) {
+fun statsTab(pokemonInformation: PokemonInformation) {
+    val typeColor = TypeColorHelper.findBackground(pokemonInformation.types.first().type.id)
     Column(
         Modifier.padding(24.dp)
     ) {
         Text(
             text = stringResource(id = R.string.stats_tab_base_stats),
-            color = TypeColorHelper.findBackground(pokemonDetails?.types?.first()?.type?.id),
+            color = typeColor,
             style = PokedexTextStyle.body.bold(),
         )
         Spacer(modifier = Modifier.height(12.dp))
-        TabCellStat(title = stringResource(id = R.string.stats_tab_hp), statKey = "hp", pokemonDetails = pokemonDetails)
+        TabCellStat(title = stringResource(id = R.string.stats_tab_hp), statKey = "hp", pokemonInformation = pokemonInformation)
         Spacer(modifier = Modifier.height(12.dp))
-        TabCellStat(title = stringResource(id = R.string.stats_tab_attack), statKey = "attack", pokemonDetails = pokemonDetails)
+        TabCellStat(title = stringResource(id = R.string.stats_tab_attack), statKey = "attack", pokemonInformation = pokemonInformation)
         Spacer(modifier = Modifier.height(12.dp))
-        TabCellStat(title = stringResource(id = R.string.stats_tab_defense), statKey = "defense", pokemonDetails = pokemonDetails)
+        TabCellStat(title = stringResource(id = R.string.stats_tab_defense), statKey = "defense", pokemonInformation = pokemonInformation)
         Spacer(modifier = Modifier.height(12.dp))
-        TabCellStat(title = stringResource(id = R.string.stats_tab_sp_attack), statKey = "special-attack", pokemonDetails = pokemonDetails)
+        TabCellStat(title = stringResource(id = R.string.stats_tab_sp_attack), statKey = "special-attack", pokemonInformation = pokemonInformation)
         Spacer(modifier = Modifier.height(12.dp))
-        TabCellStat(title = stringResource(id = R.string.stats_tab_sp_defense), statKey = "special-defense", pokemonDetails = pokemonDetails)
+        TabCellStat(title = stringResource(id = R.string.stats_tab_sp_defense), statKey = "special-defense", pokemonInformation = pokemonInformation)
         Spacer(modifier = Modifier.height(12.dp))
-        TabCellStat(title = stringResource(id = R.string.stats_tab_speed), statKey = "speed", pokemonDetails = pokemonDetails)
+        TabCellStat(title = stringResource(id = R.string.stats_tab_speed), statKey = "speed", pokemonInformation = pokemonInformation)
         Spacer(modifier = Modifier.height(12.dp))
         Row(
             Modifier.fillMaxWidth()
@@ -60,7 +61,7 @@ fun statsTab(pokemonDetails: PokemonDetails?) {
             )
             Spacer(modifier = Modifier.weight(1f))
             Text(
-                text = pokemonDetails?.stats?.sumOf { it.baseStat }.toString(),
+                text = pokemonInformation.stats.sumOf { it.baseStat }.toString(),
                 style = PokedexTextStyle.body.bold(),
             )
             Spacer(modifier = Modifier.width(12.dp))
@@ -68,7 +69,7 @@ fun statsTab(pokemonDetails: PokemonDetails?) {
         Spacer(modifier = Modifier.height(20.dp))
         Text(
             text = stringResource(id = R.string.stats_tab_type_defenses),
-            color = TypeColorHelper.findBackground(pokemonDetails?.types?.first()?.type?.id),
+            color = typeColor,
             style = PokedexTextStyle.body.bold(),
         )
         Spacer(modifier = Modifier.height(12.dp))
@@ -81,8 +82,8 @@ fun statsTab(pokemonDetails: PokemonDetails?) {
 }
 
 @Composable
-fun TabCellStat(title: String, statKey: String, pokemonDetails: PokemonDetails?) {
-    val stat = pokemonDetails?.stats?.find { it.name == statKey }?.baseStat ?: 0
+fun TabCellStat(title: String, statKey: String, pokemonInformation: PokemonInformation?) {
+    val stat = pokemonInformation?.stats?.find { it.name == statKey }?.baseStat ?: 0
     val statLevel = (stat.toFloat() / 255)
     TabCell(title, description = {
         Row(
@@ -102,7 +103,7 @@ fun TabCellStat(title: String, statKey: String, pokemonDetails: PokemonDetails?)
                         .height(4.dp)
                         .fillMaxWidth(statLevel)
                         .clip(RoundedCornerShape(4.dp))
-                        .background(TypeColorHelper.findBackground(pokemonDetails?.types?.first()?.type?.id))
+                        .background(TypeColorHelper.findBackground(pokemonInformation?.types?.first()?.type?.id))
 
                 )
             }

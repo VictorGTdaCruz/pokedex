@@ -31,9 +31,9 @@ class PokedexInfrastructureTest {
     }
 
     @Test
-    fun whenGetPokemonDetails_callsApiGetPokemonDetails() {
+    fun whenGetPokemon_callsApiGetPokemon() {
         val id = 0L
-        runBlocking { infrastructure.getPokemonDetails(id) }
-        coVerify { api.getPokemonDetails(id) }
+        runBlocking { infrastructure.getPokemon(id) }
+        coVerify { api.getPokemon(id) }
     }
 }

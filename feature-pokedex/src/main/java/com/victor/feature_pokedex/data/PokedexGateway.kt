@@ -3,7 +3,7 @@ package com.victor.feature_pokedex.data
 import com.victor.feature_pokedex.data.model.GenerationResponse
 import com.victor.feature_pokedex.data.model.NameAndUrlResponse
 import com.victor.feature_pokedex.data.model.PagedResponse
-import com.victor.feature_pokedex.data.model.PokemonDetailsResponse
+import com.victor.feature_pokedex.data.model.PokemonResponse
 import com.victor.feature_pokedex.data.model.SpeciesResponse
 import com.victor.feature_pokedex.data.model.TypeDetailsResponse
 import retrofit2.http.GET
@@ -25,7 +25,7 @@ internal interface PokedexGateway {
     ): PagedResponse<NameAndUrlResponse>
 
     @GET("pokemon/{id}")
-    suspend fun getPokemonDetails(@Path("id") pokemonId: Long): PokemonDetailsResponse
+    suspend fun getPokemon(@Path("id") pokemonId: Long): PokemonResponse
 
     @GET("generation/{generation}")
     suspend fun getPokemonListByGeneration(@Path("generation") generation: Int): GenerationResponse

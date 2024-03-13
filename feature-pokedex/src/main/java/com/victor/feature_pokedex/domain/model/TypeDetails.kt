@@ -3,10 +3,10 @@ package com.victor.feature_pokedex.domain.model
 data class TypeDetails(
     val id: Long,
     val name: String,
-    val pokemons: List<Pokemon>,
+    val pokemonList: List<PokemonSimple>,
 )
 
-data class Pokemon(
+data class PokemonSimple(
     val id: Long,
     val name: String,
 )

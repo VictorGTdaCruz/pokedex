@@ -1,7 +1,7 @@
 package com.victor.pokedex.data.mapper
 
 import com.victor.pokedex.data.model.NameAndUrlResponse
-import com.victor.pokedex.data.model.PokemonDetailsResponse
+import com.victor.pokedex.data.model.PokemonResponse
 import com.victor.pokedex.data.model.PokemonOfficialArtworkSpriteResponse
 import com.victor.pokedex.data.model.PokemonOtherSpritesResponse
 import com.victor.pokedex.data.model.PokemonSpriteResponse
@@ -10,11 +10,11 @@ import com.victor.pokedex.data.model.PokemonTypeWithSlotResponse
 import junit.framework.Assert.assertEquals
 import org.junit.Test
 
-class PokemonDetailsMapperTest {
+class PokemonMapperTest {
 
     @Test
-    fun shouldMapResponseToPokemonDetailsDomain() {
-        val response = getMockedPokemonDetailsResponse()
+    fun shouldMapResponseToPokemonDomain() {
+        val response = getMockedPokemonResponse()
         val domain = response.toDomain()
         assertEquals(0L, domain.id)
         assertEquals("pokemon_name", domain.name)
@@ -28,8 +28,8 @@ class PokemonDetailsMapperTest {
         assertEquals("official", domain.sprites.otherFrontDefault)
     }
 
-    private fun getMockedPokemonDetailsResponse() =
-        PokemonDetailsResponse(
+    private fun getMockedPokemonResponse() =
+        PokemonResponse(
             id = 0L,
             name = "pokemon_name",
             height = 1,

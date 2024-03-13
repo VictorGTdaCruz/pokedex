@@ -1,7 +1,6 @@
 package com.victor.feature_pokedex.domain
 
-import com.victor.feature_pokedex.domain.model.Pokemon
-import com.victor.feature_pokedex.domain.model.PokemonSpecies
+import com.victor.feature_pokedex.domain.model.PokemonSimple
 import com.victor.feature_pokedex.domain.model.PokemonType
 import com.victor.feature_pokedex.domain.service.PokedexService
 import com.victor.feature_pokedex.presentation.ui.home.bottomsheets.Sort
@@ -23,18 +22,18 @@ internal class PokedexUseCase(
         selectedGeneration: Int?,
         indexRange: ClosedFloatingPointRange<Float>?,
         sort: Sort,
-    ): List<Pokemon> {
-        val pokemonLists = mutableListOf<List<Pokemon>>().apply {
+    ): List<PokemonSimple> {
+        val pokemonLists = mutableListOf<List<PokemonSimple>>().apply {
             if (selectedGeneration != null)
                 add(infrastructure.getPokemonListByGeneration(selectedGeneration).pokemonList)
             typeList.forEach {
-                add(infrastructure.getTypeDetails(it.id).pokemons)
+                add(infrastructure.getTypeDetails(it.id).pokemonList)
             }
             if (isEmpty())
                 add(infrastructure.getPokemonList(offset = POKEMON_LIST_OFFSET, limit = POKEMON_LIST_LIMIT))
         }
 
-        val result = mutableListOf<Pokemon>().apply {
+        val result = mutableListOf<PokemonSimple>().apply {
             pokemonLists.forEach {
                 if (isEmpty()) {
                     addAll(it)
@@ -49,20 +48,16 @@ internal class PokedexUseCase(
         return sort(result.applyValidPokemonFilter().applyIndexRangeFilter(indexRange), sort)
     }
 
-    suspend fun getPokemonDetails(pokemonId: Long) = infrastructure.getPokemonDetails(pokemonId)
+    suspend fun getPokemon(pokemonId: Long) = infrastructure.getPokemon(pokemonId)
 
-    suspend fun getPokemonSpecies(pokemonId: Long) = infrastructure.getPokemonSpecies(pokemonId).run {
-        val f = (255 * 4) / 12
-        captureProbability = (((captureRate + 1f) * (f + 1))/((255 + 1) * 256))
-        this
-    }
+    suspend fun getPokemonInformation(pokemonId: Long) = infrastructure.getPokemonInformation(pokemonId)
 
     suspend fun getPokemonTypes() =
         infrastructure.getPokemonTypes()
             .filter { it.id in VALID_TYPE_ID_RANGE }
             .sortedBy { it.name }
 
-    private fun List<Pokemon>.applyIndexRangeFilter(indexRange: ClosedFloatingPointRange<Float>?): List<Pokemon> {
+    private fun List<PokemonSimple>.applyIndexRangeFilter(indexRange: ClosedFloatingPointRange<Float>?): List<PokemonSimple> {
         val intRange = if (indexRange == null)
             VALID_POKEMON_ID_RANGE
         else
@@ -70,7 +65,7 @@ internal class PokedexUseCase(
         return filter { intRange.contains(it.id) }
     }
 
-    fun sort(pokemonList: List<Pokemon>, sort: Sort) = pokemonList.run {
+    fun sort(pokemonList: List<PokemonSimple>, sort: Sort) = pokemonList.run {
         when (sort) {
             Sort.SmallestNumberFirst -> sortedBy { it.id }
             Sort.HighestNumberFirst -> sortedByDescending { it.id }
@@ -79,6 +74,6 @@ internal class PokedexUseCase(
         }
     }
 
-    private fun List<Pokemon>.applyValidPokemonFilter() =
+    private fun List<PokemonSimple>.applyValidPokemonFilter() =
         filter { VALID_POKEMON_ID_RANGE.contains(it.id) }
 }

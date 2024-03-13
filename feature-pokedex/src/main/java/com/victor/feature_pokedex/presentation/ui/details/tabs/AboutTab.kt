@@ -13,49 +13,74 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.victor.feature_pokedex.R
-import com.victor.feature_pokedex.domain.model.PokemonDetails
-import com.victor.feature_pokedex.domain.model.PokemonSpecies
+import com.victor.feature_pokedex.domain.model.PokemonInformation
 import com.victor.feature_pokedex.presentation.ui.theme.Fairy
 import com.victor.feature_pokedex.presentation.ui.theme.Ghost
 import com.victor.feature_pokedex.presentation.ui.utils.TypeColorHelper
-import com.victor.feature_pokedex.presentation.ui.utils.formatCatchProbability
+import com.victor.feature_pokedex.presentation.ui.utils.beautifyString
+import com.victor.feature_pokedex.presentation.ui.utils.formatEggGroups
 import com.victor.feature_pokedex.presentation.ui.utils.formatFlavorText
-import com.victor.feature_pokedex.presentation.ui.utils.formatHatchCounter
-import com.victor.feature_pokedex.presentation.ui.utils.formatPokemonHeight
-import com.victor.feature_pokedex.presentation.ui.utils.formatPokemonWeight
+import com.victor.feature_pokedex.presentation.ui.utils.formatHeightToKg
+import com.victor.feature_pokedex.presentation.ui.utils.formatWeightToKg
 import com.victor.features_common.components.PokedexTextStyle
 import com.victor.features_common.components.PokedexTextStyle.bold
-import java.util.Locale
 
 @Composable
-fun aboutTab(pokemonDetails: PokemonDetails?, pokemonSpecies: PokemonSpecies) {
+fun aboutTab(pokemonInformation: PokemonInformation) {
+    val typeColor = TypeColorHelper.findBackground(pokemonInformation.types.first().type.id)
     Column(
         Modifier.padding(24.dp)
     ) {
         Text(
-            text = pokemonSpecies.flavorText.formatFlavorText(pokemonDetails?.name) ?: "",
+            text = pokemonInformation.formatFlavorText(),
             style = PokedexTextStyle.body,
         )
         Spacer(modifier = Modifier.height(20.dp))
         Text(
             text = stringResource(id = R.string.about_tab_pokedex_data),
-            color = TypeColorHelper.findBackground(pokemonDetails?.types?.first()?.type?.id),
+            color = typeColor,
             style = PokedexTextStyle.body.bold(),
         )
         Spacer(modifier = Modifier.height(12.dp))
-        TabCell(title = stringResource(id = R.string.about_tab_species), value = pokemonSpecies.genera)
+        TabCell(
+            title = stringResource(id = R.string.about_tab_species),
+            value = pokemonInformation.genera
+        )
         Spacer(modifier = Modifier.height(12.dp))
-        TabCell(title = stringResource(id = R.string.about_tab_height), value = pokemonDetails?.height?.formatPokemonHeight() ?: "")
+        TabCell(
+            title = stringResource(id = R.string.about_tab_height),
+            value = stringResource(
+                id = R.string.about_tab_height_in_meters,
+                pokemonInformation.height.formatHeightToKg()
+            )
+        )
         Spacer(modifier = Modifier.height(12.dp))
-        TabCell(title = stringResource(id = R.string.about_tab_weight), value = pokemonDetails?.weight?.formatPokemonWeight() ?: "")
+        TabCell(
+            title = stringResource(id = R.string.about_tab_weight),
+            value = stringResource(
+                id = R.string.about_tab_weight_in_kilograms,
+                pokemonInformation.weight.formatWeightToKg()
+            )
+        )
         Spacer(modifier = Modifier.height(12.dp))
         TabCell(title = stringResource(id = R.string.about_tab_abilities), description = {
             Column(
                 modifier = Modifier.weight(weight = 0.7f)
             ) {
-                pokemonDetails?.abilities?.forEachIndexed { index, item ->
-                    Text( // TODO format correctly here
-                        text = "${index + 1}. ${item.name.replace("-", " ").replaceFirstChar { it.titlecase(Locale.getDefault()) }} ${if(item.isHidden) " (hidden ability)" else ""}",
+                pokemonInformation.abilities.forEachIndexed { index, item ->
+                    Text(
+                        text = if (item.isHidden)
+                            stringResource(
+                                id = R.string.about_tab_ability_item_hidden,
+                                index + 1,
+                                item.name.beautifyString()
+                            )
+                        else
+                            stringResource(
+                                id = R.string.about_tab_ability_item,
+                                index + 1,
+                                item.name.beautifyString()
+                            ),
                         style = if (index == 0)
                             PokedexTextStyle.body
                         else
@@ -69,7 +94,7 @@ fun aboutTab(pokemonDetails: PokemonDetails?, pokemonSpecies: PokemonSpecies) {
         Spacer(modifier = Modifier.height(20.dp))
         Text(
             text = stringResource(id = R.string.about_tab_training),
-            color = TypeColorHelper.findBackground(pokemonDetails?.types?.first()?.type?.id),
+            color = typeColor,
             style = PokedexTextStyle.body.bold(),
         )
         Spacer(modifier = Modifier.height(12.dp))
@@ -80,12 +105,15 @@ fun aboutTab(pokemonDetails: PokemonDetails?, pokemonSpecies: PokemonSpecies) {
                 modifier = Modifier.weight(0.7f)
             ) {
                 Text(
-                    text = pokemonSpecies.captureRate.toString(),
+                    text = pokemonInformation.captureRate.toString(),
                     style = PokedexTextStyle.body,
                 )
                 Spacer(modifier = Modifier.width(4.dp))
                 Text(
-                    text = pokemonSpecies.captureProbability.formatCatchProbability(),
+                    text = stringResource(
+                        id = R.string.about_tab_catch_rate_with_pokeball,
+                        pokemonInformation.captureProbability
+                    ),
                     style = PokedexTextStyle.description,
                     modifier = Modifier.align(CenterVertically)
                 )
@@ -94,15 +122,19 @@ fun aboutTab(pokemonDetails: PokemonDetails?, pokemonSpecies: PokemonSpecies) {
         Spacer(modifier = Modifier.height(12.dp))
         TabCell(title = stringResource(id = R.string.about_tab_base_friendship), value = "??")
         Spacer(modifier = Modifier.height(12.dp))
-        TabCell(title = stringResource(id = R.string.about_tab_base_xp), value = pokemonDetails?.baseXp.toString())
+        TabCell(
+            title = stringResource(id = R.string.about_tab_base_xp),
+            value = pokemonInformation.baseXp.toString()
+        )
         Spacer(modifier = Modifier.height(12.dp))
-        TabCell(title = stringResource(id = R.string.about_tab_growth_rate), value = pokemonSpecies.growthRate
-            .replace("-", " ")
-            .replaceFirstChar { it.titlecase(Locale.getDefault()) })
+        TabCell(
+            title = stringResource(id = R.string.about_tab_growth_rate),
+            value = pokemonInformation.growthRate.beautifyString()
+        )
         Spacer(modifier = Modifier.height(20.dp))
         Text(
             text = stringResource(id = R.string.about_tab_breeding),
-            color = TypeColorHelper.findBackground(pokemonDetails?.types?.first()?.type?.id),
+            color = typeColor,
             style = PokedexTextStyle.body.bold(),
         )
         Spacer(modifier = Modifier.height(12.dp))
@@ -111,34 +143,44 @@ fun aboutTab(pokemonDetails: PokemonDetails?, pokemonSpecies: PokemonSpecies) {
                 modifier = Modifier.weight(0.7f)
             ) {
                 Text(
-                    text = stringResource(id = R.string.about_tab_gender_male, (100 - pokemonSpecies.genderRate * 12.5).toString()),
+                    text = stringResource(
+                        id = R.string.about_tab_gender_male,
+                        pokemonInformation.maleRate.toString()
+                    ),
                     color = Ghost,
                     style = PokedexTextStyle.body,
                 )
                 Spacer(modifier = Modifier.width(4.dp))
                 Text(
-                    text = stringResource(id = R.string.about_tab_gender_female, (pokemonSpecies.genderRate * 12.5).toString()),
+                    text = stringResource(
+                        id = R.string.about_tab_gender_female,
+                        pokemonInformation.femaleRate.toString()
+                    ),
                     color = Fairy,
                     style = PokedexTextStyle.body,
                 )
             }
         })
         Spacer(modifier = Modifier.height(12.dp))
-        TabCell(title = stringResource(id = R.string.about_tab_egg_groups), value = pokemonSpecies.eggGroups.joinToString(", ") { eggGroup ->
-            eggGroup.replaceFirstChar { it.titlecase(Locale.getDefault()) }
-        })
+        TabCell(
+            title = stringResource(id = R.string.about_tab_egg_groups),
+            value = pokemonInformation.eggGroups.formatEggGroups()
+        )
         Spacer(modifier = Modifier.height(12.dp))
         TabCell(title = stringResource(id = R.string.about_tab_egg_cycles), description = {
             Row(
                 modifier = Modifier.weight(0.7f)
             ) {
                 Text(
-                    text = pokemonSpecies.hatchCounter.toString(),
+                    text = pokemonInformation.hatchCounter.toString(),
                     style = PokedexTextStyle.body,
                 )
                 Spacer(modifier = Modifier.width(4.dp))
                 Text(
-                    text = pokemonSpecies.hatchCounter.formatHatchCounter(),
+                    text = stringResource(
+                        id = R.string.about_tab_egg_cycles_in_steps,
+                        pokemonInformation.hatchCounter
+                    ),
                     style = PokedexTextStyle.description,
                     modifier = Modifier.align(CenterVertically)
                 )

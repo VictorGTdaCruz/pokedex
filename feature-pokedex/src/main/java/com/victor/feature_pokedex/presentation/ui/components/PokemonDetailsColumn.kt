@@ -9,7 +9,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import com.victor.feature_pokedex.domain.model.PokemonDetails
+import com.victor.feature_pokedex.domain.model.Pokemon
 import com.victor.feature_pokedex.domain.model.PokemonType
 import com.victor.feature_pokedex.presentation.ui.utils.formatPokedexNumber
 import com.victor.feature_pokedex.presentation.ui.utils.formatPokemonName
@@ -17,25 +17,25 @@ import com.victor.features_common.components.PokedexTextStyle
 import com.victor.features_common.components.PokedexTextStyle.bold
 
 @Composable
-internal fun PokemonDetailsColumn(
-    pokemonDetails: PokemonDetails,
+internal fun PokemonColumn(
+    pokemon: Pokemon,
     modifier: Modifier = Modifier
 ) {
     Column(
         modifier = modifier
     ) {
         Text(
-            text = pokemonDetails.id.formatPokedexNumber(),
+            text = pokemon.id.formatPokedexNumber(),
             style = PokedexTextStyle.description.bold(),
             color = Color.DarkGray,
         )
         Text(
-            text = pokemonDetails.name.formatPokemonName(),
+            text = pokemon.name.formatPokemonName(),
             style = PokedexTextStyle.subtitle.bold(),
             color = Color.White,
         )
         Row {
-            pokemonDetails.types.forEach {
+            pokemon.types.forEach {
                 Box(
                     modifier = Modifier.padding(end = 6.dp, top = 4.dp)
                 ) {
