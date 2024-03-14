@@ -12,6 +12,7 @@ data class SpeciesResponse(
     @SerializedName("gender_rate") val genderRate: Int? = null,
     @SerializedName("egg_groups") val eggGroups: List<NameAndUrlResponse>? = null,
     @SerializedName("hatch_counter") val hatchCounter: Int? = null,
+    @SerializedName("evolution_chain") val evolutionChain: NameAndUrlResponse? = null,
 )
 
 data class FlavorTextResponse(

@@ -2,7 +2,6 @@ package com.victor.feature_pokedex.data.mapper
 
 import com.victor.feature_pokedex.data.model.SpeciesResponse
 import com.victor.feature_pokedex.domain.model.PokemonSpecies
-import java.util.Locale
 
 internal fun SpeciesResponse.toDomain(): PokemonSpecies {
     val flavorText = flavorTextList?.find { it.version?.name == "ruby" }?.flavorText ?: ""
@@ -18,5 +17,6 @@ internal fun SpeciesResponse.toDomain(): PokemonSpecies {
         genderRate = genderRate ?: 0,
         eggGroups = eggGroups ?: emptyList(),
         hatchCounter = hatchCounter ?: 0,
+        evolutionChainId = IdMapper.mapIdFromUrl(evolutionChain?.url)
     )
 }

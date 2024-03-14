@@ -1,5 +1,6 @@
 package com.victor.feature_pokedex.data
 
+import com.victor.feature_pokedex.data.model.EvolutionsResponse
 import com.victor.feature_pokedex.data.model.GenerationResponse
 import com.victor.feature_pokedex.data.model.NameAndUrlResponse
 import com.victor.feature_pokedex.data.model.PagedResponse
@@ -32,4 +33,7 @@ internal interface PokedexGateway {
 
     @GET("pokemon-species/{id}")
     suspend fun getPokemonSpecies(@Path("id") pokemonId: Long): SpeciesResponse
+
+    @GET("evolution-chain/{id}")
+    suspend fun getPokemonEvolutions(@Path("id") chainId: Long): EvolutionsResponse
 }

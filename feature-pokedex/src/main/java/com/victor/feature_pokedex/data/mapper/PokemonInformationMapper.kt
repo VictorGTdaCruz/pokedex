@@ -1,6 +1,9 @@
 package com.victor.feature_pokedex.data.mapper
 
+import com.victor.feature_pokedex.data.model.EvolutionsChainResponse
+import com.victor.feature_pokedex.data.model.EvolutionsResponse
 import com.victor.feature_pokedex.domain.model.Pokemon
+import com.victor.feature_pokedex.domain.model.PokemonEvolution
 import com.victor.feature_pokedex.domain.model.PokemonInformation
 import com.victor.feature_pokedex.domain.model.PokemonSpecies
 import com.victor.feature_pokedex.domain.model.PokemonType
@@ -61,11 +64,37 @@ internal object PokemonInformationMapper {
             }
         }
 
+    private fun getPokemonEvolutionList(
+        response: EvolutionsChainResponse?,
+        pokemonList: List<Pokemon>
+    ): List<PokemonEvolution> =
+        if (response?.evolvesTo.isNullOrEmpty()) {
+            mutableListOf()
+        } else {
+            val currentId = IdMapper.mapIdFromUrl(response?.species?.url)
+            val nextIds = response?.evolvesTo?.map { IdMapper.mapIdFromUrl(it.species?.url) }
+            mutableListOf<PokemonEvolution>().apply {
+                add(
+                    PokemonEvolution(
+                        from = pokemonList.filter { it.id == currentId },
+                        to = pokemonList.filter { nextIds?.contains(it.id) == true },
+                        trigger = response?.evolvesTo?.firstOrNull()?.evolutionDetails?.firstOrNull()?.trigger?.name,
+                        minLevel = response?.evolvesTo?.firstOrNull()?.evolutionDetails?.firstOrNull()?.minLevel
+                    )
+                )
+                response?.evolvesTo?.forEach {
+                    addAll(getPokemonEvolutionList(it, pokemonList))
+                }
+            }
+        }
+
     fun map(
         pokemon: Pokemon,
         pokemonSpecies: PokemonSpecies,
         typeList: List<PokemonType>,
-        pokemonTypeList: List<TypeDetails>
+        pokemonTypeList: List<TypeDetails>,
+        evolutionChain: EvolutionsResponse,
+        pokemonListFromEvolutionChain: List<Pokemon>
     ): PokemonInformation {
         val captureProbability =
             calculateCaptureProbability(captureRate = pokemonSpecies.captureRate)
@@ -81,6 +110,8 @@ internal object PokemonInformationMapper {
         val weaknesses = typeDefenses
             .filter { it.effectiveness >= TWO  }
             .map { it.type }
+
+        val evolutions = getPokemonEvolutionList(evolutionChain.chain, pokemonListFromEvolutionChain)
 
         return PokemonInformation(
             id = pokemon.id,
@@ -104,6 +135,7 @@ internal object PokemonInformationMapper {
             hatchSteps = hatchSteps,
             typeDefenses = typeDefenses,
             weaknesses = weaknesses,
+            evolutions = evolutions,
         )
     }
 }

@@ -1,9 +1,13 @@
 package com.victor.feature_pokedex.data
 
+import com.victor.feature_pokedex.data.mapper.IdMapper
 import com.victor.feature_pokedex.data.mapper.PokemonInformationMapper
 import com.victor.feature_pokedex.data.mapper.toDomain
 import com.victor.feature_pokedex.data.mapper.toPokemonListDomain
 import com.victor.feature_pokedex.data.mapper.toPokemonTypesDomain
+import com.victor.feature_pokedex.data.model.EvolutionsChainResponse
+import com.victor.feature_pokedex.data.model.EvolutionsResponse
+import com.victor.feature_pokedex.domain.model.Pokemon
 import com.victor.feature_pokedex.domain.model.PokemonInformation
 import com.victor.feature_pokedex.domain.service.PokedexService
 import com.victor.networking.request
@@ -43,7 +47,29 @@ internal class PokedexInfrastructure(private val api: PokedexGateway) : PokedexS
         val pokemon = getPokemon(pokemonId)
         val typeList = getPokemonTypes()
         val pokemonTypeList = pokemon.types.map { getTypeDetails(it.type.id) }
+        val evolutionChain = api.getPokemonEvolutions(pokemonSpecies.evolutionChainId)
+        val pokemonListFromEvolutionChain = getPokemonFromEveryPokemonInEvolutionChain(evolutionChain.chain)
 
-        return PokemonInformationMapper.map(pokemon, pokemonSpecies, typeList, pokemonTypeList)
+        return PokemonInformationMapper.map(
+            pokemon,
+            pokemonSpecies,
+            typeList,
+            pokemonTypeList,
+            evolutionChain,
+            pokemonListFromEvolutionChain
+        )
     }
+
+    private suspend fun getPokemonFromEveryPokemonInEvolutionChain(
+        response: EvolutionsChainResponse?
+    ): MutableList<Pokemon> =
+        mutableListOf<Pokemon>().apply {
+            val currentId = IdMapper.mapIdFromUrl(response?.species?.url)
+            add(getPokemon(currentId))
+            if (response?.evolvesTo != null) {
+                response.evolvesTo.forEach {
+                    addAll(getPokemonFromEveryPokemonInEvolutionChain(it))
+                }
+            }
+        }
 }

@@ -9,4 +9,5 @@ data class PokemonSpecies(
     val genderRate: Int,
     val eggGroups: List<String>,
     val hatchCounter: Int,
+    val evolutionChainId: Long
 )

@@ -70,4 +70,7 @@
     <string name="stats_tab_total">Total</string>
     <string name="stats_tab_type_defenses">Type Defenses</string>
     <string name="stats_tab_type_defenses_description">The effectiveness of each type on Bulbasaur.</string>
+
+    <string name="evolution_tab_title">Evolution Chart</string>
+    <string name="evolution_tab_level">Level %1s</string>
 </resources>

@@ -1,5 +1,6 @@
 package com.victor.networking
 
+import com.google.gson.JsonSyntaxException
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.supervisorScope
 import kotlinx.coroutines.withContext
@@ -25,6 +26,7 @@ private fun Throwable.toPokedexException(): PokedexException =
         is IOException,
         is HttpException,
         is TimeoutException -> PokedexException.ConnectionException()
-        is IllegalArgumentException -> PokedexException.FormatException()
+        is IllegalArgumentException,
+        is JsonSyntaxException -> PokedexException.FormatException()
         else -> PokedexException.UnexpectedException()
     }

@@ -22,9 +22,17 @@ data class PokemonInformation(
     val hatchSteps: Int,
     val typeDefenses: List<TypeEffectiveness>,
     val weaknesses: List<PokemonType>,
+    val evolutions: List<PokemonEvolution>,
 )
 
 data class TypeEffectiveness(
     val type: PokemonType,
     val effectiveness: Double
+)
+
+data class PokemonEvolution(
+    val from: List<Pokemon>?,
+    val to: List<Pokemon>?,
+    val trigger: String?,
+    val minLevel: Int?,
 )
