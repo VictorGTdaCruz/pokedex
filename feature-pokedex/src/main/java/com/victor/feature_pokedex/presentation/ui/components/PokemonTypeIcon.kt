@@ -25,7 +25,7 @@ import com.victor.feature_pokedex.presentation.ui.utils.TypeDrawableHelper
 @Composable
 fun PokemonTypeIcon(
     type: PokemonType,
-    onClick: (PokemonType) -> Unit,
+    onClick: ((PokemonType) -> Unit)? = null,
     isFilled: Boolean = true,
     cardPadding: Dp = 8.dp,
     iconSize: Dp = 24.dp,
@@ -39,7 +39,7 @@ fun PokemonTypeIcon(
         modifier = Modifier
             .padding(cardPadding)
             .clip(RoundedCornerShape(50.dp))
-            .clickable { onClick(type) }
+            .clickable { onClick?.invoke(type) }
     ) {
         Image(
             painter = painterResource(id = TypeDrawableHelper.find(type.id)),

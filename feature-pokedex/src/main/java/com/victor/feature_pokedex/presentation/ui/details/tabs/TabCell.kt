@@ -32,6 +32,10 @@ internal fun TabCell(title: String, value: String? = null, description: @Composa
                     .weight(weight = 0.7f)
             )
         else
-            description?.invoke(this)
+            Row(
+                modifier = Modifier.weight(0.7f)
+            ) {
+                description?.invoke(this)
+            }
     }
 }

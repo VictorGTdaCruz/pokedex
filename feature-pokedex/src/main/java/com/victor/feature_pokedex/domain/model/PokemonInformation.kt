@@ -20,4 +20,11 @@ data class PokemonInformation(
     val eggGroups: List<String>,
     val hatchCounter: Int,
     val hatchSteps: Int,
+    val typeDefenses: List<TypeEffectiveness>,
+    val weaknesses: List<PokemonType>,
+)
+
+data class TypeEffectiveness(
+    val type: PokemonType,
+    val effectiveness: Double
 )

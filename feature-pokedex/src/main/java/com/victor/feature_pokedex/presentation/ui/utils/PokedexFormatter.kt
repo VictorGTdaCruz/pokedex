@@ -21,7 +21,7 @@ fun String.formatPokemonName() =
 fun PokemonInformation?.formatFlavorText() =
     this?.flavorText
         ?.replace("\n", "")
-        ?.replace(".", ". ")
+        ?.replace(".", ".")
         ?.replace(name.uppercase(Locale.ROOT), name.capitalize())
         ?: ""
 
@@ -48,6 +48,16 @@ fun String.capitalize() =
 
 fun Float.formatPercentage(): String =
     DecimalFormat(FLOAT_FORMAT_TEMPLATE_TWO_DECIMALS).format(this * 100)
+
+fun Double.formatTypeEffectiveness() =
+    when {
+        this == 0.0 -> "0"
+        this == 0.25 -> "1/4"
+        this == 0.5 -> "1/2"
+        this == 2.0 -> "2"
+        this == 4.0 -> "4"
+        else -> ""
+    }
 
 private const val STRING_SEPARATOR = ", "
 private const val FLOAT_FORMAT_TEMPLATE_ONE_DECIMAL = "#.#"

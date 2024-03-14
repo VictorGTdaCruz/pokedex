@@ -1,6 +1,7 @@
 package com.victor.feature_pokedex.presentation.ui.details.tabs
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -9,9 +10,12 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Alignment.Companion.CenterVertically
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -20,7 +24,9 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.victor.feature_pokedex.R
 import com.victor.feature_pokedex.domain.model.PokemonInformation
+import com.victor.feature_pokedex.presentation.ui.components.PokemonTypeIcon
 import com.victor.feature_pokedex.presentation.ui.utils.TypeColorHelper
+import com.victor.feature_pokedex.presentation.ui.utils.formatTypeEffectiveness
 import com.victor.features_common.components.PokedexTextStyle
 import com.victor.features_common.components.PokedexTextStyle.bold
 
@@ -77,6 +83,32 @@ fun statsTab(pokemonInformation: PokemonInformation) {
             text = stringResource(id = R.string.stats_tab_type_defenses_description),
             style = PokedexTextStyle.body,
         )
+        Spacer(modifier = Modifier.height(16.dp))
+        LazyVerticalGrid(
+            columns = GridCells.Fixed(pokemonInformation.typeDefenses.size / 2),
+            verticalArrangement = Arrangement.spacedBy(16.dp),
+            horizontalArrangement = Arrangement.spacedBy(8.dp),
+            userScrollEnabled = false,
+            modifier = Modifier.height(150.dp),
+            content = {
+                items(pokemonInformation.typeDefenses.size) {
+                    Column(
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ) {
+                        PokemonTypeIcon(
+                            type = pokemonInformation.typeDefenses[it].type,
+                            iconSize = 12.dp,
+                            cardPadding = 0.dp
+                        )
+                        Spacer(modifier = Modifier.height(8.dp))
+                        Text(
+                            text = pokemonInformation.typeDefenses[it].effectiveness.formatTypeEffectiveness(),
+                            style = PokedexTextStyle.body,
+                        )
+                    }
+                }
+            }
+        )
         Spacer(modifier = Modifier.height(8.dp))
     }
 }
@@ -86,33 +118,28 @@ fun TabCellStat(title: String, statKey: String, pokemonInformation: PokemonInfor
     val stat = pokemonInformation?.stats?.find { it.name == statKey }?.baseStat ?: 0
     val statLevel = (stat.toFloat() / 255)
     TabCell(title, description = {
-        Row(
+        Box(
             modifier = Modifier
-                .weight(0.8f)
+                .height(4.dp)
+                .weight(1f)
+                .clip(RoundedCornerShape(4.dp))
+                .background(Color.LightGray)
+                .align(CenterVertically)
         ) {
             Box(
                 modifier = Modifier
                     .height(4.dp)
-                    .weight(1f)
+                    .fillMaxWidth(statLevel)
                     .clip(RoundedCornerShape(4.dp))
-                    .background(Color.LightGray)
-                    .align(CenterVertically)
-            ) {
-                Box(
-                    modifier = Modifier
-                        .height(4.dp)
-                        .fillMaxWidth(statLevel)
-                        .clip(RoundedCornerShape(4.dp))
-                        .background(TypeColorHelper.findBackground(pokemonInformation?.types?.first()?.type?.id))
+                    .background(TypeColorHelper.findBackground(pokemonInformation?.types?.first()?.type?.id))
 
-                )
-            }
-            Spacer(modifier = Modifier.width(36.dp))
-            Text(
-                text = stat.toString(),
-                style = PokedexTextStyle.body
             )
-            Spacer(modifier = Modifier.width(16.dp))
         }
+        Spacer(modifier = Modifier.width(36.dp))
+        Text(
+            text = stat.toString(),
+            style = PokedexTextStyle.body
+        )
+        Spacer(modifier = Modifier.width(16.dp))
     })
 }
