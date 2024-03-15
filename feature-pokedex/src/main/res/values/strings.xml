@@ -34,4 +34,46 @@
     <string name="content_description_back_button">Back button</string>
     <string name="content_description_type_icon">Pokémon type icon</string>
     <string name="content_description_pokemon_image">Pokémon image</string>
+
+    <string name="about_tab_pokedex_data">Pokédex Data</string>
+    <string name="about_tab_species">Species</string>
+    <string name="about_tab_height">Height</string>
+    <string name="about_tab_height_in_meters">%1sm</string>
+    <string name="about_tab_height_in_feet_and_inches">(%1s\'%2s\")</string>
+    <string name="about_tab_weight">Weight</string>
+    <string name="about_tab_weight_in_kilograms">%1skg</string>
+    <string name="about_tab_weight_in_lb">(%1s lbs)</string>
+    <string name="about_tab_abilities">Abilities</string>
+    <string name="about_tab_ability_item">%1d. %2s</string>
+    <string name="about_tab_ability_item_hidden">%1d. %2s (hidden ability)</string>
+    <string name="about_tab_weakness">Weakness</string>
+    <string name="about_tab_training">Training</string>
+    <string name="about_tab_ev_yield">EV Yield</string>
+    <string name="about_tab_catch_rate">Catch Rate</string>
+    <string name="about_tab_catch_rate_with_pokeball">"(%1s%% with PokéBall, full HP)"</string>
+    <string name="about_tab_base_friendship">Base Friendship</string>
+    <string name="about_tab_base_xp">Base Exp</string>
+    <string name="about_tab_growth_rate">Growth Rate</string>
+    <string name="about_tab_breeding">Breeding</string>
+    <string name="about_tab_gender">Gender</string>
+    <string name="about_tab_gender_male">♂%1s%%</string>
+    <string name="about_tab_gender_female">♀%1s%%</string>
+    <string name="about_tab_genderless">Genderless</string>
+    <string name="about_tab_egg_groups">Egg Groups</string>
+    <string name="about_tab_egg_cycles">Egg Cycles</string>
+    <string name="about_tab_egg_cycles_in_steps">(%1s steps)</string>
+
+    <string name="stats_tab_base_stats">Base Stats</string>
+    <string name="stats_tab_hp">HP</string>
+    <string name="stats_tab_attack">Attack</string>
+    <string name="stats_tab_defense">Defense</string>
+    <string name="stats_tab_sp_attack">Sp. Attack</string>
+    <string name="stats_tab_sp_defense">Sp. Defense</string>
+    <string name="stats_tab_speed">Speed</string>
+    <string name="stats_tab_total">Total</string>
+    <string name="stats_tab_type_defenses">Type Defenses</string>
+    <string name="stats_tab_type_defenses_description">The effectiveness of each type on %1s.</string>
+
+    <string name="evolution_tab_title">Evolution Chart</string>
+    <string name="evolution_tab_level">Level %1s</string>
 </resources>

@@ -4,6 +4,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
+import com.victor.features_common.theme.Gray
 
 object PokedexTextStyle {
 
@@ -22,13 +23,13 @@ object PokedexTextStyle {
     val body = TextStyle(
         fontSize = 16.sp,
         fontWeight = FontWeight.W400,
-        color = Color.Gray
+        color = Gray
     )
 
     val description = TextStyle(
         fontSize = 12.sp,
         fontWeight = FontWeight.W400,
-        color = Color.Gray
+        color = Gray
     )
 
     fun TextStyle.bold() = copy(fontWeight = FontWeight.W700)
