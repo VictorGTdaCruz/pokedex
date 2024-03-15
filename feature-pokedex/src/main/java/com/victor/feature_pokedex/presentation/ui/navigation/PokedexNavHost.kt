@@ -37,7 +37,17 @@ internal fun PokedexNavHost(
             )
         ) {
             val pokemonId = it.arguments?.getLong("pokemonId") ?: 0
-            DetailsScreenBody(navController = navController, viewModel = viewModel, pokemonId)
+            DetailsScreenBody(
+                navController = navController,
+                viewModel = viewModel,
+                pokemonId = pokemonId,
+                onPokemonClick = { id ->
+                    if (id != pokemonId) {
+                        val route = "${Screens.DetailsScreen.name}/$id"
+                        navController.navigate(route)
+                    }
+                }
+            )
         }
     }
 }

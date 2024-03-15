@@ -58,7 +58,12 @@ import com.victor.features_common.observeState
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
 @Composable
-internal fun DetailsScreenBody(navController: NavController, viewModel: PokedexViewModel, pokemonId: Long) {
+internal fun DetailsScreenBody(
+    navController: NavController,
+    viewModel: PokedexViewModel,
+    pokemonId: Long,
+    onPokemonClick: (Long) -> Unit
+) {
     var selectedTabIndex by remember { mutableStateOf(0) }
     val pagerState = rememberPagerState { Tabs.values().size }
 
@@ -191,7 +196,7 @@ internal fun DetailsScreenBody(navController: NavController, viewModel: PokedexV
                         when (index) {
                             0 -> aboutTab(pokemonInformation = it)
                             1 -> statsTab(pokemonInformation = it)
-                            2 -> evolutionTab(pokemonInformation = it)
+                            2 -> evolutionTab(pokemonInformation = it, onPokemonClick)
                         }
                     }
                 }
