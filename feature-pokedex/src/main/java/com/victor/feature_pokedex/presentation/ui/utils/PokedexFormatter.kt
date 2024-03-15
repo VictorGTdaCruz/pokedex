@@ -13,12 +13,6 @@ fun Long.formatPokedexNumber() =
         else -> "#$this"
     }
 
-fun String.formatPokemonName() =
-    split("-")
-        .joinToString(" ") {
-            it.capitalize()
-        }
-
 fun Float.formatKgToLb() = times(KG_TO_LB_RATE)
 
 fun Float.formatMToFeetAndInches(): Pair<Int, Int> {

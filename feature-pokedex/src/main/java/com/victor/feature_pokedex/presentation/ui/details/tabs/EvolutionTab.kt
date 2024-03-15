@@ -27,7 +27,7 @@ import com.victor.feature_pokedex.domain.model.PokemonEvolution
 import com.victor.feature_pokedex.domain.model.PokemonInformation
 import com.victor.feature_pokedex.presentation.ui.utils.TypeColorHelper
 import com.victor.feature_pokedex.presentation.ui.utils.formatPokedexNumber
-import com.victor.feature_pokedex.presentation.ui.utils.formatPokemonName
+import com.victor.feature_pokedex.presentation.ui.utils.beautifyString
 import com.victor.features_common.components.PokedexTextStyle
 import com.victor.features_common.theme.LightGray
 
@@ -109,7 +109,7 @@ private fun RowScope.EvolutionPokemonList(pokemonList: List<Pokemon>?) {
                 color = Color.DarkGray,
             )
             Text(
-                text = it.name.formatPokemonName(),
+                text = it.name.beautifyString(),
                 style = PokedexTextStyle.body,
                 color = Color.Black,
             )

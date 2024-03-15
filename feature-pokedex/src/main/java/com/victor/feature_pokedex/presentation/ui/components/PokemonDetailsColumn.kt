@@ -11,8 +11,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.victor.feature_pokedex.domain.model.PokemonType
 import com.victor.feature_pokedex.domain.model.PokemonTypeWithSlot
+import com.victor.feature_pokedex.presentation.ui.utils.beautifyString
 import com.victor.feature_pokedex.presentation.ui.utils.formatPokedexNumber
-import com.victor.feature_pokedex.presentation.ui.utils.formatPokemonName
 import com.victor.features_common.components.PokedexTextStyle
 import com.victor.features_common.components.PokedexTextStyle.bold
 
@@ -32,7 +32,7 @@ internal fun PokemonColumn(
             color = Color.DarkGray,
         )
         Text(
-            text = name.formatPokemonName(),
+            text = name.beautifyString(),
             style = PokedexTextStyle.subtitle.bold(),
             color = Color.White,
         )

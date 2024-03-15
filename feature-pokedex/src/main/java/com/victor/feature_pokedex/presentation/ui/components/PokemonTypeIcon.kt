@@ -38,7 +38,6 @@ fun PokemonTypeIcon(
         ),
         modifier = Modifier
             .padding(cardPadding)
-            .clip(RoundedCornerShape(50.dp))
             .clickable { onClick?.invoke(type) }
     ) {
         Image(

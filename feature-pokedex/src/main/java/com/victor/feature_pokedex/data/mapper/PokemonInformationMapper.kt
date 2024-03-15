@@ -17,6 +17,8 @@ internal object PokemonInformationMapper {
     private const val PERCENT_IN_EIGHTHS = ONE_HUNDRED_PERCENT / 8
     private const val TEN = 10f
     private const val TWO = 2.0
+    private const val WATER = "water"
+    private const val WATER1 = "water1"
 
     /**
      * For more information about F and how to calculate capture probability:
@@ -107,6 +109,8 @@ internal object PokemonInformationMapper {
         val femaleRate = calculateFemaleRate(genderRate = pokemonSpecies.genderRate)
         val maleRate = femaleRate?.let { ONE_HUNDRED_PERCENT - it }
 
+        val eggGroups = pokemonSpecies.eggGroups.map { it.replace(WATER1, WATER) }
+
         val heightInKg = pokemon.height / TEN
         val weightInKg = pokemon.weight / TEN
 
@@ -134,7 +138,7 @@ internal object PokemonInformationMapper {
             genera = pokemonSpecies.genera,
             maleRate = maleRate,
             femaleRate = femaleRate,
-            eggGroups = pokemonSpecies.eggGroups,
+            eggGroups = eggGroups,
             hatchCounter = pokemonSpecies.hatchCounter,
             hatchSteps = hatchSteps,
             typeDefenses = typeDefenses,

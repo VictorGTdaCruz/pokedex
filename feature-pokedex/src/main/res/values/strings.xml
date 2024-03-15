@@ -68,11 +68,11 @@
     <string name="stats_tab_attack">Attack</string>
     <string name="stats_tab_defense">Defense</string>
     <string name="stats_tab_sp_attack">Sp. Attack</string>
-    <string name="stats_tab_sp_defense">Defense</string>
+    <string name="stats_tab_sp_defense">Sp. Defense</string>
     <string name="stats_tab_speed">Speed</string>
     <string name="stats_tab_total">Total</string>
     <string name="stats_tab_type_defenses">Type Defenses</string>
-    <string name="stats_tab_type_defenses_description">The effectiveness of each type on Bulbasaur.</string>
+    <string name="stats_tab_type_defenses_description">The effectiveness of each type on %1s.</string>
 
     <string name="evolution_tab_title">Evolution Chart</string>
     <string name="evolution_tab_level">Level %1s</string>
