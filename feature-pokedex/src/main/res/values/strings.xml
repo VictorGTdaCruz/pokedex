@@ -39,8 +39,10 @@
     <string name="about_tab_species">Species</string>
     <string name="about_tab_height">Height</string>
     <string name="about_tab_height_in_meters">%1sm</string>
+    <string name="about_tab_height_in_feet_and_inches">(%1s\'%2s\")</string>
     <string name="about_tab_weight">Weight</string>
     <string name="about_tab_weight_in_kilograms">%1skg</string>
+    <string name="about_tab_weight_in_lb">(%1s lbs)</string>
     <string name="about_tab_abilities">Abilities</string>
     <string name="about_tab_ability_item">%1d. %2s</string>
     <string name="about_tab_ability_item_hidden">%1d. %2s (hidden ability)</string>
@@ -56,6 +58,7 @@
     <string name="about_tab_gender">Gender</string>
     <string name="about_tab_gender_male">♂%1s%%</string>
     <string name="about_tab_gender_female">♀%1s%%</string>
+    <string name="about_tab_genderless">Genderless</string>
     <string name="about_tab_egg_groups">Egg Groups</string>
     <string name="about_tab_egg_cycles">Egg Cycles</string>
     <string name="about_tab_egg_cycles_in_steps">(%1s steps)</string>

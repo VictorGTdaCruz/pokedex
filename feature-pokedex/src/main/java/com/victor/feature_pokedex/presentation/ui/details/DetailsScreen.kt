@@ -176,18 +176,18 @@ internal fun DetailsScreenBody(navController: NavController, viewModel: PokedexV
                     }
                 }
 
-                Box(
-                    modifier = Modifier
-                        .background(
-                            Color.White,
-                            shape = RoundedCornerShape(topStart = 24.dp, topEnd = 24.dp)
-                        )
-                        .fillMaxSize()
-                ) {
-                    HorizontalPager(
-                        state = pagerState,
-                        modifier = Modifier.fillMaxSize()
-                    ) { index ->
+                HorizontalPager(
+                    state = pagerState,
+                    modifier = Modifier.fillMaxSize()
+                ) { index ->
+                    Box(
+                        modifier = Modifier
+                            .background(
+                                Color.White,
+                                shape = RoundedCornerShape(topStart = 24.dp, topEnd = 24.dp)
+                            )
+                            .fillMaxSize()
+                    ) {
                         when (index) {
                             0 -> aboutTab(pokemonInformation = it)
                             1 -> statsTab(pokemonInformation = it)

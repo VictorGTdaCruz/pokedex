@@ -37,7 +37,11 @@ internal object PokemonInformationMapper {
      * Following the formula from api docs:
      * https://pokeapi.co/docs/v2#pokemon-species
      */
-    private fun calculateFemaleRate(genderRate: Int) = genderRate * PERCENT_IN_EIGHTHS
+    private fun calculateFemaleRate(genderRate: Int) =
+        when (genderRate) {
+            -1 -> null
+            else -> genderRate * PERCENT_IN_EIGHTHS
+        }
 
     private fun calculateTypeDefensesEffectivenesses(
         types: List<PokemonType>,
@@ -101,7 +105,7 @@ internal object PokemonInformationMapper {
         val hatchSteps = calculateHatchSteps(hatchCounter = pokemonSpecies.hatchCounter)
 
         val femaleRate = calculateFemaleRate(genderRate = pokemonSpecies.genderRate)
-        val maleRate = ONE_HUNDRED_PERCENT - femaleRate
+        val maleRate = femaleRate?.let { ONE_HUNDRED_PERCENT - it }
 
         val heightInKg = pokemon.height / TEN
         val weightInKg = pokemon.weight / TEN
