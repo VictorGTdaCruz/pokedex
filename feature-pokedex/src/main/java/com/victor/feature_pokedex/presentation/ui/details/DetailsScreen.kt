@@ -31,6 +31,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Alignment.Companion.BottomEnd
 import androidx.compose.ui.Alignment.Companion.Center
 import androidx.compose.ui.Alignment.Companion.CenterVertically
@@ -183,6 +184,7 @@ internal fun DetailsScreenBody(
 
                 HorizontalPager(
                     state = pagerState,
+                    verticalAlignment = Alignment.Top,
                     modifier = Modifier.fillMaxSize()
                 ) { index ->
                     Box(
