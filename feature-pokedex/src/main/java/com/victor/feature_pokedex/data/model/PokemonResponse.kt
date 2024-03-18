@@ -2,43 +2,42 @@ package com.victor.feature_pokedex.data.model
 
 import com.google.gson.annotations.SerializedName
 
+data class PokemonSimpleResponse(
+    val pokemon: NameAndUrlResponse? = null,
+)
+
 data class PokemonResponse(
     val id: Long? = null,
     val name: String? = null,
     val height: Int? = null,
     val weight: Int? = null,
-    val types: List<PokemonTypeWithSlotResponse>? = null,
-    val stats: List<PokemonStatsResponse>? = null,
-    val sprites: PokemonSpriteResponse? = null,
-    val abilities: List<PokemonAbilityResponse>? = null,
+    val types: List<TypeSimpleResponse>? = null,
+    val stats: List<StatResponse>? = null,
+    val sprites: SpriteResponse? = null,
+    val abilities: List<AbilityResponse>? = null,
     @SerializedName("base_experience") val baseXp: Int? = null,
 )
 
-data class PokemonTypeWithSlotResponse(
-    val slot: Int? = null,
-    val type: NameAndUrlResponse? = null
-)
-
-data class PokemonSpriteResponse(
+data class SpriteResponse(
     @SerializedName("front_default") val frontDefault: String? = null,
-    val other: PokemonOtherSpritesResponse? = null
+    val other: OtherSpritesResponse? = null
 )
 
-data class PokemonOtherSpritesResponse(
-    @SerializedName("official-artwork") val officialArtwork: PokemonOfficialArtworkSpriteResponse? = null
+data class OtherSpritesResponse(
+    @SerializedName("official-artwork") val officialArtwork: OfficialArtworkSpriteResponse? = null
 )
 
-data class PokemonOfficialArtworkSpriteResponse(
+data class OfficialArtworkSpriteResponse(
     @SerializedName("front_default") val frontDefault: String? = null
 )
 
-data class PokemonStatsResponse(
-    val base_stat: Int? = null,
+data class StatResponse(
+    @SerializedName("base_stat") val baseStat: Int? = null,
     val effort: Int? = null,
     val stat: NameAndUrlResponse? = null
 )
 
-data class PokemonAbilityResponse(
+data class AbilityResponse(
     val ability: NameAndUrlResponse? = null,
     @SerializedName("is_hidden") val isHidden: Boolean? = null
 )

@@ -2,7 +2,7 @@ package com.victor.feature_pokedex.data.model
 
 import com.google.gson.annotations.SerializedName
 
-data class SpeciesResponse(
+data class SpecieResponse(
     val id: Long? = null,
     val name: String? = null,
     @SerializedName("capture_rate") val captureRate: Int? = null,

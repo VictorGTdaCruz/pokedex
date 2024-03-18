@@ -5,7 +5,7 @@ import com.victor.feature_pokedex.data.mapper.PokemonInformationMapper
 import com.victor.feature_pokedex.data.mapper.toDomain
 import com.victor.feature_pokedex.data.mapper.toPokemonListDomain
 import com.victor.feature_pokedex.data.mapper.toPokemonTypesDomain
-import com.victor.feature_pokedex.data.model.EvolutionsChainResponse
+import com.victor.feature_pokedex.data.model.EvolutionChainResponse
 import com.victor.feature_pokedex.domain.model.Pokemon
 import com.victor.feature_pokedex.domain.model.PokemonInformation
 import com.victor.feature_pokedex.domain.service.PokedexService
@@ -60,7 +60,7 @@ internal class PokedexInfrastructure(private val api: PokedexGateway) : PokedexS
     }
 
     private suspend fun getPokemonFromEveryPokemonInEvolutionChain(
-        response: EvolutionsChainResponse?
+        response: EvolutionChainResponse?
     ): MutableList<Pokemon> =
         mutableListOf<Pokemon>().apply {
             val currentId = IdMapper.mapIdFromUrl(response?.species?.url)

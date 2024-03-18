@@ -1,7 +1,7 @@
 package com.victor.feature_pokedex.data.mapper
 
-import com.victor.feature_pokedex.data.model.EvolutionsChainResponse
-import com.victor.feature_pokedex.data.model.EvolutionsResponse
+import com.victor.feature_pokedex.data.model.EvolutionChainResponse
+import com.victor.feature_pokedex.data.model.EvolutionResponse
 import com.victor.feature_pokedex.domain.model.Pokemon
 import com.victor.feature_pokedex.domain.model.PokemonEvolution
 import com.victor.feature_pokedex.domain.model.PokemonInformation
@@ -71,7 +71,7 @@ internal object PokemonInformationMapper {
         }
 
     private fun getPokemonEvolutionList(
-        response: EvolutionsChainResponse?,
+        response: EvolutionChainResponse?,
         pokemonList: List<Pokemon>
     ): List<PokemonEvolution> =
         if (response?.evolvesTo.isNullOrEmpty()) {
@@ -99,7 +99,7 @@ internal object PokemonInformationMapper {
         specie: Specie,
         typeList: List<TypeSimple>,
         typeListOfCurrentPokemon: List<Type>,
-        evolutionChain: EvolutionsResponse,
+        evolutionChain: EvolutionResponse,
         pokemonListFromEvolutionChain: List<Pokemon>
     ): PokemonInformation {
         val captureProbability =

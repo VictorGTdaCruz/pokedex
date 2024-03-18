@@ -1,9 +1,9 @@
 package com.victor.feature_pokedex.data.mapper
 
-import com.victor.feature_pokedex.data.model.SpeciesResponse
+import com.victor.feature_pokedex.data.model.SpecieResponse
 import com.victor.feature_pokedex.domain.model.Specie
 
-internal fun SpeciesResponse.toDomain(): Specie {
+internal fun SpecieResponse.toDomain(): Specie {
     val flavorText = flavorTextList?.find { it.version?.name == "ruby" }?.flavorText ?: ""
     val genera = genera?.find { it.language?.name == "en" }?.genus ?: ""
     val eggGroups = eggGroups?.map { it.name ?: "" }

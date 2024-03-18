@@ -1,10 +1,12 @@
 package com.victor.feature_pokedex.data.mapper
 
-import com.victor.feature_pokedex.data.model.PokemonAbilityResponse
+import com.victor.feature_pokedex.data.model.AbilityResponse
 import com.victor.feature_pokedex.data.model.PokemonResponse
-import com.victor.feature_pokedex.data.model.PokemonStatsResponse
+import com.victor.feature_pokedex.data.model.PokemonSimpleResponse
+import com.victor.feature_pokedex.data.model.StatResponse
 import com.victor.feature_pokedex.domain.model.Ability
 import com.victor.feature_pokedex.domain.model.Pokemon
+import com.victor.feature_pokedex.domain.model.PokemonSimple
 import com.victor.feature_pokedex.domain.model.Stat
 
 internal fun PokemonResponse.toDomain() =
@@ -20,14 +22,14 @@ internal fun PokemonResponse.toDomain() =
         baseXp = baseXp ?: 0,
     )
 
-internal fun PokemonStatsResponse?.toDomain() =
+internal fun StatResponse?.toDomain() =
     Stat(
         name = this?.stat?.name.orEmpty(),
-        baseStat = this?.base_stat ?: 0,
+        baseStat = this?.baseStat ?: 0,
         effort = this?.effort ?: 0
     )
 
-internal fun PokemonAbilityResponse?.toDomain() =
+internal fun AbilityResponse?.toDomain() =
     Ability(
         name = this?.ability?.name.orEmpty(),
         isHidden = this?.isHidden ?: false

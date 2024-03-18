@@ -2,16 +2,15 @@ package com.victor.feature_pokedex.data.model
 
 import com.google.gson.annotations.SerializedName
 
-data class TypeDetailsResponse(
+data class TypeSimpleResponse(
+    val type: NameAndUrlResponse? = null
+)
+
+data class TypeResponse(
     val id: Long? = null,
     val name: String? = null,
     @SerializedName("damage_relations") val damageRelations: DamageRelationsResponse? = null,
     val pokemon: List<PokemonSimpleResponse>? = null,
-)
-
-data class PokemonSimpleResponse(
-    val pokemon: NameAndUrlResponse? = null,
-    val slot: Int? = null
 )
 
 data class DamageRelationsResponse(
