@@ -1,6 +1,6 @@
 package com.victor.feature_pokedex.domain.model
 
-data class PokemonType(
+data class TypeSimple(
     val id: Long,
     val name: String
 )

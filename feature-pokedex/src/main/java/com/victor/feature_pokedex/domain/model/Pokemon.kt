@@ -14,7 +14,7 @@ data class Pokemon(
 
 data class PokemonTypeWithSlot(
     val slot: Int,
-    val type: PokemonType
+    val type: TypeSimple
 )
 
 data class PokemonSprite(

@@ -8,7 +8,7 @@ import androidx.lifecycle.viewModelScope
 import com.victor.feature_pokedex.domain.PokedexUseCase
 import com.victor.feature_pokedex.domain.model.Pokemon
 import com.victor.feature_pokedex.domain.model.PokemonSimple
-import com.victor.feature_pokedex.domain.model.PokemonType
+import com.victor.feature_pokedex.domain.model.TypeSimple
 import com.victor.feature_pokedex.presentation.ui.home.bottomsheets.Sort
 import com.victor.features_common.State
 import com.victor.features_common.components.PokedexButtonStyle
@@ -28,7 +28,7 @@ internal class PokedexViewModel(
 
     var showFilterBottomSheet = mutableStateOf(false)
     val pokemonTypes = mutableStateOf<State>(State.Empty)
-    private val selectedTypes = mutableStateListOf<PokemonType>()
+    private val selectedTypes = mutableStateListOf<TypeSimple>()
     var selectedIdRange = mutableStateOf<ClosedFloatingPointRange<Float>?>(null)
     var fullIdRange = mutableStateOf<ClosedFloatingPointRange<Float>?>(null)
 
@@ -91,11 +91,11 @@ internal class PokedexViewModel(
         }
     }
 
-    fun getPokemonTypes() {
-        val types = pokemonTypes.getAsSuccessState<List<PokemonType>>()?.data
+    fun getTypeList() {
+        val types = pokemonTypes.getAsSuccessState<List<TypeSimple>>()?.data
         if (types.isNullOrEmpty()) {
             manageStateDuringRequest(pokemonTypes) {
-                useCase.getPokemonTypes()
+                useCase.getTypeList()
             }
         }
     }
@@ -118,9 +118,9 @@ internal class PokedexViewModel(
         showGenerationBottomSheet.value = false
     }
 
-    fun isPokemonTypeFilterIconFilled(type: PokemonType) = selectedTypes.contains(type)
+    fun isPokemonTypeFilterIconFilled(type: TypeSimple) = selectedTypes.contains(type)
 
-    fun onPokemonTypeFilterIconClick(type: PokemonType) {
+    fun onPokemonTypeFilterIconClick(type: TypeSimple) {
         selectedTypes.apply {
             if (contains(type)) remove(type) else add(type)
         }

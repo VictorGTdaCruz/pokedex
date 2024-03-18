@@ -18,8 +18,8 @@ internal class PokedexInfrastructure(private val api: PokedexGateway) : PokedexS
     }
 
     // TODO bring all rules from usecase to here
-    override suspend fun getPokemonTypes() = request {
-        api.getPokemonTypes()
+    override suspend fun getTypeList() = request {
+        api.getTypeList()
             .toPokemonTypesDomain()
             .filter { it.id in 1 until 9999 }
             .sortedBy { it.id }
@@ -44,7 +44,7 @@ internal class PokedexInfrastructure(private val api: PokedexGateway) : PokedexS
     override suspend fun getPokemonInformation(pokemonId: Long): PokemonInformation {
         val pokemonSpecies = getPokemonSpecies(pokemonId)
         val pokemon = getPokemon(pokemonId)
-        val typeList = getPokemonTypes()
+        val typeList = getTypeList()
         val pokemonTypeList = pokemon.types.map { getTypeDetails(it.type.id) }
         val evolutionChain = api.getPokemonEvolutions(pokemonSpecies.evolutionChainId)
         val pokemonListFromEvolutionChain = getPokemonFromEveryPokemonInEvolutionChain(evolutionChain.chain)

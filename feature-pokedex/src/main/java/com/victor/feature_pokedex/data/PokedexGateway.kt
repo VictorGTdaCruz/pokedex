@@ -14,7 +14,7 @@ import retrofit2.http.Query
 internal interface PokedexGateway {
 
     @GET("type")
-    suspend fun getPokemonTypes(): PagedResponse<NameAndUrlResponse>
+    suspend fun getTypeList(): PagedResponse<NameAndUrlResponse>
 
     @GET("type/{id}")
     suspend fun getTypeDetails(@Path("id") typeId: Long): TypeDetailsResponse

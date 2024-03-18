@@ -5,14 +5,14 @@ import com.victor.feature_pokedex.domain.model.PokemonGeneration
 import com.victor.feature_pokedex.domain.model.PokemonInformation
 import com.victor.feature_pokedex.domain.model.PokemonSimple
 import com.victor.feature_pokedex.domain.model.PokemonSpecies
-import com.victor.feature_pokedex.domain.model.PokemonType
+import com.victor.feature_pokedex.domain.model.TypeSimple
 import com.victor.feature_pokedex.domain.model.TypeDetails
 
 internal interface PokedexService {
 
     suspend fun getPokemonList(offset: Int, limit: Int): List<PokemonSimple>
 
-    suspend fun getPokemonTypes(): List<PokemonType>
+    suspend fun getTypeList(): List<TypeSimple>
 
     suspend fun getTypeDetails(typeId: Long): TypeDetails
 

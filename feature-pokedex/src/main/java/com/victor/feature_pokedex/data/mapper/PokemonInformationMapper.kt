@@ -6,7 +6,7 @@ import com.victor.feature_pokedex.domain.model.Pokemon
 import com.victor.feature_pokedex.domain.model.PokemonEvolution
 import com.victor.feature_pokedex.domain.model.PokemonInformation
 import com.victor.feature_pokedex.domain.model.PokemonSpecies
-import com.victor.feature_pokedex.domain.model.PokemonType
+import com.victor.feature_pokedex.domain.model.TypeSimple
 import com.victor.feature_pokedex.domain.model.TypeDetails
 import com.victor.feature_pokedex.domain.model.TypeEffectiveness
 
@@ -45,22 +45,22 @@ internal object PokemonInformationMapper {
             else -> genderRate * PERCENT_IN_EIGHTHS
         }
 
-    private fun calculateTypeDefensesEffectivenesses(
-        types: List<PokemonType>,
+    private fun calculateTypeDefensesEffectiveness(
+        typeList: List<TypeSimple>,
         pokemonTypeList: List<TypeDetails>
     ) =
         mutableListOf<TypeEffectiveness>().apply {
             val firstType = pokemonTypeList.firstOrNull()
             val secondType = pokemonTypeList.lastOrNull()
-            types.forEach {
+            typeList.forEach {
                 var effectiveness = 1.0
-                effectiveness *= firstType?.tets(it) ?: 1.0
-                effectiveness *= secondType?.tets(it) ?: 1.0
+                effectiveness *= firstType?.defenseEffectivenessAgainst(it) ?: 1.0
+                effectiveness *= secondType?.defenseEffectivenessAgainst(it) ?: 1.0
                 add(TypeEffectiveness(type = it, effectiveness = effectiveness))
             }
         }
 
-    private fun TypeDetails.tets(currentType: PokemonType) =
+    private fun TypeDetails.defenseEffectivenessAgainst(currentType: TypeSimple) =
         damageRelations.run {
             when {
                 doubleDamageFrom.find { it.id == currentType.id } != null -> 2.0
@@ -97,7 +97,7 @@ internal object PokemonInformationMapper {
     fun map(
         pokemon: Pokemon,
         pokemonSpecies: PokemonSpecies,
-        typeList: List<PokemonType>,
+        typeList: List<TypeSimple>,
         pokemonTypeList: List<TypeDetails>,
         evolutionChain: EvolutionsResponse,
         pokemonListFromEvolutionChain: List<Pokemon>
@@ -114,7 +114,7 @@ internal object PokemonInformationMapper {
         val heightInKg = pokemon.height / TEN
         val weightInKg = pokemon.weight / TEN
 
-        val typeDefenses = calculateTypeDefensesEffectivenesses(typeList, pokemonTypeList)
+        val typeDefenses = calculateTypeDefensesEffectiveness(typeList, pokemonTypeList)
         val weaknesses = typeDefenses
             .filter { it.effectiveness >= TWO }
             .map { it.type }

@@ -50,7 +50,7 @@ import com.victor.feature_pokedex.R
 import com.victor.feature_pokedex.domain.model.Pokemon
 import com.victor.feature_pokedex.domain.model.PokemonSimple
 import com.victor.feature_pokedex.domain.model.PokemonSprite
-import com.victor.feature_pokedex.domain.model.PokemonType
+import com.victor.feature_pokedex.domain.model.TypeSimple
 import com.victor.feature_pokedex.domain.model.PokemonTypeWithSlot
 import com.victor.feature_pokedex.presentation.PokedexViewModel
 import com.victor.feature_pokedex.presentation.ui.components.PokemonColumn
@@ -70,7 +70,7 @@ internal fun HomeScreenBody(viewModel: PokedexViewModel, onPokemonClick: (Long) 
     with(viewModel) {
         LaunchedEffect(Unit) {
             getPokemonList()
-            getPokemonTypes()
+            getTypeList()
         }
 
         Box(
@@ -276,8 +276,8 @@ private fun Preview() {
                 height = 20,
                 weight = 70,
                 types = listOf(
-                    PokemonTypeWithSlot(slot = 1, PokemonType(id = 13, name = "electric")),
-                    PokemonTypeWithSlot(slot = 1, PokemonType(id = 9, name = "steel"))
+                    PokemonTypeWithSlot(slot = 1, TypeSimple(id = 13, name = "electric")),
+                    PokemonTypeWithSlot(slot = 1, TypeSimple(id = 9, name = "steel"))
                 ),
                 sprites = PokemonSprite("", ""),
                 stats = listOf(),

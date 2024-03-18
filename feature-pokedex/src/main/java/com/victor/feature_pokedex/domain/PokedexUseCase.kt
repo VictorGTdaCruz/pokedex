@@ -1,7 +1,7 @@
 package com.victor.feature_pokedex.domain
 
 import com.victor.feature_pokedex.domain.model.PokemonSimple
-import com.victor.feature_pokedex.domain.model.PokemonType
+import com.victor.feature_pokedex.domain.model.TypeSimple
 import com.victor.feature_pokedex.domain.service.PokedexService
 import com.victor.feature_pokedex.presentation.ui.home.bottomsheets.Sort
 
@@ -18,7 +18,7 @@ internal class PokedexUseCase(
     }
 
     suspend fun getPokemonList(
-        typeList: List<PokemonType>,
+        typeList: List<TypeSimple>,
         selectedGeneration: Int?,
         indexRange: ClosedFloatingPointRange<Float>?,
         sort: Sort,
@@ -52,8 +52,8 @@ internal class PokedexUseCase(
 
     suspend fun getPokemonInformation(pokemonId: Long) = infrastructure.getPokemonInformation(pokemonId)
 
-    suspend fun getPokemonTypes() =
-        infrastructure.getPokemonTypes()
+    suspend fun getTypeList() =
+        infrastructure.getTypeList()
             .filter { it.id in VALID_TYPE_ID_RANGE }
             .sortedBy { it.name }
 

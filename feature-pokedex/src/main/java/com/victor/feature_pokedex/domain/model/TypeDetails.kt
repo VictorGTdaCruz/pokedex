@@ -13,10 +13,10 @@ data class PokemonSimple(
 )
 
 data class DamageRelations(
-    val doubleDamageFrom: List<PokemonType>,
-    val doubleDamageTo: List<PokemonType>,
-    val halfDamageFrom: List<PokemonType>,
-    val halfDamageTo: List<PokemonType>,
-    val noDamageFrom: List<PokemonType>,
-    val noDamageTo: List<PokemonType>,
+    val doubleDamageFrom: List<TypeSimple>,
+    val doubleDamageTo: List<TypeSimple>,
+    val halfDamageFrom: List<TypeSimple>,
+    val halfDamageTo: List<TypeSimple>,
+    val noDamageFrom: List<TypeSimple>,
+    val noDamageTo: List<TypeSimple>,
 )

@@ -27,7 +27,7 @@ internal fun PokemonResponse.toDomain() =
 internal fun PokemonTypeWithSlotResponse.toDomain() =
     PokemonTypeWithSlot(
         slot = slot ?: 0,
-        type = type.toPokemonTypeDomain()
+        type = type.toTypeSimpleDomain()
     )
 
 internal fun PokemonSpriteResponse?.toDomain() =

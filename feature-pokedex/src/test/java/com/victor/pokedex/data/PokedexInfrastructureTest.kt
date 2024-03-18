@@ -19,8 +19,8 @@ class PokedexInfrastructureTest {
 
     @Test
     fun whenGetPokemonTypes_callsApiGetPokemonTypes() {
-        runBlocking { infrastructure.getPokemonTypes() }
-        coVerify { api.getPokemonTypes() }
+        runBlocking { infrastructure.getTypeList() }
+        coVerify { api.getTypeList() }
     }
 
     @Test
