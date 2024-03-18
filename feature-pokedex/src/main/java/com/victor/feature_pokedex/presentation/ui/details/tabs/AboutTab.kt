@@ -32,7 +32,7 @@ import com.victor.features_common.components.PokedexTextStyle.bold
 
 @Composable
 fun aboutTab(pokemonInformation: PokemonInformation) {
-    val typeColor = TypeColorHelper.findBackground(pokemonInformation.typeList.first().type.id)
+    val typeColor = TypeColorHelper.findBackground(pokemonInformation.typeList.first().id)
     Column(
         Modifier.padding(24.dp)
     ) {
@@ -80,7 +80,7 @@ fun aboutTab(pokemonInformation: PokemonInformation) {
         Spacer(modifier = Modifier.height(12.dp))
         TabCell(title = stringResource(id = R.string.about_tab_abilities), description = {
             Column {
-                pokemonInformation.abilities.forEachIndexed { index, item ->
+                pokemonInformation.abilityList.forEachIndexed { index, item ->
                     Text(
                         text = if (item.isHidden)
                             stringResource(
@@ -107,9 +107,9 @@ fun aboutTab(pokemonInformation: PokemonInformation) {
             title = stringResource(id = R.string.about_tab_weakness),
             description = {
                 LazyRow {
-                    items(pokemonInformation.weaknesses.size) {
+                    items(pokemonInformation.weaknessList.size) {
                         PokemonTypeIcon(
-                            type = pokemonInformation.weaknesses[it],
+                            type = pokemonInformation.weaknessList[it],
                             iconSize = 12.dp,
                             cardPadding = 0.dp
                         )
@@ -184,7 +184,7 @@ fun aboutTab(pokemonInformation: PokemonInformation) {
         Spacer(modifier = Modifier.height(12.dp))
         TabCell(
             title = stringResource(id = R.string.about_tab_egg_groups),
-            value = pokemonInformation.eggGroups.formatEggGroups()
+            value = pokemonInformation.eggGroupList.formatEggGroups()
         )
         Spacer(modifier = Modifier.height(12.dp))
         TabCellWithAuxText(

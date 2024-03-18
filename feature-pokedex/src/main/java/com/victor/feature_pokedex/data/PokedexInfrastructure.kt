@@ -17,6 +17,10 @@ internal class PokedexInfrastructure(private val api: PokedexGateway) : PokedexS
         api.getPokemonList(offset = offset, limit = limit).toPokemonListDomain()
     }
 
+    override suspend fun getPokemon(pokemonId: Long) = request {
+        api.getPokemon(pokemonId).toDomain()
+    }
+
     // TODO bring all rules from usecase to here
     override suspend fun getTypeList() = request {
         api.getTypeList()
@@ -26,27 +30,23 @@ internal class PokedexInfrastructure(private val api: PokedexGateway) : PokedexS
     }
 
     override suspend fun getType(typeId: Long) = request {
-        api.getTypeDetails(typeId).toDomain()
+        api.getType(typeId).toDomain()
     }
 
-    override suspend fun getPokemon(pokemonId: Long) = request {
-        api.getPokemon(pokemonId).toDomain()
+    override suspend fun getGeneration(generationId: Int) = request {
+        api.getGeneration(generationId).toDomain()
     }
 
-    override suspend fun getPokemonListByGeneration(generation: Int) = request {
-        api.getPokemonListByGeneration(generation).toDomain()
-    }
-
-    override suspend fun getPokemonSpecies(pokemonId: Long) = request {
-        api.getPokemonSpecies(pokemonId).toDomain()
+    override suspend fun getSpecie(pokemonId: Long) = request {
+        api.getSpecie(pokemonId).toDomain()
     }
 
     override suspend fun getPokemonInformation(pokemonId: Long): PokemonInformation {
-        val pokemonSpecies = getPokemonSpecies(pokemonId)
+        val pokemonSpecies = getSpecie(pokemonId)
         val pokemon = getPokemon(pokemonId)
         val typeList = getTypeList()
-        val typeListOfCurrentPokemon = pokemon.typeList.map { getType(it.type.id) }
-        val evolutionChain = api.getPokemonEvolutions(pokemonSpecies.evolutionChainId)
+        val typeListOfCurrentPokemon = pokemon.typeList.map { getType(it.id) }
+        val evolutionChain = api.getEvolutionChain(pokemonSpecies.evolutionChainId)
         val pokemonListFromEvolutionChain = getPokemonFromEveryPokemonInEvolutionChain(evolutionChain.chain)
 
         return PokemonInformationMapper.map(

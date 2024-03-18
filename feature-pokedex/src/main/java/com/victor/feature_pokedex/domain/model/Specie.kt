@@ -1,6 +1,6 @@
 package com.victor.feature_pokedex.domain.model
 
-data class PokemonSpecies(
+data class Specie(
     val id: Long,
     val captureRate: Int,
     val growthRate: String,

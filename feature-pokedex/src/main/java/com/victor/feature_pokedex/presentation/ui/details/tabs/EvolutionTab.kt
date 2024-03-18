@@ -43,15 +43,15 @@ fun evolutionTab(pokemonInformation: PokemonInformation, onPokemonClick: (Long) 
     ) {
         Text(
             text = stringResource(id = R.string.evolution_tab_title),
-            color = TypeColorHelper.findBackground(pokemonInformation.typeList.first().type.id),
+            color = TypeColorHelper.findBackground(pokemonInformation.typeList.first().id),
             style = PokedexTextStyle.body,
         )
         Spacer(modifier = Modifier.height(24.dp))
-        pokemonInformation.evolutions.forEach {
+        pokemonInformation.evolutionList.forEach {
             EvolutionCell(it, onPokemonClick)
             Spacer(modifier = Modifier.height(24.dp))
         }
-        if (pokemonInformation.evolutions.isEmpty())
+        if (pokemonInformation.evolutionList.isEmpty())
             EmptyEvolutionCell(pokemonInformation)
         Spacer(modifier = Modifier.height(8.dp))
     }
@@ -105,7 +105,7 @@ private fun RowScope.EvolutionPokemonList(pokemonList: List<Pokemon>?, onPokemon
                     modifier = Modifier.fillMaxSize()
                 )
                 Image(
-                    painter = rememberImagePainter(data = it.sprites.otherFrontDefault),
+                    painter = rememberImagePainter(data = it.sprite),
                     contentDescription = it.name,
                     modifier = Modifier
                         .fillMaxSize()
@@ -141,7 +141,7 @@ private fun EmptyEvolutionCell(pokemonInformation: PokemonInformation) {
                 modifier = Modifier.fillMaxSize()
             )
             Image(
-                painter = rememberImagePainter(data = pokemonInformation.sprites.otherFrontDefault),
+                painter = rememberImagePainter(data = pokemonInformation.sprite),
                 contentDescription = pokemonInformation.name,
                 modifier = Modifier
                     .fillMaxSize()

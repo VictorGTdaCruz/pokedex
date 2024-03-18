@@ -5,7 +5,7 @@ import com.victor.feature_pokedex.data.model.EvolutionsResponse
 import com.victor.feature_pokedex.domain.model.Pokemon
 import com.victor.feature_pokedex.domain.model.PokemonEvolution
 import com.victor.feature_pokedex.domain.model.PokemonInformation
-import com.victor.feature_pokedex.domain.model.PokemonSpecies
+import com.victor.feature_pokedex.domain.model.Specie
 import com.victor.feature_pokedex.domain.model.TypeSimple
 import com.victor.feature_pokedex.domain.model.Type
 import com.victor.feature_pokedex.domain.model.TypeEffectiveness
@@ -96,20 +96,20 @@ internal object PokemonInformationMapper {
 
     fun map(
         pokemon: Pokemon,
-        pokemonSpecies: PokemonSpecies,
+        specie: Specie,
         typeList: List<TypeSimple>,
         typeListOfCurrentPokemon: List<Type>,
         evolutionChain: EvolutionsResponse,
         pokemonListFromEvolutionChain: List<Pokemon>
     ): PokemonInformation {
         val captureProbability =
-            calculateCaptureProbability(captureRate = pokemonSpecies.captureRate)
-        val hatchSteps = calculateHatchSteps(hatchCounter = pokemonSpecies.hatchCounter)
+            calculateCaptureProbability(captureRate = specie.captureRate)
+        val hatchSteps = calculateHatchSteps(hatchCounter = specie.hatchCounter)
 
-        val femaleRate = calculateFemaleRate(genderRate = pokemonSpecies.genderRate)
+        val femaleRate = calculateFemaleRate(genderRate = specie.genderRate)
         val maleRate = femaleRate?.let { ONE_HUNDRED_PERCENT - it }
 
-        val eggGroups = pokemonSpecies.eggGroups.map { it.replace(WATER1, WATER) }
+        val eggGroups = specie.eggGroups.map { it.replace(WATER1, WATER) }
 
         val heightInKg = pokemon.height / TEN
         val weightInKg = pokemon.weight / TEN
@@ -127,23 +127,23 @@ internal object PokemonInformationMapper {
             height = heightInKg,
             weight = weightInKg,
             typeList = pokemon.typeList,
-            stats = pokemon.stats,
-            sprites = pokemon.sprites,
-            abilities = pokemon.abilities,
+            stats = pokemon.statList,
+            sprite = pokemon.sprite,
+            abilityList = pokemon.abilityList,
             baseXp = pokemon.baseXp,
-            captureRate = pokemonSpecies.captureRate,
+            captureRate = specie.captureRate,
             captureProbability = captureProbability,
-            growthRate = pokemonSpecies.growthRate,
-            flavorText = pokemonSpecies.flavorText,
-            genera = pokemonSpecies.genera,
+            growthRate = specie.growthRate,
+            flavorText = specie.flavorText,
+            genera = specie.genera,
             maleRate = maleRate,
             femaleRate = femaleRate,
-            eggGroups = eggGroups,
-            hatchCounter = pokemonSpecies.hatchCounter,
+            eggGroupList = eggGroups,
+            hatchCounter = specie.hatchCounter,
             hatchSteps = hatchSteps,
-            typeDefenses = typeDefenses,
-            weaknesses = weaknesses,
-            evolutions = evolutions,
+            typeDefenseList = typeDefenses,
+            weaknessList = weaknesses,
+            evolutionList = evolutions,
         )
     }
 }

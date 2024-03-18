@@ -25,7 +25,7 @@ internal class PokedexUseCase(
     ): List<PokemonSimple> {
         val pokemonLists = mutableListOf<List<PokemonSimple>>().apply {
             if (selectedGeneration != null)
-                add(infrastructure.getPokemonListByGeneration(selectedGeneration).pokemonList)
+                add(infrastructure.getGeneration(selectedGeneration).pokemonList)
             typeList.forEach {
                 add(infrastructure.getType(it.id).pokemonList)
             }

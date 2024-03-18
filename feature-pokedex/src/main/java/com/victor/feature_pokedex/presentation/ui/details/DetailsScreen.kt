@@ -86,7 +86,7 @@ internal fun DetailsScreenBody(
                 Modifier
                     .fillMaxSize()
                     .verticalScroll(rememberScrollState())
-                    .background(TypeColorHelper.findBackground(it.typeList.firstOrNull()?.type?.id))
+                    .background(TypeColorHelper.findBackground(it.typeList.firstOrNull()?.id))
             ) {
                 TopAppBar(
                     colors = TopAppBarDefaults.topAppBarColors(
@@ -127,7 +127,7 @@ internal fun DetailsScreenBody(
                             )
                             Image(
                                 painter = rememberImagePainter(
-                                    data = it.sprites.otherFrontDefault,
+                                    data = it.sprite,
                                     builder = {
                                         crossfade(true)
                                         crossfade(500)

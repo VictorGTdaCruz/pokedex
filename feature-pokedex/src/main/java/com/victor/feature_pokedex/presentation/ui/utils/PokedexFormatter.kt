@@ -1,7 +1,7 @@
 package com.victor.feature_pokedex.presentation.ui.utils
 
 import com.victor.feature_pokedex.domain.model.PokemonInformation
-import com.victor.feature_pokedex.domain.model.PokemonStat
+import com.victor.feature_pokedex.domain.model.Stat
 import java.util.Locale
 import kotlin.math.floor
 import kotlin.math.roundToInt
@@ -32,7 +32,7 @@ fun PokemonInformation?.formatFlavorText() =
         ?.replace(name.uppercase(Locale.ROOT), name.capitalize())
         ?: ""
 
-fun List<PokemonStat>.formatEV() =
+fun List<Stat>.formatEV() =
     this.filter { it.effort > 0 }
         .joinToString(separator = STRING_SEPARATOR) {
             "${it.effort} ${it.name.beautifyString()}"

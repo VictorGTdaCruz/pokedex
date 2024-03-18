@@ -13,12 +13,6 @@ import retrofit2.http.Query
 
 internal interface PokedexGateway {
 
-    @GET("type")
-    suspend fun getTypeList(): PagedResponse<NameAndUrlResponse>
-
-    @GET("type/{id}")
-    suspend fun getTypeDetails(@Path("id") typeId: Long): TypeDetailsResponse
-
     @GET("pokemon/")
     suspend fun getPokemonList(
         @Query("offset") offset: Int,
@@ -28,12 +22,18 @@ internal interface PokedexGateway {
     @GET("pokemon/{id}")
     suspend fun getPokemon(@Path("id") pokemonId: Long): PokemonResponse
 
+    @GET("type")
+    suspend fun getTypeList(): PagedResponse<NameAndUrlResponse>
+
+    @GET("type/{id}")
+    suspend fun getType(@Path("id") typeId: Long): TypeDetailsResponse
+
     @GET("generation/{generation}")
-    suspend fun getPokemonListByGeneration(@Path("generation") generation: Int): GenerationResponse
+    suspend fun getGeneration(@Path("generation") generationId: Int): GenerationResponse
 
     @GET("pokemon-species/{id}")
-    suspend fun getPokemonSpecies(@Path("id") pokemonId: Long): SpeciesResponse
+    suspend fun getSpecie(@Path("id") pokemonId: Long): SpeciesResponse
 
     @GET("evolution-chain/{id}")
-    suspend fun getPokemonEvolutions(@Path("id") chainId: Long): EvolutionsResponse
+    suspend fun getEvolutionChain(@Path("id") chainId: Long): EvolutionsResponse
 }

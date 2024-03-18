@@ -49,9 +49,7 @@ import coil.compose.rememberImagePainter
 import com.victor.feature_pokedex.R
 import com.victor.feature_pokedex.domain.model.Pokemon
 import com.victor.feature_pokedex.domain.model.PokemonSimple
-import com.victor.feature_pokedex.domain.model.PokemonSprite
 import com.victor.feature_pokedex.domain.model.TypeSimple
-import com.victor.feature_pokedex.domain.model.PokemonTypeWithSlot
 import com.victor.feature_pokedex.presentation.PokedexViewModel
 import com.victor.feature_pokedex.presentation.ui.components.PokemonColumn
 import com.victor.feature_pokedex.presentation.ui.home.bottomsheets.FilterBottomSheet
@@ -187,7 +185,7 @@ private fun PokemonCard(pokemon: Pokemon, onPokemonClick: (Long) -> Unit) {
     ) {
         Card(
             colors = CardDefaults.cardColors(
-                containerColor = TypeColorHelper.findBackground(pokemon.typeList.firstOrNull()?.type?.id),
+                containerColor = TypeColorHelper.findBackground(pokemon.typeList.firstOrNull()?.id),
             ),
             shape = RoundedCornerShape(8.dp),
             elevation = CardDefaults.cardElevation(
@@ -218,7 +216,7 @@ private fun PokemonCard(pokemon: Pokemon, onPokemonClick: (Long) -> Unit) {
         }
         Image(
             painter = rememberImagePainter(
-                data = pokemon.sprites.otherFrontDefault,
+                data = pokemon.sprite,
                 builder = {
                     crossfade(true)
                     crossfade(500)
@@ -276,12 +274,12 @@ private fun Preview() {
                 height = 20,
                 weight = 70,
                 typeList = listOf(
-                    PokemonTypeWithSlot(slot = 1, TypeSimple(id = 13, name = "electric")),
-                    PokemonTypeWithSlot(slot = 1, TypeSimple(id = 9, name = "steel"))
+                    TypeSimple(id = 13, name = "electric"),
+                    TypeSimple(id = 9, name = "steel")
                 ),
-                sprites = PokemonSprite("", ""),
-                stats = listOf(),
-                abilities = emptyList(),
+                sprite = "",
+                statList = listOf(),
+                abilityList = emptyList(),
                 baseXp = 0
             )
             PokemonCard(pokemon = pokemon, onPokemonClick = {})

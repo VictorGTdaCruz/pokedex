@@ -7,11 +7,6 @@ data class Type(
     val pokemonList: List<PokemonSimple>,
 )
 
-data class PokemonSimple(
-    val id: Long,
-    val name: String,
-)
-
 data class DamageRelations(
     val doubleDamageFrom: List<TypeSimple>,
     val doubleDamageTo: List<TypeSimple>,
@@ -19,4 +14,9 @@ data class DamageRelations(
     val halfDamageTo: List<TypeSimple>,
     val noDamageFrom: List<TypeSimple>,
     val noDamageTo: List<TypeSimple>,
+)
+
+data class TypeSimple(
+    val id: Long,
+    val name: String
 )

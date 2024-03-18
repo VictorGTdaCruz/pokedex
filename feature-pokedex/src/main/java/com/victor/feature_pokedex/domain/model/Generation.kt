@@ -1,6 +1,6 @@
 package com.victor.feature_pokedex.domain.model
 
-data class PokemonGeneration(
+data class Generation(
     val id: Long,
     val pokemonList: List<PokemonSimple>
 )

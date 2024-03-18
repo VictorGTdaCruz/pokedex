@@ -7,7 +7,7 @@ data class PokemonResponse(
     val name: String? = null,
     val height: Int? = null,
     val weight: Int? = null,
-    val typeList: List<PokemonTypeWithSlotResponse>? = null,
+    val types: List<PokemonTypeWithSlotResponse>? = null,
     val stats: List<PokemonStatsResponse>? = null,
     val sprites: PokemonSpriteResponse? = null,
     val abilities: List<PokemonAbilityResponse>? = null,

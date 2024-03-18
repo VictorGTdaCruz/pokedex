@@ -2,14 +2,10 @@ package com.victor.feature_pokedex.data.mapper
 
 import com.victor.feature_pokedex.data.model.PokemonAbilityResponse
 import com.victor.feature_pokedex.data.model.PokemonResponse
-import com.victor.feature_pokedex.data.model.PokemonSpriteResponse
 import com.victor.feature_pokedex.data.model.PokemonStatsResponse
-import com.victor.feature_pokedex.data.model.PokemonTypeWithSlotResponse
+import com.victor.feature_pokedex.domain.model.Ability
 import com.victor.feature_pokedex.domain.model.Pokemon
-import com.victor.feature_pokedex.domain.model.PokemonAbility
-import com.victor.feature_pokedex.domain.model.PokemonSprite
-import com.victor.feature_pokedex.domain.model.PokemonStat
-import com.victor.feature_pokedex.domain.model.PokemonTypeWithSlot
+import com.victor.feature_pokedex.domain.model.Stat
 
 internal fun PokemonResponse.toDomain() =
     Pokemon(
@@ -17,34 +13,22 @@ internal fun PokemonResponse.toDomain() =
         name = name.orEmpty(),
         height = height ?: 0,
         weight = weight ?: 0,
-        typeList = typeList?.map { it.toDomain() } ?: emptyList(),
-        stats = stats?.map { it.toDomain() } ?: emptyList(),
-        sprites = sprites.toDomain(),
-        abilities = abilities?.map { it.toDomain() } ?: emptyList(),
+        typeList = types?.map { it.type.toTypeSimpleDomain() } ?: emptyList(),
+        statList = stats?.map { it.toDomain() } ?: emptyList(),
+        sprite = sprites?.other?.officialArtwork?.frontDefault.orEmpty(),
+        abilityList = abilities?.map { it.toDomain() } ?: emptyList(),
         baseXp = baseXp ?: 0,
     )
 
-internal fun PokemonTypeWithSlotResponse.toDomain() =
-    PokemonTypeWithSlot(
-        slot = slot ?: 0,
-        type = type.toTypeSimpleDomain()
-    )
-
-internal fun PokemonSpriteResponse?.toDomain() =
-    PokemonSprite(
-        frontDefault = this?.frontDefault.orEmpty(),
-        otherFrontDefault = this?.other?.officialArtwork?.frontDefault.orEmpty()
-    )
-
 internal fun PokemonStatsResponse?.toDomain() =
-    PokemonStat(
+    Stat(
         name = this?.stat?.name.orEmpty(),
         baseStat = this?.base_stat ?: 0,
         effort = this?.effort ?: 0
     )
 
 internal fun PokemonAbilityResponse?.toDomain() =
-    PokemonAbility(
+    Ability(
         name = this?.ability?.name.orEmpty(),
         isHidden = this?.isHidden ?: false
     )
