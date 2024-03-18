@@ -6,9 +6,9 @@ import com.victor.feature_pokedex.domain.model.Pokemon
 import com.victor.feature_pokedex.domain.model.PokemonEvolution
 import com.victor.feature_pokedex.domain.model.PokemonInformation
 import com.victor.feature_pokedex.domain.model.Specie
-import com.victor.feature_pokedex.domain.model.TypeSimple
 import com.victor.feature_pokedex.domain.model.Type
 import com.victor.feature_pokedex.domain.model.TypeEffectiveness
+import com.victor.feature_pokedex.domain.model.TypeSimple
 
 internal object PokemonInformationMapper {
 

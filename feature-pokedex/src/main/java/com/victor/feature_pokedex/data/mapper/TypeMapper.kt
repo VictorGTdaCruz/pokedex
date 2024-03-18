@@ -1,10 +1,8 @@
 package com.victor.feature_pokedex.data.mapper
 
 import com.victor.feature_pokedex.data.model.DamageRelationsResponse
-import com.victor.feature_pokedex.data.model.PokemonSimpleResponse
 import com.victor.feature_pokedex.data.model.TypeResponse
 import com.victor.feature_pokedex.domain.model.DamageRelations
-import com.victor.feature_pokedex.domain.model.PokemonSimple
 import com.victor.feature_pokedex.domain.model.Type
 
 internal fun TypeResponse.toDomain() =

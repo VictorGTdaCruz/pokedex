@@ -2,11 +2,9 @@ package com.victor.feature_pokedex.data.mapper
 
 import com.victor.feature_pokedex.data.model.AbilityResponse
 import com.victor.feature_pokedex.data.model.PokemonResponse
-import com.victor.feature_pokedex.data.model.PokemonSimpleResponse
 import com.victor.feature_pokedex.data.model.StatResponse
 import com.victor.feature_pokedex.domain.model.Ability
 import com.victor.feature_pokedex.domain.model.Pokemon
-import com.victor.feature_pokedex.domain.model.PokemonSimple
 import com.victor.feature_pokedex.domain.model.Stat
 
 internal fun PokemonResponse.toDomain() =
