@@ -21,7 +21,7 @@ internal class PokedexViewModel(
 ) : ViewModel() {
 
     val currentPokemonList = mutableStateOf<State>(State.Empty)
-    val pokemon = mutableStateMapOf<Long, Pokemon>()
+    val pokemon = mutableStateMapOf<Int, Pokemon>()
 
     var searchText = mutableStateOf("")
     private var fullPokemonList = emptyList<PokemonSimple>()
@@ -40,7 +40,7 @@ internal class PokedexViewModel(
 
     val pokemonInformation = mutableStateOf<State>(State.Empty)
 
-    fun getPokemonInformation(pokemonId: Long) {
+    fun getPokemonInformation(pokemonId: Int) {
         manageStateDuringRequest(
             mutableState = pokemonInformation,
         ) {
@@ -82,7 +82,7 @@ internal class PokedexViewModel(
 
     fun isSearchEnabled() = currentPokemonList.value is State.Success<*>
 
-    fun getPokemon(pokemonId: Long) {
+    fun getPokemon(pokemonId: Int) {
         viewModelScope.launch { // TODO sem tratamento?
             runCatching {
                 val response = useCase.getPokemon(pokemonId)

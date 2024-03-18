@@ -1,7 +1,7 @@
 package com.victor.feature_pokedex.domain.model
 
 data class PokemonInformation(
-    val id: Long,
+    val id: Int,
     val name: String,
     val height: Float,
     val weight: Float,

@@ -17,7 +17,7 @@ internal class PokedexInfrastructure(private val api: PokedexGateway) : PokedexS
         api.getPokemonList(offset = offset, limit = limit).toPokemonListDomain()
     }
 
-    override suspend fun getPokemon(pokemonId: Long) = request {
+    override suspend fun getPokemon(pokemonId: Int) = request {
         api.getPokemon(pokemonId).toDomain()
     }
 
@@ -29,7 +29,7 @@ internal class PokedexInfrastructure(private val api: PokedexGateway) : PokedexS
             .sortedBy { it.id }
     }
 
-    override suspend fun getType(typeId: Long) = request {
+    override suspend fun getType(typeId: Int) = request {
         api.getType(typeId).toDomain()
     }
 
@@ -37,11 +37,11 @@ internal class PokedexInfrastructure(private val api: PokedexGateway) : PokedexS
         api.getGeneration(generationId).toDomain()
     }
 
-    override suspend fun getSpecie(pokemonId: Long) = request {
+    override suspend fun getSpecie(pokemonId: Int) = request {
         api.getSpecie(pokemonId).toDomain()
     }
 
-    override suspend fun getPokemonInformation(pokemonId: Long): PokemonInformation {
+    override suspend fun getPokemonInformation(pokemonId: Int): PokemonInformation {
         val pokemonSpecies = getSpecie(pokemonId)
         val pokemon = getPokemon(pokemonId)
         val typeList = getTypeList()
@@ -65,10 +65,8 @@ internal class PokedexInfrastructure(private val api: PokedexGateway) : PokedexS
         mutableListOf<Pokemon>().apply {
             val currentId = IdMapper.mapIdFromUrl(response?.species?.url)
             add(getPokemon(currentId))
-            if (response?.evolvesTo != null) {
-                response.evolvesTo.forEach {
-                    addAll(getPokemonFromEveryPokemonInEvolutionChain(it))
-                }
+            response?.evolvesTo?.forEach {
+                addAll(getPokemonFromEveryPokemonInEvolutionChain(it))
             }
         }
 }

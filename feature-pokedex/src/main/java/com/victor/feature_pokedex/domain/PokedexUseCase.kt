@@ -48,9 +48,9 @@ internal class PokedexUseCase(
         return sort(result.applyValidPokemonFilter().applyIndexRangeFilter(indexRange), sort)
     }
 
-    suspend fun getPokemon(pokemonId: Long) = infrastructure.getPokemon(pokemonId)
+    suspend fun getPokemon(pokemonId: Int) = infrastructure.getPokemon(pokemonId)
 
-    suspend fun getPokemonInformation(pokemonId: Long) = infrastructure.getPokemonInformation(pokemonId)
+    suspend fun getPokemonInformation(pokemonId: Int) = infrastructure.getPokemonInformation(pokemonId)
 
     suspend fun getTypeList() =
         infrastructure.getTypeList()

@@ -12,15 +12,15 @@ internal interface PokedexService {
 
     suspend fun getPokemonList(offset: Int, limit: Int): List<PokemonSimple>
 
-    suspend fun getPokemon(pokemonId: Long): Pokemon
+    suspend fun getPokemon(pokemonId: Int): Pokemon
 
     suspend fun getTypeList(): List<TypeSimple>
 
-    suspend fun getType(typeId: Long): Type
+    suspend fun getType(typeId: Int): Type
 
     suspend fun getGeneration(generationId: Int): Generation
 
-    suspend fun getSpecie(pokemonId: Long): Specie
+    suspend fun getSpecie(pokemonId: Int): Specie
 
-    suspend fun getPokemonInformation(pokemonId: Long): PokemonInformation
+    suspend fun getPokemonInformation(pokemonId: Int): PokemonInformation
 }

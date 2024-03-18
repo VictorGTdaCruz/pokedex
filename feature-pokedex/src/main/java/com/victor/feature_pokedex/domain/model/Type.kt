@@ -1,7 +1,7 @@
 package com.victor.feature_pokedex.domain.model
 
 data class Type(
-    val id: Long,
+    val id: Int,
     val name: String,
     val damageRelations: DamageRelations,
     val pokemonList: List<PokemonSimple>,
@@ -17,6 +17,6 @@ data class DamageRelations(
 )
 
 data class TypeSimple(
-    val id: Long,
+    val id: Int,
     val name: String
 )

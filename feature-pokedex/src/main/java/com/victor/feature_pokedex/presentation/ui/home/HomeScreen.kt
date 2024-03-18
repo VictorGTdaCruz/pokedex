@@ -63,7 +63,7 @@ import com.victor.features_common.theme.LightGray
 import kotlinx.coroutines.launch
 
 @Composable
-internal fun HomeScreenBody(viewModel: PokedexViewModel, onPokemonClick: (Long) -> Unit) {
+internal fun HomeScreenBody(viewModel: PokedexViewModel, onPokemonClick: (Int) -> Unit) {
     val scrollState = rememberLazyListState()
     with(viewModel) {
         LaunchedEffect(Unit) {
@@ -179,7 +179,7 @@ private fun PokemonCardLoading() {
 }
 
 @Composable
-private fun PokemonCard(pokemon: Pokemon, onPokemonClick: (Long) -> Unit) {
+private fun PokemonCard(pokemon: Pokemon, onPokemonClick: (Int) -> Unit) {
     Box(
         modifier = Modifier.padding(horizontal = 24.dp, vertical = 2.dp)
     ) {
@@ -269,7 +269,7 @@ private fun Preview() {
     LazyColumn {
         items(3) {
             val pokemon = Pokemon(
-                id = 1L,
+                id = 1,
                 name = "Name",
                 height = 20,
                 weight = 70,

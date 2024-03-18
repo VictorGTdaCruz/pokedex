@@ -17,7 +17,7 @@ import com.victor.features_common.components.PokedexTextStyle.bold
 
 @Composable
 internal fun PokemonColumn(
-    id: Long,
+    id: Int,
     name: String,
     typeList: List<TypeSimple>,
     modifier: Modifier = Modifier

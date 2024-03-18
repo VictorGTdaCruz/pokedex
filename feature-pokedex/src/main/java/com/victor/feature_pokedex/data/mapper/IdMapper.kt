@@ -7,6 +7,6 @@ internal object IdMapper {
     fun mapIdFromUrl(url: String?) =
         url?.removeSuffix(SLASH_SUBSTRING)
             ?.substringAfterLast(SLASH_SUBSTRING)
-            ?.toLongOrNull()
+            ?.toIntOrNull()
             ?: 0
 }

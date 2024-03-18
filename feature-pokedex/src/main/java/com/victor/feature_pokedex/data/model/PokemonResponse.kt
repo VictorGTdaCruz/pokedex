@@ -7,7 +7,7 @@ data class PokemonSimpleResponse(
 )
 
 data class PokemonResponse(
-    val id: Long? = null,
+    val id: Int? = null,
     val name: String? = null,
     val height: Int? = null,
     val weight: Int? = null,

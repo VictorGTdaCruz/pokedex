@@ -7,7 +7,7 @@ data class TypeSimpleResponse(
 )
 
 data class TypeResponse(
-    val id: Long? = null,
+    val id: Int? = null,
     val name: String? = null,
     @SerializedName("damage_relations") val damageRelations: DamageRelationsResponse? = null,
     val pokemon: List<PokemonSimpleResponse>? = null,

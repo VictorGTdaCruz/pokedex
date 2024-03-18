@@ -36,7 +36,7 @@ internal fun PokedexNavHost(
                 navArgument("pokemonId") { type = NavType.LongType }
             )
         ) {
-            val pokemonId = it.arguments?.getLong("pokemonId") ?: 0
+            val pokemonId = it.arguments?.getInt("pokemonId") ?: 0
             DetailsScreenBody(
                 navController = navController,
                 viewModel = viewModel,

@@ -35,7 +35,7 @@ import com.victor.features_common.components.PokedexTextStyle
 import com.victor.features_common.theme.LightGray
 
 @Composable
-fun evolutionTab(pokemonInformation: PokemonInformation, onPokemonClick: (Long) -> Unit) {
+fun evolutionTab(pokemonInformation: PokemonInformation, onPokemonClick: (Int) -> Unit) {
     Column(
         Modifier
             .padding(24.dp)
@@ -58,7 +58,7 @@ fun evolutionTab(pokemonInformation: PokemonInformation, onPokemonClick: (Long) 
 }
 
 @Composable
-private fun EvolutionCell(evolution: PokemonEvolution, onPokemonClick: (Long) -> Unit) {
+private fun EvolutionCell(evolution: PokemonEvolution, onPokemonClick: (Int) -> Unit) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
         modifier = Modifier.fillMaxSize()
@@ -84,7 +84,7 @@ private fun EvolutionCell(evolution: PokemonEvolution, onPokemonClick: (Long) ->
 }
 
 @Composable
-private fun RowScope.EvolutionPokemonList(pokemonList: List<Pokemon>?, onPokemonClick: (Long) -> Unit) {
+private fun RowScope.EvolutionPokemonList(pokemonList: List<Pokemon>?, onPokemonClick: (Int) -> Unit) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier.weight(1f)

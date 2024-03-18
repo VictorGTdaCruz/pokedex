@@ -62,8 +62,8 @@ import com.victor.features_common.observeState
 internal fun DetailsScreenBody(
     navController: NavController,
     viewModel: PokedexViewModel,
-    pokemonId: Long,
-    onPokemonClick: (Long) -> Unit
+    pokemonId: Int,
+    onPokemonClick: (Int) -> Unit
 ) {
     var selectedTabIndex by remember { mutableStateOf(0) }
     val pagerState = rememberPagerState { Tabs.values().size }

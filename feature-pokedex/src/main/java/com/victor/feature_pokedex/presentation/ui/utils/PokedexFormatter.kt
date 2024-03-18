@@ -6,7 +6,7 @@ import java.util.Locale
 import kotlin.math.floor
 import kotlin.math.roundToInt
 
-fun Long.formatPokedexNumber() =
+fun Int.formatPokedexNumber() =
     when (this) {
         in 1..9 -> "#00$this"
         in 10..99 -> "#0$this"
