@@ -12,11 +12,10 @@ import com.victor.feature_pokedex.domain.model.TypeSimple
 
 internal object PokemonInformationMapper {
 
-    // TODO use only one floating type
-    private const val ONE_HUNDRED_PERCENT = 100.0
+    private const val ONE_HUNDRED_PERCENT = 100f
     private const val PERCENT_IN_EIGHTHS = ONE_HUNDRED_PERCENT / 8
     private const val TEN = 10f
-    private const val TWO = 2.0
+    private const val TWO = 2f
     private const val WATER = "water"
     private const val WATER1 = "water1"
 
@@ -53,9 +52,9 @@ internal object PokemonInformationMapper {
             val firstType = typeListOfCurrentPokemon.firstOrNull()
             val secondType = typeListOfCurrentPokemon.lastOrNull()
             typeList.forEach {
-                var effectiveness = 1.0
-                effectiveness *= firstType?.defenseEffectivenessAgainst(it) ?: 1.0
-                effectiveness *= secondType?.defenseEffectivenessAgainst(it) ?: 1.0
+                var effectiveness = 1f
+                effectiveness *= firstType?.defenseEffectivenessAgainst(it) ?: 1f
+                effectiveness *= secondType?.defenseEffectivenessAgainst(it) ?: 1f
                 add(TypeEffectiveness(type = it, effectiveness = effectiveness))
             }
         }
@@ -63,10 +62,10 @@ internal object PokemonInformationMapper {
     private fun Type.defenseEffectivenessAgainst(currentType: TypeSimple) =
         damageRelations.run {
             when {
-                doubleDamageFrom.find { it.id == currentType.id } != null -> 2.0
-                halfDamageFrom.find { it.id == currentType.id } != null -> 0.5
-                noDamageFrom.find { it.id == currentType.id } != null -> 0.0
-                else -> 1.0
+                doubleDamageFrom.find { it.id == currentType.id } != null -> 2.0f
+                halfDamageFrom.find { it.id == currentType.id } != null -> 0.5f
+                noDamageFrom.find { it.id == currentType.id } != null -> 0f
+                else -> 1f
             }
         }
 

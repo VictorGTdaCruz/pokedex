@@ -15,8 +15,8 @@ data class PokemonInformation(
     val growthRate: String,
     val flavorText: String,
     val genera: String,
-    val maleRate: Double?,
-    val femaleRate: Double?,
+    val maleRate: Float?,
+    val femaleRate: Float?,
     val eggGroupList: List<String>,
     val hatchCounter: Int,
     val hatchSteps: Int,
@@ -27,7 +27,7 @@ data class PokemonInformation(
 
 data class TypeEffectiveness(
     val type: TypeSimple,
-    val effectiveness: Double
+    val effectiveness: Float
 )
 
 data class PokemonEvolution(

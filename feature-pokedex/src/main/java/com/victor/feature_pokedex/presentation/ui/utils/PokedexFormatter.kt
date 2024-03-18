@@ -57,7 +57,7 @@ fun List<String>.formatEggGroups() =
 fun Float.formatPercentage(): String =
     String.format(Locale.getDefault(), FLOAT_FORMAT_TEMPLATE_TWO_DECIMALS, this * 100)
 
-fun Double.formatDoubleToString(): String =
+fun Float.formatFloatToString(): String =
     String.format(Locale.getDefault(), FLOAT_FORMAT_TEMPLATE_ONE_DECIMAL, this)
 
 fun Int.formatIntToString(): String =
@@ -69,13 +69,13 @@ fun Float.beautifyFloatToString(): String =
     else
         toString()
 
-fun Double.formatTypeEffectiveness() =
+fun Float.formatTypeEffectiveness() =
     when {
-        this == 0.0 -> "0"
-        this == 0.25 -> "1/4"
-        this == 0.5 -> "1/2"
-        this == 2.0 -> "2"
-        this == 4.0 -> "4"
+        this == 0f -> "0"
+        this == 0.25f -> "1/4"
+        this == 0.5f -> "1/2"
+        this == 2.0f -> "2"
+        this == 4.0f -> "4"
         else -> ""
     }
 
@@ -83,6 +83,6 @@ private const val STRING_SEPARATOR = ", "
 private const val FLOAT_FORMAT_TEMPLATE_NO_DECIMAL = "%,1d"
 private const val FLOAT_FORMAT_TEMPLATE_ONE_DECIMAL = "%,.1f"
 private const val FLOAT_FORMAT_TEMPLATE_TWO_DECIMALS = "%,.2f"
-private const val KG_TO_LB_RATE = 2.20462
-private const val FEET_TO_CM_RATE = 30.48
-private const val INCHES_TO_CM_RATE = 2.54
+private const val KG_TO_LB_RATE = 2.20462f
+private const val FEET_TO_CM_RATE = 30.48f
+private const val INCHES_TO_CM_RATE = 2.54f

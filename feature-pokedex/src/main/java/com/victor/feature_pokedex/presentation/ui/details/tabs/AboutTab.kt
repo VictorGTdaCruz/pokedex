@@ -19,10 +19,10 @@ import com.victor.feature_pokedex.presentation.ui.theme.Ghost
 import com.victor.feature_pokedex.presentation.ui.utils.TypeColorHelper
 import com.victor.feature_pokedex.presentation.ui.utils.beautifyFloatToString
 import com.victor.feature_pokedex.presentation.ui.utils.beautifyString
-import com.victor.feature_pokedex.presentation.ui.utils.formatDoubleToString
 import com.victor.feature_pokedex.presentation.ui.utils.formatEV
 import com.victor.feature_pokedex.presentation.ui.utils.formatEggGroups
 import com.victor.feature_pokedex.presentation.ui.utils.formatFlavorText
+import com.victor.feature_pokedex.presentation.ui.utils.formatFloatToString
 import com.victor.feature_pokedex.presentation.ui.utils.formatIntToString
 import com.victor.feature_pokedex.presentation.ui.utils.formatKgToLb
 import com.victor.feature_pokedex.presentation.ui.utils.formatMToFeetAndInches
@@ -74,7 +74,7 @@ fun aboutTab(pokemonInformation: PokemonInformation) {
             ),
             description = stringResource(
                 id = R.string.about_tab_weight_in_lb,
-                pokemonInformation.weight.formatKgToLb().formatDoubleToString()
+                pokemonInformation.weight.formatKgToLb().formatFloatToString()
             )
         )
         Spacer(modifier = Modifier.height(12.dp))
