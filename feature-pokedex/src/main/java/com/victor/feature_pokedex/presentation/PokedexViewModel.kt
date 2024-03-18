@@ -6,8 +6,8 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.victor.feature_pokedex.domain.PokedexUseCase
-import com.victor.feature_pokedex.domain.model.PokemonSimple
 import com.victor.feature_pokedex.domain.model.Pokemon
+import com.victor.feature_pokedex.domain.model.PokemonSimple
 import com.victor.feature_pokedex.domain.model.PokemonType
 import com.victor.feature_pokedex.presentation.ui.home.bottomsheets.Sort
 import com.victor.features_common.State

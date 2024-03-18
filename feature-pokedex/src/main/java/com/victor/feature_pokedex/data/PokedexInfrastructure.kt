@@ -6,7 +6,6 @@ import com.victor.feature_pokedex.data.mapper.toDomain
 import com.victor.feature_pokedex.data.mapper.toPokemonListDomain
 import com.victor.feature_pokedex.data.mapper.toPokemonTypesDomain
 import com.victor.feature_pokedex.data.model.EvolutionsChainResponse
-import com.victor.feature_pokedex.data.model.EvolutionsResponse
 import com.victor.feature_pokedex.domain.model.Pokemon
 import com.victor.feature_pokedex.domain.model.PokemonInformation
 import com.victor.feature_pokedex.domain.service.PokedexService
@@ -18,7 +17,7 @@ internal class PokedexInfrastructure(private val api: PokedexGateway) : PokedexS
         api.getPokemonList(offset = offset, limit = limit).toPokemonListDomain()
     }
 
-    //TODO bring all rules from usecase to here
+    // TODO bring all rules from usecase to here
     override suspend fun getPokemonTypes() = request {
         api.getPokemonTypes()
             .toPokemonTypesDomain()

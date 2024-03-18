@@ -47,8 +47,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.rememberImagePainter
 import com.victor.feature_pokedex.R
-import com.victor.feature_pokedex.domain.model.PokemonSimple
 import com.victor.feature_pokedex.domain.model.Pokemon
+import com.victor.feature_pokedex.domain.model.PokemonSimple
 import com.victor.feature_pokedex.domain.model.PokemonSprite
 import com.victor.feature_pokedex.domain.model.PokemonType
 import com.victor.feature_pokedex.domain.model.PokemonTypeWithSlot
@@ -168,21 +168,21 @@ private fun PokemonCardLoading() {
             .fillMaxWidth()
             .height(136.dp)
     ) {
-            Box(
-                modifier = Modifier.fillMaxSize()
-            ) {
-                CircularProgressIndicator(
-                    color = PokedexBlue,
-                    strokeWidth = 2.dp,
-                    modifier = Modifier.align(Center)
-                )
-            }
+        Box(
+            modifier = Modifier.fillMaxSize()
+        ) {
+            CircularProgressIndicator(
+                color = PokedexBlue,
+                strokeWidth = 2.dp,
+                modifier = Modifier.align(Center)
+            )
+        }
     }
 }
 
 @Composable
 private fun PokemonCard(pokemon: Pokemon, onPokemonClick: (Long) -> Unit) {
-    Box (
+    Box(
         modifier = Modifier.padding(horizontal = 24.dp, vertical = 2.dp)
     ) {
         Card(

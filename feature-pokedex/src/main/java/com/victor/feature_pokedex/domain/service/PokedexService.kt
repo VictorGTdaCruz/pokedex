@@ -1,9 +1,9 @@
 package com.victor.feature_pokedex.domain.service
 
-import com.victor.feature_pokedex.domain.model.PokemonSimple
 import com.victor.feature_pokedex.domain.model.Pokemon
 import com.victor.feature_pokedex.domain.model.PokemonGeneration
 import com.victor.feature_pokedex.domain.model.PokemonInformation
+import com.victor.feature_pokedex.domain.model.PokemonSimple
 import com.victor.feature_pokedex.domain.model.PokemonSpecies
 import com.victor.feature_pokedex.domain.model.PokemonType
 import com.victor.feature_pokedex.domain.model.TypeDetails

@@ -96,7 +96,8 @@ internal fun DetailsScreenBody(
                         IconButton(
                             onClick = {
                                 navController.popBackStack()
-                            }) {
+                            }
+                        ) {
                             Icon(
                                 painter = painterResource(id = R.drawable.baseline_arrow_back_24),
                                 tint = Color.White,
@@ -207,6 +208,6 @@ internal fun DetailsScreenBody(
     )
 }
 
-private enum class Tabs { //TODO localize those!
+private enum class Tabs { // TODO localize those!
     About, Stats, Evolution
 }

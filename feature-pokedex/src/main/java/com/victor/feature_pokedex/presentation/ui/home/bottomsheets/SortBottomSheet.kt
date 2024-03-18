@@ -74,16 +74,18 @@ internal fun SortBottomSheet(viewModel: PokedexViewModel) {
                 style = viewModel.isSortButtonEnabled(Sort.ZtoA),
                 modifier = Modifier.fillMaxWidth().padding(horizontal = 24.dp)
             )
-            Spacer(modifier = Modifier.height(
-                36.dp + WindowInsets.navigationBars.asPaddingValues().calculateBottomPadding()
-            ))
+            Spacer(
+                modifier = Modifier.height(
+                    36.dp + WindowInsets.navigationBars.asPaddingValues().calculateBottomPadding()
+                )
+            )
         }
     )
 }
 
 sealed class Sort {
-    object SmallestNumberFirst: Sort()
-    object HighestNumberFirst: Sort()
-    object AtoZ: Sort()
-    object ZtoA: Sort()
+    object SmallestNumberFirst : Sort()
+    object HighestNumberFirst : Sort()
+    object AtoZ : Sort()
+    object ZtoA : Sort()
 }

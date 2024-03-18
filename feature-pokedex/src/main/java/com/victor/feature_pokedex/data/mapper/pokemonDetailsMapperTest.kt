@@ -5,8 +5,8 @@ import com.victor.feature_pokedex.data.model.PokemonResponse
 import com.victor.feature_pokedex.data.model.PokemonSpriteResponse
 import com.victor.feature_pokedex.data.model.PokemonStatsResponse
 import com.victor.feature_pokedex.data.model.PokemonTypeWithSlotResponse
-import com.victor.feature_pokedex.domain.model.PokemonAbility
 import com.victor.feature_pokedex.domain.model.Pokemon
+import com.victor.feature_pokedex.domain.model.PokemonAbility
 import com.victor.feature_pokedex.domain.model.PokemonSprite
 import com.victor.feature_pokedex.domain.model.PokemonStat
 import com.victor.feature_pokedex.domain.model.PokemonTypeWithSlot

@@ -116,7 +116,7 @@ internal object PokemonInformationMapper {
 
         val typeDefenses = calculateTypeDefensesEffectivenesses(typeList, pokemonTypeList)
         val weaknesses = typeDefenses
-            .filter { it.effectiveness >= TWO  }
+            .filter { it.effectiveness >= TWO }
             .map { it.type }
 
         val evolutions = getPokemonEvolutionList(evolutionChain.chain, pokemonListFromEvolutionChain)
