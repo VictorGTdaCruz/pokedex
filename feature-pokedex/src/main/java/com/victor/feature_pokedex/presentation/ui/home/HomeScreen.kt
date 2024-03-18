@@ -187,7 +187,7 @@ private fun PokemonCard(pokemon: Pokemon, onPokemonClick: (Long) -> Unit) {
     ) {
         Card(
             colors = CardDefaults.cardColors(
-                containerColor = TypeColorHelper.findBackground(pokemon.types.firstOrNull()?.type?.id),
+                containerColor = TypeColorHelper.findBackground(pokemon.typeList.firstOrNull()?.type?.id),
             ),
             shape = RoundedCornerShape(8.dp),
             elevation = CardDefaults.cardElevation(
@@ -211,7 +211,7 @@ private fun PokemonCard(pokemon: Pokemon, onPokemonClick: (Long) -> Unit) {
                 PokemonColumn(
                     id = pokemon.id,
                     name = pokemon.name,
-                    types = pokemon.types,
+                    typeList = pokemon.typeList,
                     modifier = Modifier.padding(start = 24.dp, end = 8.dp, top = 24.dp, bottom = 24.dp)
                 )
             }
@@ -275,7 +275,7 @@ private fun Preview() {
                 name = "Name",
                 height = 20,
                 weight = 70,
-                types = listOf(
+                typeList = listOf(
                     PokemonTypeWithSlot(slot = 1, TypeSimple(id = 13, name = "electric")),
                     PokemonTypeWithSlot(slot = 1, TypeSimple(id = 9, name = "steel"))
                 ),

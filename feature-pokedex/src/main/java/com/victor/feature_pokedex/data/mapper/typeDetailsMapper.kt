@@ -5,10 +5,10 @@ import com.victor.feature_pokedex.data.model.PokemonSimpleResponse
 import com.victor.feature_pokedex.data.model.TypeDetailsResponse
 import com.victor.feature_pokedex.domain.model.DamageRelations
 import com.victor.feature_pokedex.domain.model.PokemonSimple
-import com.victor.feature_pokedex.domain.model.TypeDetails
+import com.victor.feature_pokedex.domain.model.Type
 
 internal fun TypeDetailsResponse.toDomain() =
-    TypeDetails(
+    Type(
         id = id ?: 0,
         name = name.orEmpty(),
         damageRelations = damageRelations.toDomain(),

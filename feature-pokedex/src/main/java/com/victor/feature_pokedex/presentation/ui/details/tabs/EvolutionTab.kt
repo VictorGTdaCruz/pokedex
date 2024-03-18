@@ -43,7 +43,7 @@ fun evolutionTab(pokemonInformation: PokemonInformation, onPokemonClick: (Long) 
     ) {
         Text(
             text = stringResource(id = R.string.evolution_tab_title),
-            color = TypeColorHelper.findBackground(pokemonInformation.types.first().type.id),
+            color = TypeColorHelper.findBackground(pokemonInformation.typeList.first().type.id),
             style = PokedexTextStyle.body,
         )
         Spacer(modifier = Modifier.height(24.dp))

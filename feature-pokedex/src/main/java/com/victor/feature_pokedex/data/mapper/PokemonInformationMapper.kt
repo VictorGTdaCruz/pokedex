@@ -7,7 +7,7 @@ import com.victor.feature_pokedex.domain.model.PokemonEvolution
 import com.victor.feature_pokedex.domain.model.PokemonInformation
 import com.victor.feature_pokedex.domain.model.PokemonSpecies
 import com.victor.feature_pokedex.domain.model.TypeSimple
-import com.victor.feature_pokedex.domain.model.TypeDetails
+import com.victor.feature_pokedex.domain.model.Type
 import com.victor.feature_pokedex.domain.model.TypeEffectiveness
 
 internal object PokemonInformationMapper {
@@ -47,11 +47,11 @@ internal object PokemonInformationMapper {
 
     private fun calculateTypeDefensesEffectiveness(
         typeList: List<TypeSimple>,
-        pokemonTypeList: List<TypeDetails>
+        typeListOfCurrentPokemon: List<Type>
     ) =
         mutableListOf<TypeEffectiveness>().apply {
-            val firstType = pokemonTypeList.firstOrNull()
-            val secondType = pokemonTypeList.lastOrNull()
+            val firstType = typeListOfCurrentPokemon.firstOrNull()
+            val secondType = typeListOfCurrentPokemon.lastOrNull()
             typeList.forEach {
                 var effectiveness = 1.0
                 effectiveness *= firstType?.defenseEffectivenessAgainst(it) ?: 1.0
@@ -60,7 +60,7 @@ internal object PokemonInformationMapper {
             }
         }
 
-    private fun TypeDetails.defenseEffectivenessAgainst(currentType: TypeSimple) =
+    private fun Type.defenseEffectivenessAgainst(currentType: TypeSimple) =
         damageRelations.run {
             when {
                 doubleDamageFrom.find { it.id == currentType.id } != null -> 2.0
@@ -98,7 +98,7 @@ internal object PokemonInformationMapper {
         pokemon: Pokemon,
         pokemonSpecies: PokemonSpecies,
         typeList: List<TypeSimple>,
-        pokemonTypeList: List<TypeDetails>,
+        typeListOfCurrentPokemon: List<Type>,
         evolutionChain: EvolutionsResponse,
         pokemonListFromEvolutionChain: List<Pokemon>
     ): PokemonInformation {
@@ -114,7 +114,7 @@ internal object PokemonInformationMapper {
         val heightInKg = pokemon.height / TEN
         val weightInKg = pokemon.weight / TEN
 
-        val typeDefenses = calculateTypeDefensesEffectiveness(typeList, pokemonTypeList)
+        val typeDefenses = calculateTypeDefensesEffectiveness(typeList, typeListOfCurrentPokemon)
         val weaknesses = typeDefenses
             .filter { it.effectiveness >= TWO }
             .map { it.type }
@@ -126,7 +126,7 @@ internal object PokemonInformationMapper {
             name = pokemon.name,
             height = heightInKg,
             weight = weightInKg,
-            types = pokemon.types,
+            typeList = pokemon.typeList,
             stats = pokemon.stats,
             sprites = pokemon.sprites,
             abilities = pokemon.abilities,

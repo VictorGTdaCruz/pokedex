@@ -86,7 +86,7 @@ internal fun DetailsScreenBody(
                 Modifier
                     .fillMaxSize()
                     .verticalScroll(rememberScrollState())
-                    .background(TypeColorHelper.findBackground(it.types.firstOrNull()?.type?.id))
+                    .background(TypeColorHelper.findBackground(it.typeList.firstOrNull()?.type?.id))
             ) {
                 TopAppBar(
                     colors = TopAppBarDefaults.topAppBarColors(
@@ -140,7 +140,7 @@ internal fun DetailsScreenBody(
                         PokemonColumn(
                             id = it.id,
                             name = it.name,
-                            types = it.types,
+                            typeList = it.typeList,
                             modifier = Modifier.align(CenterVertically)
                         )
                     }

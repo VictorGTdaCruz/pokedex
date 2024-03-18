@@ -32,7 +32,7 @@ import com.victor.features_common.components.PokedexTextStyle.bold
 
 @Composable
 fun aboutTab(pokemonInformation: PokemonInformation) {
-    val typeColor = TypeColorHelper.findBackground(pokemonInformation.types.first().type.id)
+    val typeColor = TypeColorHelper.findBackground(pokemonInformation.typeList.first().type.id)
     Column(
         Modifier.padding(24.dp)
     ) {

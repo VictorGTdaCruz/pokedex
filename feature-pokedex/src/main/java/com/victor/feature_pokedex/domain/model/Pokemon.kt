@@ -5,13 +5,14 @@ data class Pokemon(
     val name: String,
     val height: Int,
     val weight: Int,
-    val types: List<PokemonTypeWithSlot>,
+    val typeList: List<PokemonTypeWithSlot>,
     val stats: List<PokemonStat>,
     val sprites: PokemonSprite,
     val abilities: List<PokemonAbility>,
     val baseXp: Int,
 )
 
+// TODO remove anything with slot
 data class PokemonTypeWithSlot(
     val slot: Int,
     val type: TypeSimple

@@ -1,6 +1,6 @@
 package com.victor.feature_pokedex.domain.model
 
-data class TypeDetails(
+data class Type(
     val id: Long,
     val name: String,
     val damageRelations: DamageRelations,

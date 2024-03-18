@@ -27,7 +27,7 @@ internal class PokedexUseCase(
             if (selectedGeneration != null)
                 add(infrastructure.getPokemonListByGeneration(selectedGeneration).pokemonList)
             typeList.forEach {
-                add(infrastructure.getTypeDetails(it.id).pokemonList)
+                add(infrastructure.getType(it.id).pokemonList)
             }
             if (isEmpty())
                 add(infrastructure.getPokemonList(offset = POKEMON_LIST_OFFSET, limit = POKEMON_LIST_LIMIT))

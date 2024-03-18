@@ -5,7 +5,7 @@ data class PokemonInformation(
     val name: String,
     val height: Float,
     val weight: Float,
-    val types: List<PokemonTypeWithSlot>,
+    val typeList: List<PokemonTypeWithSlot>,
     val stats: List<PokemonStat>,
     val sprites: PokemonSprite,
     val abilities: List<PokemonAbility>,

@@ -25,7 +25,7 @@ internal class PokedexInfrastructure(private val api: PokedexGateway) : PokedexS
             .sortedBy { it.id }
     }
 
-    override suspend fun getTypeDetails(typeId: Long) = request {
+    override suspend fun getType(typeId: Long) = request {
         api.getTypeDetails(typeId).toDomain()
     }
 
@@ -45,7 +45,7 @@ internal class PokedexInfrastructure(private val api: PokedexGateway) : PokedexS
         val pokemonSpecies = getPokemonSpecies(pokemonId)
         val pokemon = getPokemon(pokemonId)
         val typeList = getTypeList()
-        val pokemonTypeList = pokemon.types.map { getTypeDetails(it.type.id) }
+        val typeListOfCurrentPokemon = pokemon.typeList.map { getType(it.type.id) }
         val evolutionChain = api.getPokemonEvolutions(pokemonSpecies.evolutionChainId)
         val pokemonListFromEvolutionChain = getPokemonFromEveryPokemonInEvolutionChain(evolutionChain.chain)
 
@@ -53,7 +53,7 @@ internal class PokedexInfrastructure(private val api: PokedexGateway) : PokedexS
             pokemon,
             pokemonSpecies,
             typeList,
-            pokemonTypeList,
+            typeListOfCurrentPokemon,
             evolutionChain,
             pokemonListFromEvolutionChain
         )

@@ -92,8 +92,8 @@ internal class PokedexViewModel(
     }
 
     fun getTypeList() {
-        val types = pokemonTypes.getAsSuccessState<List<TypeSimple>>()?.data
-        if (types.isNullOrEmpty()) {
+        val typeList = pokemonTypes.getAsSuccessState<List<TypeSimple>>()?.data
+        if (typeList.isNullOrEmpty()) {
             manageStateDuringRequest(pokemonTypes) {
                 useCase.getTypeList()
             }

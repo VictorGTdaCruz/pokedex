@@ -20,7 +20,7 @@ import com.victor.features_common.components.PokedexTextStyle.bold
 internal fun PokemonColumn(
     id: Long,
     name: String,
-    types: List<PokemonTypeWithSlot>,
+    typeList: List<PokemonTypeWithSlot>,
     modifier: Modifier = Modifier
 ) {
     Column(
@@ -37,7 +37,7 @@ internal fun PokemonColumn(
             color = Color.White,
         )
         Row {
-            types.forEach {
+            typeList.forEach {
                 Box(
                     modifier = Modifier.padding(end = 6.dp, top = 4.dp)
                 ) {
