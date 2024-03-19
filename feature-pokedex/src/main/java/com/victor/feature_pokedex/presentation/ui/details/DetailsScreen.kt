@@ -65,8 +65,13 @@ internal fun DetailsScreenBody(
     pokemonId: Int,
     onPokemonClick: (Int) -> Unit
 ) {
+    val tabs = listOf(
+        stringResource(id = R.string.about_tab),
+        stringResource(id = R.string.stats_tab),
+        stringResource(id = R.string.evolutions_tab)
+    )
+    val pagerState = rememberPagerState { tabs.size }
     var selectedTabIndex by remember { mutableStateOf(0) }
-    val pagerState = rememberPagerState { Tabs.values().size }
 
     LaunchedEffect(Unit) {
         viewModel.getPokemonInformation(pokemonId)
@@ -153,7 +158,7 @@ internal fun DetailsScreenBody(
                     indicator = { },
                     divider = { }
                 ) {
-                    Tabs.values().forEachIndexed { index, item ->
+                    tabs.forEachIndexed { index, item ->
                         Tab(
                             selected = selectedTabIndex == index,
                             text = {
@@ -162,10 +167,12 @@ internal fun DetailsScreenBody(
                                         Image(
                                             painterResource(id = R.drawable.home_toolbar_background),
                                             contentDescription = null,
-                                            modifier = Modifier.rotate(180f).alpha(0.25f)
+                                            modifier = Modifier
+                                                .rotate(180f)
+                                                .alpha(0.25f)
                                         )
                                     Text(
-                                        text = item.name,
+                                        text = item,
                                         color = Color.White,
                                         style = if (index == selectedTabIndex)
                                             PokedexTextStyle.body.bold()
@@ -206,8 +213,4 @@ internal fun DetailsScreenBody(
             }
         }
     )
-}
-
-private enum class Tabs { // TODO localize those!
-    About, Stats, Evolution
 }
