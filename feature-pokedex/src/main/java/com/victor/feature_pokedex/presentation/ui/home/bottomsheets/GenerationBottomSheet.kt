@@ -21,16 +21,20 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.victor.feature_pokedex.R
 import com.victor.feature_pokedex.domain.PokemonListUseCase
-import com.victor.feature_pokedex.presentation.ui.home.HomeViewModel
 import com.victor.feature_pokedex.presentation.ui.components.GenerationButton
+import com.victor.features_common.components.PokedexButtonStyle
 import com.victor.features_common.components.PokedexTextStyle
 import com.victor.features_common.components.PokedexTextStyle.bold
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-internal fun GenerationBottomSheet(viewModel: HomeViewModel) {
+internal fun GenerationBottomSheet(
+    onDismiss: () -> Unit,
+    onPokemonGenerationClick: (Int) -> Unit,
+    isGenerationButtonEnabled: (Int) -> PokedexButtonStyle
+) {
     ModalBottomSheet(
-        onDismissRequest = { viewModel.onDismissBottomSheet() },
+        onDismissRequest = onDismiss,
         sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true),
         containerColor = Color.White,
         windowInsets = WindowInsets(
@@ -59,8 +63,8 @@ internal fun GenerationBottomSheet(viewModel: HomeViewModel) {
                         val generation = it + 1
                         GenerationButton(
                             text = stringResource(id = R.string.pokedex_generation_option, generation),
-                            onClick = { viewModel.onPokemonGenerationClick(generation) },
-                            style = viewModel.isGenerationButtonEnabled(generation),
+                            onClick = { onPokemonGenerationClick(generation) },
+                            style = isGenerationButtonEnabled(generation),
                             imageId = getGenerationDrawable(generation),
                         )
                     }

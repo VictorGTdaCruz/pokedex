@@ -18,16 +18,20 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.victor.feature_pokedex.R
-import com.victor.feature_pokedex.presentation.ui.home.HomeViewModel
 import com.victor.features_common.components.PokedexButton
+import com.victor.features_common.components.PokedexButtonStyle
 import com.victor.features_common.components.PokedexTextStyle
 import com.victor.features_common.components.PokedexTextStyle.bold
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-internal fun SortBottomSheet(viewModel: HomeViewModel) {
+internal fun SortBottomSheet(
+    onDismiss: () -> Unit,
+    onPokemonSortClick: (Sort) -> Unit,
+    isSortButtonEnabled: (Sort) -> PokedexButtonStyle,
+) {
     ModalBottomSheet(
-        onDismissRequest = { viewModel.onDismissBottomSheet() },
+        onDismissRequest = onDismiss,
         sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true),
         containerColor = Color.White,
         windowInsets = WindowInsets(
@@ -49,29 +53,29 @@ internal fun SortBottomSheet(viewModel: HomeViewModel) {
             Spacer(modifier = Modifier.height(24.dp))
             PokedexButton(
                 text = stringResource(id = R.string.pokedex_sort_option_1),
-                onClick = { viewModel.onPokemonSortClick(Sort.SmallestNumberFirst) },
-                style = viewModel.isSortButtonEnabled(Sort.SmallestNumberFirst),
+                onClick = { onPokemonSortClick(Sort.SmallestNumberFirst) },
+                style = isSortButtonEnabled(Sort.SmallestNumberFirst),
                 modifier = Modifier.fillMaxWidth().padding(horizontal = 24.dp)
             )
             Spacer(modifier = Modifier.height(16.dp))
             PokedexButton(
                 text = stringResource(id = R.string.pokedex_sort_option_2),
-                onClick = { viewModel.onPokemonSortClick(Sort.HighestNumberFirst) },
-                style = viewModel.isSortButtonEnabled(Sort.HighestNumberFirst),
+                onClick = { onPokemonSortClick(Sort.HighestNumberFirst) },
+                style = isSortButtonEnabled(Sort.HighestNumberFirst),
                 modifier = Modifier.fillMaxWidth().padding(horizontal = 24.dp)
             )
             Spacer(modifier = Modifier.height(16.dp))
             PokedexButton(
                 text = stringResource(id = R.string.pokedex_sort_option_3),
-                onClick = { viewModel.onPokemonSortClick(Sort.AtoZ) },
-                style = viewModel.isSortButtonEnabled(Sort.AtoZ),
+                onClick = { onPokemonSortClick(Sort.AtoZ) },
+                style = isSortButtonEnabled(Sort.AtoZ),
                 modifier = Modifier.fillMaxWidth().padding(horizontal = 24.dp)
             )
             Spacer(modifier = Modifier.height(16.dp))
             PokedexButton(
                 text = stringResource(id = R.string.pokedex_sort_option_4),
-                onClick = { viewModel.onPokemonSortClick(Sort.ZtoA) },
-                style = viewModel.isSortButtonEnabled(Sort.ZtoA),
+                onClick = { onPokemonSortClick(Sort.ZtoA) },
+                style = isSortButtonEnabled(Sort.ZtoA),
                 modifier = Modifier.fillMaxWidth().padding(horizontal = 24.dp)
             )
             Spacer(

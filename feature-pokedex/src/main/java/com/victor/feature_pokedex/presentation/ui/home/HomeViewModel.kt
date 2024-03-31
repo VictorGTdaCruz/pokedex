@@ -5,7 +5,6 @@ import androidx.compose.runtime.mutableStateMapOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.victor.feature_pokedex.domain.PokemonInformationUseCase
 import com.victor.feature_pokedex.domain.PokemonListUseCase
 import com.victor.feature_pokedex.domain.model.Pokemon
 import com.victor.feature_pokedex.domain.model.PokemonSimple
@@ -25,22 +24,17 @@ internal class HomeViewModel(
     private val typeRepository: TypeRepository,
 ) : ViewModel() {
 
+    private var fullPokemonList = emptyList<PokemonSimple>()
     val currentPokemonList = mutableStateOf<State>(State.Empty)
     val pokemon = mutableStateMapOf<Int, Pokemon>()
 
-    var searchText = mutableStateOf("")
-    private var fullPokemonList = emptyList<PokemonSimple>()
+    val searchText = mutableStateOf("")
 
-    var showFilterBottomSheet = mutableStateOf(false)
     val pokemonTypes = mutableStateOf<State>(State.Empty)
     private val selectedTypes = mutableStateListOf<TypeSimple>()
-    var selectedIdRange = mutableStateOf<ClosedFloatingPointRange<Float>?>(null)
-    var fullIdRange = mutableStateOf<ClosedFloatingPointRange<Float>?>(null)
-
-    var showSortBottomSheet = mutableStateOf(false)
-    private var selectedSort = mutableStateOf<Sort>(Sort.SmallestNumberFirst)
-
-    var showGenerationBottomSheet = mutableStateOf(false)
+    val selectedIdRange = mutableStateOf<ClosedFloatingPointRange<Float>?>(null)
+    val fullIdRange = mutableStateOf<ClosedFloatingPointRange<Float>?>(null)
+    private val selectedSort = mutableStateOf<Sort>(Sort.SmallestNumberFirst)
     private val selectedGeneration = mutableStateOf<Int?>(null)
 
     fun getPokemonList() {
@@ -95,24 +89,6 @@ internal class HomeViewModel(
         }
     }
 
-    fun onFilterIconClick() {
-        showFilterBottomSheet.value = !showFilterBottomSheet.value
-    }
-
-    fun onSortIconClick() {
-        showSortBottomSheet.value = !showSortBottomSheet.value
-    }
-
-    fun onGenerationIconClick() {
-        showGenerationBottomSheet.value = !showGenerationBottomSheet.value
-    }
-
-    fun onDismissBottomSheet() {
-        showFilterBottomSheet.value = false
-        showSortBottomSheet.value = false
-        showGenerationBottomSheet.value = false
-    }
-
     fun isPokemonTypeFilterIconFilled(type: TypeSimple) = selectedTypes.contains(type)
 
     fun onPokemonTypeFilterIconClick(type: TypeSimple) {
@@ -128,11 +104,6 @@ internal class HomeViewModel(
     fun onPokemonTypeFilterResetClick() {
         selectedTypes.clear()
         selectedIdRange.value = fullIdRange.value
-    }
-
-    fun onPokemonTypeFilterApplyClick() {
-        onDismissBottomSheet()
-        getPokemonList()
     }
 
     fun onPokemonSortClick(sort: Sort) {

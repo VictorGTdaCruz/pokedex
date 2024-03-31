@@ -30,7 +30,9 @@ import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.derivedStateOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment.Companion.BottomCenter
 import androidx.compose.ui.Alignment.Companion.BottomEnd
@@ -64,65 +66,119 @@ import kotlinx.coroutines.launch
 @Composable
 internal fun HomeScreenBody(viewModel: HomeViewModel, onPokemonClick: (Int) -> Unit) {
     val scrollState = rememberLazyListState()
-    with(viewModel) {
-        LaunchedEffect(Unit) {
-            getPokemonList()
-            getTypeList()
-        }
+    val isFilterBottomSheetVisible = mutableStateOf(false)
+    val isSortBottomSheetVisible = mutableStateOf(false)
+    val isGenerationBottomSheetVisible = mutableStateOf(false)
 
-        Box(
-            modifier = Modifier.fillMaxSize().background(Color.White)
+    LaunchedEffect(Unit) {
+        viewModel.getPokemonList()
+        viewModel.getTypeList()
+    }
+
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(Color.White)
+    ) {
+        LazyColumn(
+            state = scrollState
         ) {
-            LazyColumn(
-                state = scrollState
-            ) {
-                item {
-                    Column {
-                        HomeAppBar(
-                            onFilterClick = { onFilterIconClick() },
-                            onSortClick = { onSortIconClick() },
-                            onGenerationClick = { onGenerationIconClick() }
-                        )
-                        PokemonSearchTextField(viewModel)
-                    }
-                }
-                observeStateInsideLazyList<List<PokemonSimple>>(
-                    state = currentPokemonList,
-                    onRetry = { getPokemonList() }
-                ) { pokemonList ->
-                    items(pokemonList.count()) {
-                        val pokemonSimple = pokemonList[it]
-                        val pokemon = pokemon[pokemonSimple.id]
-                        if (pokemon == null) {
-                            PokemonCardLoading()
-                            LaunchedEffect(pokemonSimple.id) {
-                                getPokemon(pokemonSimple.id)
-                            }
-                        } else {
-                            PokemonCard(pokemon, onPokemonClick)
-                        }
-                    }
-                }
-                item {
-                    Spacer(modifier = Modifier.height(32.dp))
+            item {
+                Column {
+                    HomeAppBar(
+                        onFilterClick = { isFilterBottomSheetVisible.value = true },
+                        onSortClick = { isSortBottomSheetVisible.value = true },
+                        onGenerationClick = { isGenerationBottomSheetVisible.value = true }
+                    )
+                    PokemonSearchTextField(
+                        value = viewModel.searchText.value,
+                        onValueChange = viewModel::searchPokemon,
+                        isEnabled = viewModel.isSearchEnabled(),
+                    )
                 }
             }
-
-            scrollToTopFAB(scrollState)
+            observeStateInsideLazyList<List<PokemonSimple>>(
+                state = viewModel.currentPokemonList,
+                onRetry = { viewModel.getPokemonList() }
+            ) { pokemonList ->
+                items(pokemonList.count()) {
+                    val pokemonSimple = pokemonList[it]
+                    val pokemon = viewModel.pokemon[pokemonSimple.id]
+                    if (pokemon == null) {
+                        PokemonCardLoading()
+                        LaunchedEffect(pokemonSimple.id) {
+                            viewModel.getPokemon(pokemonSimple.id)
+                        }
+                    } else {
+                        PokemonCard(pokemon, onPokemonClick)
+                    }
+                }
+            }
+            item {
+                Spacer(modifier = Modifier.height(32.dp))
+            }
         }
 
-        if (showFilterBottomSheet.value) FilterBottomSheet(viewModel = this)
-        if (showSortBottomSheet.value) SortBottomSheet(viewModel = this)
-        if (showGenerationBottomSheet.value) GenerationBottomSheet(viewModel = this)
+        ScrollToTopFAB(scrollState)
+    }
+
+    BottomSheets(
+        viewModel = viewModel,
+        isFilterBottomSheetVisible = isFilterBottomSheetVisible,
+        isSortBottomSheetVisible = isSortBottomSheetVisible,
+        isGenerationBottomSheetVisible = isGenerationBottomSheetVisible
+    )
+}
+
+@Composable
+private fun BottomSheets(
+    viewModel: HomeViewModel,
+    isFilterBottomSheetVisible: MutableState<Boolean>,
+    isSortBottomSheetVisible: MutableState<Boolean>,
+    isGenerationBottomSheetVisible: MutableState<Boolean>,
+) {
+    with(viewModel) {
+        if (isFilterBottomSheetVisible.value)
+            FilterBottomSheet(
+                typeListState = pokemonTypes,
+                selectedIdRangeState = selectedIdRange.value ?: 0f..0f,
+                fullIdRangeState = fullIdRange.value ?: 0f..0f,
+                onDismiss = { isFilterBottomSheetVisible.value = false },
+                isPokemonTypeFilterIconFilled = ::isPokemonTypeFilterIconFilled,
+                onPokemonTypeFilterIconClick = ::onPokemonTypeFilterIconClick,
+                onPokemonTypeFilterResetClick = ::onPokemonTypeFilterResetClick,
+                onPokemonTypeFilterApplyClick = {
+                    isFilterBottomSheetVisible.value = false
+                    getPokemonList()
+                },
+                onRangeFilterUpdate = ::onRangeFilterUpdate,
+
+                )
+        if (isSortBottomSheetVisible.value)
+            SortBottomSheet(
+                onDismiss = { isSortBottomSheetVisible.value = false },
+                onPokemonSortClick = ::onPokemonSortClick,
+                isSortButtonEnabled = ::isSortButtonEnabled
+            )
+        if (isGenerationBottomSheetVisible.value)
+            GenerationBottomSheet(
+                onDismiss = { isGenerationBottomSheetVisible.value = false },
+                onPokemonGenerationClick = ::onPokemonGenerationClick,
+                isGenerationButtonEnabled = ::isGenerationButtonEnabled
+            )
     }
 }
 
 @Composable
-private fun PokemonSearchTextField(viewModel: HomeViewModel) {
+private fun PokemonSearchTextField(
+    value: String,
+    onValueChange: (String) -> Unit,
+    isEnabled: Boolean
+) {
     TextField(
-        value = viewModel.searchText.value,
-        onValueChange = { viewModel.searchPokemon(it) },
-        enabled = viewModel.isSearchEnabled(),
+        value = value,
+        onValueChange = onValueChange,
+        enabled = isEnabled,
         placeholder = {
             Text(
                 text = stringResource(id = R.string.search_placeholder),
@@ -231,7 +287,7 @@ private fun PokemonCard(pokemon: Pokemon, onPokemonClick: (Int) -> Unit) {
 }
 
 @Composable
-fun BoxScope.scrollToTopFAB(scrollState: LazyListState) {
+fun BoxScope.ScrollToTopFAB(scrollState: LazyListState) {
     AnimatedVisibility(
         visible = derivedStateOf { scrollState.firstVisibleItemIndex }.value > 1,
         enter = slideInVertically(
