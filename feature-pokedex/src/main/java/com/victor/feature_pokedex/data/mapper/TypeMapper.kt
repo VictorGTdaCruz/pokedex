@@ -5,12 +5,14 @@ import com.victor.feature_pokedex.data.model.TypeResponse
 import com.victor.feature_pokedex.domain.model.DamageRelations
 import com.victor.feature_pokedex.domain.model.Type
 
-internal fun TypeResponse.toDomain() =
+internal fun TypeResponse.toDomain(validPokemonRange: IntRange) =
     Type(
         id = id ?: 0,
         name = name.orEmpty(),
         damageRelations = damageRelations.toDomain(),
-        pokemonList = pokemon?.map { it.pokemon }.toPokemonDomain(),
+        pokemonList = pokemon?.map { it.pokemon }
+            .toPokemonDomain()
+            .filter { it.id in validPokemonRange },
     )
 
 private fun DamageRelationsResponse?.toDomain() = DamageRelations(

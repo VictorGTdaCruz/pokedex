@@ -2,19 +2,18 @@ package com.victor.feature_pokedex.domain
 
 import com.victor.feature_pokedex.domain.model.PokemonSimple
 import com.victor.feature_pokedex.domain.model.TypeSimple
-import com.victor.feature_pokedex.domain.service.PokedexService
+import com.victor.feature_pokedex.domain.service.PokemonRepository
+import com.victor.feature_pokedex.domain.service.TypeRepository
 import com.victor.feature_pokedex.presentation.ui.home.bottomsheets.Sort
 
-internal class PokedexUseCase(
-    private val infrastructure: PokedexService
+internal class PokemonListUseCase(
+    private val pokemonRepository: PokemonRepository,
+    private val typeRepository: TypeRepository
 ) {
 
+    // TODO remove this key from here?
     companion object {
-        private val VALID_TYPE_ID_RANGE = 1 until 9999
-        private val VALID_POKEMON_ID_RANGE = 1 until 9999
         internal val SELECTABLE_POKEMON_GENERATION_RANGE = 1..8
-        private const val POKEMON_LIST_OFFSET = 0
-        private const val POKEMON_LIST_LIMIT = 9999
     }
 
     suspend fun getPokemonList(
@@ -25,12 +24,12 @@ internal class PokedexUseCase(
     ): List<PokemonSimple> {
         val pokemonLists = mutableListOf<List<PokemonSimple>>().apply {
             if (selectedGeneration != null)
-                add(infrastructure.getGeneration(selectedGeneration).pokemonList)
+                add(pokemonRepository.getGeneration(selectedGeneration).pokemonList)
             typeList.forEach {
-                add(infrastructure.getType(it.id).pokemonList)
+                add(typeRepository.getType(it.id).pokemonList)
             }
             if (isEmpty())
-                add(infrastructure.getPokemonList(offset = POKEMON_LIST_OFFSET, limit = POKEMON_LIST_LIMIT))
+                add(pokemonRepository.getPokemonList())
         }
 
         val result = mutableListOf<PokemonSimple>().apply {
@@ -45,24 +44,15 @@ internal class PokedexUseCase(
             }
         }
 
-        return sort(result.applyValidPokemonFilter().applyIndexRangeFilter(indexRange), sort)
+        return sort(result.applyIndexRangeFilter(indexRange), sort)
     }
 
-    suspend fun getPokemon(pokemonId: Int) = infrastructure.getPokemon(pokemonId)
-
-    suspend fun getPokemonInformation(pokemonId: Int) = infrastructure.getPokemonInformation(pokemonId)
-
-    suspend fun getTypeList() =
-        infrastructure.getTypeList()
-            .filter { it.id in VALID_TYPE_ID_RANGE }
-            .sortedBy { it.name }
-
     private fun List<PokemonSimple>.applyIndexRangeFilter(indexRange: ClosedFloatingPointRange<Float>?): List<PokemonSimple> {
-        val intRange = if (indexRange == null)
-            VALID_POKEMON_ID_RANGE
-        else
-            indexRange.start.toInt()..indexRange.endInclusive.toInt()
-        return filter { intRange.contains(it.id) }
+        indexRange?.let {
+            val range = it.start.toInt()..it.endInclusive.toInt()
+            return filter { pokemon -> range.contains(pokemon.id) }
+        }
+        return this
     }
 
     fun sort(pokemonList: List<PokemonSimple>, sort: Sort) = pokemonList.run {
@@ -73,7 +63,4 @@ internal class PokedexUseCase(
             Sort.ZtoA -> sortedByDescending { it.name }
         }
     }
-
-    private fun List<PokemonSimple>.applyValidPokemonFilter() =
-        filter { VALID_POKEMON_ID_RANGE.contains(it.id) }
 }

@@ -1,7 +1,8 @@
 package com.victor.feature_pokedex.data.mapper
 
 import com.victor.feature_pokedex.data.model.EvolutionChainResponse
-import com.victor.feature_pokedex.data.model.EvolutionResponse
+import com.victor.feature_pokedex.domain.model.Evolution
+import com.victor.feature_pokedex.domain.model.EvolutionChain
 import com.victor.feature_pokedex.domain.model.Pokemon
 import com.victor.feature_pokedex.domain.model.PokemonEvolution
 import com.victor.feature_pokedex.domain.model.PokemonInformation
@@ -70,20 +71,20 @@ internal object PokemonInformationMapper {
         }
 
     private fun getPokemonEvolutionList(
-        response: EvolutionChainResponse?,
+        response: EvolutionChain?,
         pokemonList: List<Pokemon>
     ): List<PokemonEvolution> =
         if (response?.evolvesTo.isNullOrEmpty()) {
             mutableListOf()
         } else {
-            val currentId = IdMapper.mapIdFromUrl(response?.species?.url)
-            val nextIds = response?.evolvesTo?.map { IdMapper.mapIdFromUrl(it.species?.url) }
+            val currentId = response?.specieId
+            val nextIds = response?.evolvesTo?.map { it.specieId }
             mutableListOf<PokemonEvolution>().apply {
                 add(
                     PokemonEvolution(
                         from = pokemonList.filter { it.id == currentId },
                         to = pokemonList.filter { nextIds?.contains(it.id) == true },
-                        trigger = response?.evolvesTo?.firstOrNull()?.evolutionDetails?.firstOrNull()?.trigger?.name,
+                        trigger = response?.evolvesTo?.firstOrNull()?.evolutionDetails?.firstOrNull()?.trigger,
                         minLevel = response?.evolvesTo?.firstOrNull()?.evolutionDetails?.firstOrNull()?.minLevel
                     )
                 )
@@ -98,7 +99,7 @@ internal object PokemonInformationMapper {
         specie: Specie,
         typeList: List<TypeSimple>,
         typeListOfCurrentPokemon: List<Type>,
-        evolutionChain: EvolutionResponse,
+        evolutionChain: Evolution,
         pokemonListFromEvolutionChain: List<Pokemon>
     ): PokemonInformation {
         val captureProbability =

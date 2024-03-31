@@ -47,7 +47,7 @@ import androidx.navigation.NavController
 import coil.compose.rememberImagePainter
 import com.victor.feature_pokedex.R
 import com.victor.feature_pokedex.domain.model.PokemonInformation
-import com.victor.feature_pokedex.presentation.PokedexViewModel
+import com.victor.feature_pokedex.presentation.ui.home.HomeViewModel
 import com.victor.feature_pokedex.presentation.ui.components.PokemonColumn
 import com.victor.feature_pokedex.presentation.ui.details.tabs.aboutTab
 import com.victor.feature_pokedex.presentation.ui.details.tabs.evolutionTab
@@ -61,7 +61,7 @@ import com.victor.features_common.observeState
 @Composable
 internal fun DetailsScreenBody(
     navController: NavController,
-    viewModel: PokedexViewModel,
+    viewModel: DetailsViewModel,
     pokemonId: Int,
     onPokemonClick: (Int) -> Unit
 ) {

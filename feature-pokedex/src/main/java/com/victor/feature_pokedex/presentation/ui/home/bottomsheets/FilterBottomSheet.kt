@@ -22,6 +22,7 @@ import androidx.compose.material3.SliderDefaults
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Alignment.Companion.Center
 import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
@@ -31,8 +32,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.victor.feature_pokedex.R
 import com.victor.feature_pokedex.domain.model.TypeSimple
-import com.victor.feature_pokedex.presentation.PokedexViewModel
 import com.victor.feature_pokedex.presentation.ui.components.PokemonTypeIcon
+import com.victor.features_common.State
 import com.victor.features_common.components.PokedexButton
 import com.victor.features_common.components.PokedexButtonStyle
 import com.victor.features_common.components.PokedexTextStyle
@@ -42,9 +43,19 @@ import com.victor.features_common.theme.Red
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-internal fun FilterBottomSheet(viewModel: PokedexViewModel) {
+internal fun FilterBottomSheet(
+    typeListState: MutableState<State>,
+    selectedIdRangeState: ClosedFloatingPointRange<Float>,
+    fullIdRangeState: ClosedFloatingPointRange<Float>,
+    onDismiss: () -> Unit,
+    isPokemonTypeFilterIconFilled: (TypeSimple) -> Boolean,
+    onPokemonTypeFilterIconClick: (TypeSimple) -> Unit,
+    onPokemonTypeFilterResetClick: () -> Unit,
+    onPokemonTypeFilterApplyClick: () -> Unit,
+    onRangeFilterUpdate: (ClosedFloatingPointRange<Float>) -> Unit,
+) {
     ModalBottomSheet(
-        onDismissRequest = { viewModel.onDismissBottomSheet() },
+        onDismissRequest = onDismiss,
         sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true),
         containerColor = Color.White,
         windowInsets = WindowInsets(
@@ -72,13 +83,13 @@ internal fun FilterBottomSheet(viewModel: PokedexViewModel) {
             )
             LazyRow {
                 item { Spacer(modifier = Modifier.width(16.dp)) }
-                observeStateInsideLazyList<List<TypeSimple>>(state = viewModel.pokemonTypes) { typeList ->
+                observeStateInsideLazyList<List<TypeSimple>>(state = typeListState) { typeList ->
                     items(typeList.size) { index ->
                         val type = typeList[index]
                         PokemonTypeIcon(
                             type = type,
-                            isFilled = viewModel.isPokemonTypeFilterIconFilled(type),
-                            onClick = { viewModel.onPokemonTypeFilterIconClick(it) },
+                            isFilled = isPokemonTypeFilterIconFilled(type),
+                            onClick = onPokemonTypeFilterIconClick,
                         )
                     }
                 }
@@ -92,9 +103,9 @@ internal fun FilterBottomSheet(viewModel: PokedexViewModel) {
                 modifier = Modifier.padding(horizontal = 24.dp),
             )
             RangeSlider(
-                value = viewModel.selectedIdRange.value ?: 0f..0f,
-                valueRange = viewModel.fullIdRange.value ?: 0f..0f,
-                onValueChange = { viewModel.onRangeFilterUpdate(it) },
+                value = selectedIdRangeState,
+                valueRange = fullIdRangeState,
+                onValueChange = onRangeFilterUpdate,
                 modifier = Modifier.padding(horizontal = 24.dp),
                 colors = SliderDefaults.colors(
                     activeTickColor = Red,
@@ -111,14 +122,14 @@ internal fun FilterBottomSheet(viewModel: PokedexViewModel) {
             ) {
                 PokedexButton(
                     text = stringResource(id = R.string.pokedex_filter_type_reset_button),
-                    onClick = { viewModel.onPokemonTypeFilterResetClick() },
+                    onClick = onPokemonTypeFilterResetClick,
                     style = PokedexButtonStyle.Secondary,
                     modifier = Modifier.weight(1f)
                 )
                 Spacer(modifier = Modifier.width(16.dp))
                 PokedexButton(
                     text = stringResource(id = R.string.pokedex_filter_type_apply_button),
-                    onClick = { viewModel.onPokemonTypeFilterApplyClick() },
+                    onClick = onPokemonTypeFilterApplyClick,
                     style = PokedexButtonStyle.Primary,
                     modifier = Modifier.weight(1f)
                 )

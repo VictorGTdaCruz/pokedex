@@ -1,10 +1,14 @@
 package com.victor.feature_pokedex.di
 
-import com.victor.feature_pokedex.data.PokedexGateway
-import com.victor.feature_pokedex.data.PokedexInfrastructure
-import com.victor.feature_pokedex.domain.PokedexUseCase
-import com.victor.feature_pokedex.domain.service.PokedexService
-import com.victor.feature_pokedex.presentation.PokedexViewModel
+import com.victor.feature_pokedex.data.PokedexDataSource
+import com.victor.feature_pokedex.data.PokemonRepositoryImpl
+import com.victor.feature_pokedex.data.TypeRepositoryImpl
+import com.victor.feature_pokedex.domain.PokemonInformationUseCase
+import com.victor.feature_pokedex.domain.PokemonListUseCase
+import com.victor.feature_pokedex.domain.service.PokemonRepository
+import com.victor.feature_pokedex.domain.service.TypeRepository
+import com.victor.feature_pokedex.presentation.ui.details.DetailsViewModel
+import com.victor.feature_pokedex.presentation.ui.home.HomeViewModel
 import org.kodein.di.DI
 import org.kodein.di.bind
 import org.kodein.di.instance
@@ -14,20 +18,32 @@ import retrofit2.Retrofit
 
 val pokedexModule = DI.Module("pokedex") {
 
-    bind<PokedexGateway>() with singleton {
+    bind<PokedexDataSource>() with singleton {
         val retrofit: Retrofit = instance()
-        retrofit.create(PokedexGateway::class.java)
+        retrofit.create(PokedexDataSource::class.java)
     }
 
-    bind<PokedexService>() with provider {
-        PokedexInfrastructure(instance())
+    bind<PokemonRepository>() with provider {
+        PokemonRepositoryImpl(instance())
     }
 
-    bind<PokedexUseCase>() with provider {
-        PokedexUseCase(instance())
+    bind<TypeRepository>() with provider {
+        TypeRepositoryImpl(instance())
     }
 
-    bind<PokedexViewModel>() with provider {
-        PokedexViewModel(instance())
+    bind<PokemonListUseCase>() with provider {
+        PokemonListUseCase(instance(), instance())
+    }
+
+    bind<PokemonInformationUseCase>() with provider {
+        PokemonInformationUseCase(instance(), instance())
+    }
+
+    bind<HomeViewModel>() with provider {
+        HomeViewModel(instance(), instance(), instance())
+    }
+
+    bind<DetailsViewModel>() with provider {
+        DetailsViewModel(instance())
     }
 }

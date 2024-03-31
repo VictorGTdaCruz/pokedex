@@ -11,12 +11,12 @@ import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query
 
-internal interface PokedexGateway {
+internal interface PokedexDataSource {
 
     @GET("pokemon/")
     suspend fun getPokemonList(
-        @Query("offset") offset: Int,
-        @Query("limit") limit: Int,
+        @Query("offset") offset: Int = 0,
+        @Query("limit") limit: Int = 9999,
     ): PagedResponse<NameAndUrlResponse>
 
     @GET("pokemon/{id}")
