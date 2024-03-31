@@ -1,33 +1,33 @@
 package com.victor.feature_pokedex.domain.model
 
 data class PokemonInformation(
-    val id: Long,
+    val id: Int,
     val name: String,
     val height: Float,
     val weight: Float,
-    val types: List<PokemonTypeWithSlot>,
-    val stats: List<PokemonStat>,
-    val sprites: PokemonSprite,
-    val abilities: List<PokemonAbility>,
+    val typeList: List<TypeSimple>,
+    val stats: List<Stat>,
+    val sprite: String,
+    val abilityList: List<Ability>,
     val baseXp: Int,
     val captureRate: Int,
     val captureProbability: Float,
     val growthRate: String,
     val flavorText: String,
     val genera: String,
-    val maleRate: Double?,
-    val femaleRate: Double?,
-    val eggGroups: List<String>,
+    val maleRate: Float?,
+    val femaleRate: Float?,
+    val eggGroupList: List<String>,
     val hatchCounter: Int,
     val hatchSteps: Int,
-    val typeDefenses: List<TypeEffectiveness>,
-    val weaknesses: List<PokemonType>,
-    val evolutions: List<PokemonEvolution>,
+    val typeDefenseList: List<TypeEffectiveness>,
+    val weaknessList: List<TypeSimple>,
+    val evolutionList: List<PokemonEvolution>,
 )
 
 data class TypeEffectiveness(
-    val type: PokemonType,
-    val effectiveness: Double
+    val type: TypeSimple,
+    val effectiveness: Float
 )
 
 data class PokemonEvolution(

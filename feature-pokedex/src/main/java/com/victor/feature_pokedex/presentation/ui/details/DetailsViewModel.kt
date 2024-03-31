@@ -5,7 +5,6 @@ import androidx.lifecycle.ViewModel
 import com.victor.feature_pokedex.domain.PokedexUseCase
 import com.victor.feature_pokedex.domain.model.Pokemon
 import com.victor.features_common.State
-import com.victor.features_common.manageStateDuringRequest
 
 internal class DetailsViewModel(
     private val details: Pokemon,

@@ -19,10 +19,10 @@ import com.victor.feature_pokedex.presentation.ui.theme.Ghost
 import com.victor.feature_pokedex.presentation.ui.utils.TypeColorHelper
 import com.victor.feature_pokedex.presentation.ui.utils.beautifyFloatToString
 import com.victor.feature_pokedex.presentation.ui.utils.beautifyString
-import com.victor.feature_pokedex.presentation.ui.utils.formatDoubleToString
 import com.victor.feature_pokedex.presentation.ui.utils.formatEV
 import com.victor.feature_pokedex.presentation.ui.utils.formatEggGroups
 import com.victor.feature_pokedex.presentation.ui.utils.formatFlavorText
+import com.victor.feature_pokedex.presentation.ui.utils.formatFloatToString
 import com.victor.feature_pokedex.presentation.ui.utils.formatIntToString
 import com.victor.feature_pokedex.presentation.ui.utils.formatKgToLb
 import com.victor.feature_pokedex.presentation.ui.utils.formatMToFeetAndInches
@@ -32,7 +32,7 @@ import com.victor.features_common.components.PokedexTextStyle.bold
 
 @Composable
 fun aboutTab(pokemonInformation: PokemonInformation) {
-    val typeColor = TypeColorHelper.findBackground(pokemonInformation.types.first().type.id)
+    val typeColor = TypeColorHelper.findBackground(pokemonInformation.typeList.first().id)
     Column(
         Modifier.padding(24.dp)
     ) {
@@ -74,13 +74,13 @@ fun aboutTab(pokemonInformation: PokemonInformation) {
             ),
             description = stringResource(
                 id = R.string.about_tab_weight_in_lb,
-                pokemonInformation.weight.formatKgToLb().formatDoubleToString()
+                pokemonInformation.weight.formatKgToLb().formatFloatToString()
             )
         )
         Spacer(modifier = Modifier.height(12.dp))
         TabCell(title = stringResource(id = R.string.about_tab_abilities), description = {
             Column {
-                pokemonInformation.abilities.forEachIndexed { index, item ->
+                pokemonInformation.abilityList.forEachIndexed { index, item ->
                     Text(
                         text = if (item.isHidden)
                             stringResource(
@@ -107,9 +107,9 @@ fun aboutTab(pokemonInformation: PokemonInformation) {
             title = stringResource(id = R.string.about_tab_weakness),
             description = {
                 LazyRow {
-                    items(pokemonInformation.weaknesses.size) {
+                    items(pokemonInformation.weaknessList.size) {
                         PokemonTypeIcon(
-                            type = pokemonInformation.weaknesses[it],
+                            type = pokemonInformation.weaknessList[it],
                             iconSize = 12.dp,
                             cardPadding = 0.dp
                         )
@@ -184,7 +184,7 @@ fun aboutTab(pokemonInformation: PokemonInformation) {
         Spacer(modifier = Modifier.height(12.dp))
         TabCell(
             title = stringResource(id = R.string.about_tab_egg_groups),
-            value = pokemonInformation.eggGroups.formatEggGroups()
+            value = pokemonInformation.eggGroupList.formatEggGroups()
         )
         Spacer(modifier = Modifier.height(12.dp))
         TabCellWithAuxText(

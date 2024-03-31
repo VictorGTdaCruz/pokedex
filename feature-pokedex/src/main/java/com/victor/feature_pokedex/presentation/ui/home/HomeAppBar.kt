@@ -31,7 +31,7 @@ internal fun HomeAppBar(
     onSortClick: () -> Unit = {},
     onGenerationClick: () -> Unit = {}
 ) {
-    Box (
+    Box(
         modifier = Modifier.fillMaxWidth()
     ) {
         Image(

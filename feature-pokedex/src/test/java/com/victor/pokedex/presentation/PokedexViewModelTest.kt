@@ -2,9 +2,9 @@ package com.victor.pokedex.presentation
 
 import com.victor.features_common.MainCoroutineRuleTest
 import com.victor.features_common.State
-import com.victor.pokedex.domain.model.pokemon
 import com.victor.pokedex.domain.model.PokemonType
 import com.victor.pokedex.domain.model.TypeDetails
+import com.victor.pokedex.domain.model.pokemon
 import com.victor.pokedex.domain.service.PokedexService
 import io.mockk.coEvery
 import io.mockk.coVerify

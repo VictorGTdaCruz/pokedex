@@ -36,7 +36,7 @@ import com.victor.features_common.components.PokedexTextStyle.bold
 
 @Composable
 fun statsTab(pokemonInformation: PokemonInformation) {
-    val typeColor = TypeColorHelper.findBackground(pokemonInformation.types.first().type.id)
+    val typeColor = TypeColorHelper.findBackground(pokemonInformation.typeList.first().id)
     Column(
         Modifier.padding(24.dp)
     ) {
@@ -81,24 +81,24 @@ fun statsTab(pokemonInformation: PokemonInformation) {
         )
         Spacer(modifier = Modifier.height(16.dp))
         LazyVerticalGrid(
-            columns = GridCells.Fixed(pokemonInformation.typeDefenses.size / 2),
+            columns = GridCells.Fixed(pokemonInformation.typeDefenseList.size / 2),
             verticalArrangement = Arrangement.spacedBy(16.dp),
             horizontalArrangement = Arrangement.spacedBy(4.dp),
             userScrollEnabled = false,
             modifier = Modifier.height(150.dp),
             content = {
-                items(pokemonInformation.typeDefenses.size) {
+                items(pokemonInformation.typeDefenseList.size) {
                     Column(
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
                         PokemonTypeIcon(
-                            type = pokemonInformation.typeDefenses[it].type,
+                            type = pokemonInformation.typeDefenseList[it].type,
                             iconSize = 16.dp,
                             cardPadding = 0.dp
                         )
                         Spacer(modifier = Modifier.height(8.dp))
                         Text(
-                            text = pokemonInformation.typeDefenses[it].effectiveness.formatTypeEffectiveness(),
+                            text = pokemonInformation.typeDefenseList[it].effectiveness.formatTypeEffectiveness(),
                             style = PokedexTextStyle.body,
                         )
                     }

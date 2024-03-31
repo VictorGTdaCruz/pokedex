@@ -1,7 +1,7 @@
 package com.victor.feature_pokedex.domain.model
 
-data class PokemonSpecies(
-    val id: Long,
+data class Specie(
+    val id: Int,
     val captureRate: Int,
     val growthRate: String,
     val flavorText: String,
@@ -9,5 +9,5 @@ data class PokemonSpecies(
     val genderRate: Int,
     val eggGroups: List<String>,
     val hatchCounter: Int,
-    val evolutionChainId: Long
+    val evolutionChainId: Int
 )

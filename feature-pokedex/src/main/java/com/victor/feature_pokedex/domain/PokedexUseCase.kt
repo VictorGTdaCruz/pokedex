@@ -1,7 +1,7 @@
 package com.victor.feature_pokedex.domain
 
 import com.victor.feature_pokedex.domain.model.PokemonSimple
-import com.victor.feature_pokedex.domain.model.PokemonType
+import com.victor.feature_pokedex.domain.model.TypeSimple
 import com.victor.feature_pokedex.domain.service.PokedexService
 import com.victor.feature_pokedex.presentation.ui.home.bottomsheets.Sort
 
@@ -12,22 +12,22 @@ internal class PokedexUseCase(
     companion object {
         private val VALID_TYPE_ID_RANGE = 1 until 9999
         private val VALID_POKEMON_ID_RANGE = 1 until 9999
-        internal val SELECTABLE_POKEMON_GENERATION_RANGE = 1 .. 8
+        internal val SELECTABLE_POKEMON_GENERATION_RANGE = 1..8
         private const val POKEMON_LIST_OFFSET = 0
         private const val POKEMON_LIST_LIMIT = 9999
     }
 
     suspend fun getPokemonList(
-        typeList: List<PokemonType>,
+        typeList: List<TypeSimple>,
         selectedGeneration: Int?,
         indexRange: ClosedFloatingPointRange<Float>?,
         sort: Sort,
     ): List<PokemonSimple> {
         val pokemonLists = mutableListOf<List<PokemonSimple>>().apply {
             if (selectedGeneration != null)
-                add(infrastructure.getPokemonListByGeneration(selectedGeneration).pokemonList)
+                add(infrastructure.getGeneration(selectedGeneration).pokemonList)
             typeList.forEach {
-                add(infrastructure.getTypeDetails(it.id).pokemonList)
+                add(infrastructure.getType(it.id).pokemonList)
             }
             if (isEmpty())
                 add(infrastructure.getPokemonList(offset = POKEMON_LIST_OFFSET, limit = POKEMON_LIST_LIMIT))
@@ -48,12 +48,12 @@ internal class PokedexUseCase(
         return sort(result.applyValidPokemonFilter().applyIndexRangeFilter(indexRange), sort)
     }
 
-    suspend fun getPokemon(pokemonId: Long) = infrastructure.getPokemon(pokemonId)
+    suspend fun getPokemon(pokemonId: Int) = infrastructure.getPokemon(pokemonId)
 
-    suspend fun getPokemonInformation(pokemonId: Long) = infrastructure.getPokemonInformation(pokemonId)
+    suspend fun getPokemonInformation(pokemonId: Int) = infrastructure.getPokemonInformation(pokemonId)
 
-    suspend fun getPokemonTypes() =
-        infrastructure.getPokemonTypes()
+    suspend fun getTypeList() =
+        infrastructure.getTypeList()
             .filter { it.id in VALID_TYPE_ID_RANGE }
             .sortedBy { it.name }
 

@@ -19,15 +19,15 @@ class PokedexInfrastructureTest {
 
     @Test
     fun whenGetPokemonTypes_callsApiGetPokemonTypes() {
-        runBlocking { infrastructure.getPokemonTypes() }
-        coVerify { api.getPokemonTypes() }
+        runBlocking { infrastructure.getTypeList() }
+        coVerify { api.getTypeList() }
     }
 
     @Test
     fun whenGetTypeDetails_callsApiGetTypeDetails() {
         val type = 0L
-        runBlocking { infrastructure.getTypeDetails(type) }
-        coVerify { api.getTypeDetails(type) }
+        runBlocking { infrastructure.getType(type) }
+        coVerify { api.getType(type) }
     }
 
     @Test

@@ -35,6 +35,10 @@
     <string name="content_description_type_icon">Pokémon type icon</string>
     <string name="content_description_pokemon_image">Pokémon image</string>
 
+    <string name="about_tab">About</string>
+    <string name="stats_tab">Stats</string>
+    <string name="evolutions_tab">Evolutions</string>
+
     <string name="about_tab_pokedex_data">Pokédex Data</string>
     <string name="about_tab_species">Species</string>
     <string name="about_tab_height">Height</string>

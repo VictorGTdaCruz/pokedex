@@ -1,26 +1,26 @@
 package com.victor.feature_pokedex.domain.service
 
-import com.victor.feature_pokedex.domain.model.PokemonSimple
+import com.victor.feature_pokedex.domain.model.Generation
 import com.victor.feature_pokedex.domain.model.Pokemon
-import com.victor.feature_pokedex.domain.model.PokemonGeneration
 import com.victor.feature_pokedex.domain.model.PokemonInformation
-import com.victor.feature_pokedex.domain.model.PokemonSpecies
-import com.victor.feature_pokedex.domain.model.PokemonType
-import com.victor.feature_pokedex.domain.model.TypeDetails
+import com.victor.feature_pokedex.domain.model.PokemonSimple
+import com.victor.feature_pokedex.domain.model.Specie
+import com.victor.feature_pokedex.domain.model.Type
+import com.victor.feature_pokedex.domain.model.TypeSimple
 
 internal interface PokedexService {
 
     suspend fun getPokemonList(offset: Int, limit: Int): List<PokemonSimple>
 
-    suspend fun getPokemonTypes(): List<PokemonType>
+    suspend fun getPokemon(pokemonId: Int): Pokemon
 
-    suspend fun getTypeDetails(typeId: Long): TypeDetails
+    suspend fun getTypeList(): List<TypeSimple>
 
-    suspend fun getPokemon(pokemonId: Long): Pokemon
+    suspend fun getType(typeId: Int): Type
 
-    suspend fun getPokemonListByGeneration(generation: Int): PokemonGeneration
+    suspend fun getGeneration(generationId: Int): Generation
 
-    suspend fun getPokemonSpecies(pokemonId: Long): PokemonSpecies
+    suspend fun getSpecie(pokemonId: Int): Specie
 
-    suspend fun getPokemonInformation(pokemonId: Long): PokemonInformation
+    suspend fun getPokemonInformation(pokemonId: Int): PokemonInformation
 }

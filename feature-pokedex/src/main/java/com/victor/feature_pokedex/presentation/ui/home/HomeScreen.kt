@@ -47,11 +47,9 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.rememberImagePainter
 import com.victor.feature_pokedex.R
-import com.victor.feature_pokedex.domain.model.PokemonSimple
 import com.victor.feature_pokedex.domain.model.Pokemon
-import com.victor.feature_pokedex.domain.model.PokemonSprite
-import com.victor.feature_pokedex.domain.model.PokemonType
-import com.victor.feature_pokedex.domain.model.PokemonTypeWithSlot
+import com.victor.feature_pokedex.domain.model.PokemonSimple
+import com.victor.feature_pokedex.domain.model.TypeSimple
 import com.victor.feature_pokedex.presentation.PokedexViewModel
 import com.victor.feature_pokedex.presentation.ui.components.PokemonColumn
 import com.victor.feature_pokedex.presentation.ui.home.bottomsheets.FilterBottomSheet
@@ -65,12 +63,12 @@ import com.victor.features_common.theme.LightGray
 import kotlinx.coroutines.launch
 
 @Composable
-internal fun HomeScreenBody(viewModel: PokedexViewModel, onPokemonClick: (Long) -> Unit) {
+internal fun HomeScreenBody(viewModel: PokedexViewModel, onPokemonClick: (Int) -> Unit) {
     val scrollState = rememberLazyListState()
     with(viewModel) {
         LaunchedEffect(Unit) {
             getPokemonList()
-            getPokemonTypes()
+            getTypeList()
         }
 
         Box(
@@ -168,26 +166,26 @@ private fun PokemonCardLoading() {
             .fillMaxWidth()
             .height(136.dp)
     ) {
-            Box(
-                modifier = Modifier.fillMaxSize()
-            ) {
-                CircularProgressIndicator(
-                    color = PokedexBlue,
-                    strokeWidth = 2.dp,
-                    modifier = Modifier.align(Center)
-                )
-            }
+        Box(
+            modifier = Modifier.fillMaxSize()
+        ) {
+            CircularProgressIndicator(
+                color = PokedexBlue,
+                strokeWidth = 2.dp,
+                modifier = Modifier.align(Center)
+            )
+        }
     }
 }
 
 @Composable
-private fun PokemonCard(pokemon: Pokemon, onPokemonClick: (Long) -> Unit) {
-    Box (
+private fun PokemonCard(pokemon: Pokemon, onPokemonClick: (Int) -> Unit) {
+    Box(
         modifier = Modifier.padding(horizontal = 24.dp, vertical = 2.dp)
     ) {
         Card(
             colors = CardDefaults.cardColors(
-                containerColor = TypeColorHelper.findBackground(pokemon.types.firstOrNull()?.type?.id),
+                containerColor = TypeColorHelper.findBackground(pokemon.typeList.firstOrNull()?.id),
             ),
             shape = RoundedCornerShape(8.dp),
             elevation = CardDefaults.cardElevation(
@@ -211,14 +209,14 @@ private fun PokemonCard(pokemon: Pokemon, onPokemonClick: (Long) -> Unit) {
                 PokemonColumn(
                     id = pokemon.id,
                     name = pokemon.name,
-                    types = pokemon.types,
+                    typeList = pokemon.typeList,
                     modifier = Modifier.padding(start = 24.dp, end = 8.dp, top = 24.dp, bottom = 24.dp)
                 )
             }
         }
         Image(
             painter = rememberImagePainter(
-                data = pokemon.sprites.otherFrontDefault,
+                data = pokemon.sprite,
                 builder = {
                     crossfade(true)
                     crossfade(500)
@@ -271,17 +269,17 @@ private fun Preview() {
     LazyColumn {
         items(3) {
             val pokemon = Pokemon(
-                id = 1L,
+                id = 1,
                 name = "Name",
                 height = 20,
                 weight = 70,
-                types = listOf(
-                    PokemonTypeWithSlot(slot = 1, PokemonType(id = 13, name = "electric")),
-                    PokemonTypeWithSlot(slot = 1, PokemonType(id = 9, name = "steel"))
+                typeList = listOf(
+                    TypeSimple(id = 13, name = "electric"),
+                    TypeSimple(id = 9, name = "steel")
                 ),
-                sprites = PokemonSprite("", ""),
-                stats = listOf(),
-                abilities = emptyList(),
+                sprite = "",
+                statList = listOf(),
+                abilityList = emptyList(),
                 baseXp = 0
             )
             PokemonCard(pokemon = pokemon, onPokemonClick = {})

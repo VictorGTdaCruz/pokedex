@@ -8,9 +8,9 @@ internal fun PagedResponse<NameAndUrlResponse>.toPokemonListDomain() =
     results?.toPokemonDomain()
         ?: emptyList()
 
-internal fun List<NameAndUrlResponse>?.toPokemonDomain() = this?.map {
+internal fun List<NameAndUrlResponse?>?.toPokemonDomain() = this?.map {
     PokemonSimple(
-        id = IdMapper.mapIdFromUrl(it.url),
-        name = it.name.orEmpty(),
+        id = IdMapper.mapIdFromUrl(it?.url),
+        name = it?.name.orEmpty(),
     )
 } ?: emptyList()

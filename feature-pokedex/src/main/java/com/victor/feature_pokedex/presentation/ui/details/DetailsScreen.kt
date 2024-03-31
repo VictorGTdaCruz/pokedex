@@ -62,11 +62,16 @@ import com.victor.features_common.observeState
 internal fun DetailsScreenBody(
     navController: NavController,
     viewModel: PokedexViewModel,
-    pokemonId: Long,
-    onPokemonClick: (Long) -> Unit
+    pokemonId: Int,
+    onPokemonClick: (Int) -> Unit
 ) {
+    val tabs = listOf(
+        stringResource(id = R.string.about_tab),
+        stringResource(id = R.string.stats_tab),
+        stringResource(id = R.string.evolutions_tab)
+    )
+    val pagerState = rememberPagerState { tabs.size }
     var selectedTabIndex by remember { mutableStateOf(0) }
-    val pagerState = rememberPagerState { Tabs.values().size }
 
     LaunchedEffect(Unit) {
         viewModel.getPokemonInformation(pokemonId)
@@ -86,7 +91,7 @@ internal fun DetailsScreenBody(
                 Modifier
                     .fillMaxSize()
                     .verticalScroll(rememberScrollState())
-                    .background(TypeColorHelper.findBackground(it.types.firstOrNull()?.type?.id))
+                    .background(TypeColorHelper.findBackground(it.typeList.firstOrNull()?.id))
             ) {
                 TopAppBar(
                     colors = TopAppBarDefaults.topAppBarColors(
@@ -96,7 +101,8 @@ internal fun DetailsScreenBody(
                         IconButton(
                             onClick = {
                                 navController.popBackStack()
-                            }) {
+                            }
+                        ) {
                             Icon(
                                 painter = painterResource(id = R.drawable.baseline_arrow_back_24),
                                 tint = Color.White,
@@ -126,7 +132,7 @@ internal fun DetailsScreenBody(
                             )
                             Image(
                                 painter = rememberImagePainter(
-                                    data = it.sprites.otherFrontDefault,
+                                    data = it.sprite,
                                     builder = {
                                         crossfade(true)
                                         crossfade(500)
@@ -139,7 +145,7 @@ internal fun DetailsScreenBody(
                         PokemonColumn(
                             id = it.id,
                             name = it.name,
-                            types = it.types,
+                            typeList = it.typeList,
                             modifier = Modifier.align(CenterVertically)
                         )
                     }
@@ -152,7 +158,7 @@ internal fun DetailsScreenBody(
                     indicator = { },
                     divider = { }
                 ) {
-                    Tabs.values().forEachIndexed { index, item ->
+                    tabs.forEachIndexed { index, item ->
                         Tab(
                             selected = selectedTabIndex == index,
                             text = {
@@ -161,10 +167,12 @@ internal fun DetailsScreenBody(
                                         Image(
                                             painterResource(id = R.drawable.home_toolbar_background),
                                             contentDescription = null,
-                                            modifier = Modifier.rotate(180f).alpha(0.25f)
+                                            modifier = Modifier
+                                                .rotate(180f)
+                                                .alpha(0.25f)
                                         )
                                     Text(
-                                        text = item.name,
+                                        text = item,
                                         color = Color.White,
                                         style = if (index == selectedTabIndex)
                                             PokedexTextStyle.body.bold()
@@ -205,8 +213,4 @@ internal fun DetailsScreenBody(
             }
         }
     )
-}
-
-private enum class Tabs { //TODO localize those!
-    About, Stats, Evolution
 }

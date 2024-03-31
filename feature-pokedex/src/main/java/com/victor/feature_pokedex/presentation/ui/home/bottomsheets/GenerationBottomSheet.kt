@@ -55,20 +55,22 @@ internal fun GenerationBottomSheet(viewModel: PokedexViewModel) {
                 verticalArrangement = Arrangement.spacedBy(10.dp),
                 horizontalArrangement = Arrangement.spacedBy(10.dp),
                 content = {
-                      items(PokedexUseCase.SELECTABLE_POKEMON_GENERATION_RANGE.count()) {
-                          val generation = it + 1
-                          GenerationButton(
-                              text = stringResource(id = R.string.pokedex_generation_option, generation),
-                              onClick = { viewModel.onPokemonGenerationClick(generation) },
-                              style = viewModel.isGenerationButtonEnabled(generation),
-                              imageId = getGenerationDrawable(generation),
-                          )
-                      }
+                    items(PokedexUseCase.SELECTABLE_POKEMON_GENERATION_RANGE.count()) {
+                        val generation = it + 1
+                        GenerationButton(
+                            text = stringResource(id = R.string.pokedex_generation_option, generation),
+                            onClick = { viewModel.onPokemonGenerationClick(generation) },
+                            style = viewModel.isGenerationButtonEnabled(generation),
+                            imageId = getGenerationDrawable(generation),
+                        )
+                    }
                 },
                 modifier = Modifier.padding(horizontal = 24.dp)
             )
-            Spacer(modifier = Modifier.height(
-                36.dp + WindowInsets.navigationBars.asPaddingValues().calculateBottomPadding())
+            Spacer(
+                modifier = Modifier.height(
+                    36.dp + WindowInsets.navigationBars.asPaddingValues().calculateBottomPadding()
+                )
             )
         }
     )

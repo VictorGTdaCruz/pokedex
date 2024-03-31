@@ -41,7 +41,7 @@ import com.victor.feature_pokedex.presentation.ui.theme.Water
 import com.victor.feature_pokedex.presentation.ui.theme.WaterBackground
 
 private enum class PokemonTypeEnum(
-    val id: Long,
+    val id: Int,
     val image: Int,
     val color: Color,
     val backgroundColor: Color
@@ -69,19 +69,19 @@ private enum class PokemonTypeEnum(
 }
 
 object TypeDrawableHelper {
-    fun find(typeId: Long): Int =
+    fun find(typeId: Int): Int =
         PokemonTypeEnum.values().find { it.id == typeId }
             ?.image
             ?: PokemonTypeEnum.UNKNOWN.image
 }
 
 object TypeColorHelper {
-    fun find(typeId: Long): Color =
+    fun find(typeId: Int): Color =
         PokemonTypeEnum.values().find { it.id == typeId }
             ?.color
             ?: PokemonTypeEnum.UNKNOWN.color
 
-    fun findBackground(typeId: Long?): Color =
+    fun findBackground(typeId: Int?): Color =
         PokemonTypeEnum.values().find { it.id == typeId }
             ?.backgroundColor
             ?: PokemonTypeEnum.UNKNOWN.backgroundColor

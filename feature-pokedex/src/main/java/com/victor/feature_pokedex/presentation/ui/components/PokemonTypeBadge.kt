@@ -19,22 +19,18 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
-import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.victor.feature_pokedex.R
-import com.victor.feature_pokedex.domain.model.PokemonType
+import com.victor.feature_pokedex.domain.model.TypeSimple
 import com.victor.feature_pokedex.presentation.ui.utils.TypeColorHelper
 import com.victor.feature_pokedex.presentation.ui.utils.TypeDrawableHelper
 import com.victor.features_common.components.PokedexTextStyle
 
 @Composable
 fun PokemonTypeBadge(
-    type: PokemonType,
+    type: TypeSimple,
     iconSize: Dp = 24.dp,
 ) {
     Box(
@@ -70,6 +66,6 @@ fun PokemonTypeBadge(
 @Composable
 private fun Preview() {
     PokemonTypeBadge(
-        type = PokemonType(id = 16, name = "Dragon")
+        type = TypeSimple(id = 16, name = "Dragon")
     )
 }

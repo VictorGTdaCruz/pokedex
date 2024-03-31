@@ -30,7 +30,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.victor.feature_pokedex.R
-import com.victor.feature_pokedex.domain.model.PokemonType
+import com.victor.feature_pokedex.domain.model.TypeSimple
 import com.victor.feature_pokedex.presentation.PokedexViewModel
 import com.victor.feature_pokedex.presentation.ui.components.PokemonTypeIcon
 import com.victor.features_common.components.PokedexButton
@@ -72,7 +72,7 @@ internal fun FilterBottomSheet(viewModel: PokedexViewModel) {
             )
             LazyRow {
                 item { Spacer(modifier = Modifier.width(16.dp)) }
-                observeStateInsideLazyList<List<PokemonType>>(state = viewModel.pokemonTypes) { typeList ->
+                observeStateInsideLazyList<List<TypeSimple>>(state = viewModel.pokemonTypes) { typeList ->
                     items(typeList.size) { index ->
                         val type = typeList[index]
                         PokemonTypeIcon(

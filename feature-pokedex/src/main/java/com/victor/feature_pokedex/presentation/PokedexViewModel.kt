@@ -6,9 +6,9 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.victor.feature_pokedex.domain.PokedexUseCase
-import com.victor.feature_pokedex.domain.model.PokemonSimple
 import com.victor.feature_pokedex.domain.model.Pokemon
-import com.victor.feature_pokedex.domain.model.PokemonType
+import com.victor.feature_pokedex.domain.model.PokemonSimple
+import com.victor.feature_pokedex.domain.model.TypeSimple
 import com.victor.feature_pokedex.presentation.ui.home.bottomsheets.Sort
 import com.victor.features_common.State
 import com.victor.features_common.components.PokedexButtonStyle
@@ -21,14 +21,14 @@ internal class PokedexViewModel(
 ) : ViewModel() {
 
     val currentPokemonList = mutableStateOf<State>(State.Empty)
-    val pokemon = mutableStateMapOf<Long, Pokemon>()
+    val pokemon = mutableStateMapOf<Int, Pokemon>()
 
     var searchText = mutableStateOf("")
     private var fullPokemonList = emptyList<PokemonSimple>()
 
     var showFilterBottomSheet = mutableStateOf(false)
     val pokemonTypes = mutableStateOf<State>(State.Empty)
-    private val selectedTypes = mutableStateListOf<PokemonType>()
+    private val selectedTypes = mutableStateListOf<TypeSimple>()
     var selectedIdRange = mutableStateOf<ClosedFloatingPointRange<Float>?>(null)
     var fullIdRange = mutableStateOf<ClosedFloatingPointRange<Float>?>(null)
 
@@ -40,7 +40,7 @@ internal class PokedexViewModel(
 
     val pokemonInformation = mutableStateOf<State>(State.Empty)
 
-    fun getPokemonInformation(pokemonId: Long) {
+    fun getPokemonInformation(pokemonId: Int) {
         manageStateDuringRequest(
             mutableState = pokemonInformation,
         ) {
@@ -82,7 +82,7 @@ internal class PokedexViewModel(
 
     fun isSearchEnabled() = currentPokemonList.value is State.Success<*>
 
-    fun getPokemon(pokemonId: Long) {
+    fun getPokemon(pokemonId: Int) {
         viewModelScope.launch { // TODO sem tratamento?
             runCatching {
                 val response = useCase.getPokemon(pokemonId)
@@ -91,11 +91,11 @@ internal class PokedexViewModel(
         }
     }
 
-    fun getPokemonTypes() {
-        val types = pokemonTypes.getAsSuccessState<List<PokemonType>>()?.data
-        if (types.isNullOrEmpty()) {
+    fun getTypeList() {
+        val typeList = pokemonTypes.getAsSuccessState<List<TypeSimple>>()?.data
+        if (typeList.isNullOrEmpty()) {
             manageStateDuringRequest(pokemonTypes) {
-                useCase.getPokemonTypes()
+                useCase.getTypeList()
             }
         }
     }
@@ -118,9 +118,9 @@ internal class PokedexViewModel(
         showGenerationBottomSheet.value = false
     }
 
-    fun isPokemonTypeFilterIconFilled(type: PokemonType) = selectedTypes.contains(type)
+    fun isPokemonTypeFilterIconFilled(type: TypeSimple) = selectedTypes.contains(type)
 
-    fun onPokemonTypeFilterIconClick(type: PokemonType) {
+    fun onPokemonTypeFilterIconClick(type: TypeSimple) {
         selectedTypes.apply {
             if (contains(type)) remove(type) else add(type)
         }

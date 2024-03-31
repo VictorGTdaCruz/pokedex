@@ -5,8 +5,7 @@ import com.victor.feature_pokedex.data.mapper.PokemonInformationMapper
 import com.victor.feature_pokedex.data.mapper.toDomain
 import com.victor.feature_pokedex.data.mapper.toPokemonListDomain
 import com.victor.feature_pokedex.data.mapper.toPokemonTypesDomain
-import com.victor.feature_pokedex.data.model.EvolutionsChainResponse
-import com.victor.feature_pokedex.data.model.EvolutionsResponse
+import com.victor.feature_pokedex.data.model.EvolutionChainResponse
 import com.victor.feature_pokedex.domain.model.Pokemon
 import com.victor.feature_pokedex.domain.model.PokemonInformation
 import com.victor.feature_pokedex.domain.service.PokedexService
@@ -18,58 +17,56 @@ internal class PokedexInfrastructure(private val api: PokedexGateway) : PokedexS
         api.getPokemonList(offset = offset, limit = limit).toPokemonListDomain()
     }
 
-    //TODO bring all rules from usecase to here
-    override suspend fun getPokemonTypes() = request {
-        api.getPokemonTypes()
+    override suspend fun getPokemon(pokemonId: Int) = request {
+        api.getPokemon(pokemonId).toDomain()
+    }
+
+    // TODO bring all rules from usecase to here
+    override suspend fun getTypeList() = request {
+        api.getTypeList()
             .toPokemonTypesDomain()
             .filter { it.id in 1 until 9999 }
             .sortedBy { it.id }
     }
 
-    override suspend fun getTypeDetails(typeId: Long) = request {
-        api.getTypeDetails(typeId).toDomain()
+    override suspend fun getType(typeId: Int) = request {
+        api.getType(typeId).toDomain()
     }
 
-    override suspend fun getPokemon(pokemonId: Long) = request {
-        api.getPokemon(pokemonId).toDomain()
+    override suspend fun getGeneration(generationId: Int) = request {
+        api.getGeneration(generationId).toDomain()
     }
 
-    override suspend fun getPokemonListByGeneration(generation: Int) = request {
-        api.getPokemonListByGeneration(generation).toDomain()
+    override suspend fun getSpecie(pokemonId: Int) = request {
+        api.getSpecie(pokemonId).toDomain()
     }
 
-    override suspend fun getPokemonSpecies(pokemonId: Long) = request {
-        api.getPokemonSpecies(pokemonId).toDomain()
-    }
-
-    override suspend fun getPokemonInformation(pokemonId: Long): PokemonInformation {
-        val pokemonSpecies = getPokemonSpecies(pokemonId)
+    override suspend fun getPokemonInformation(pokemonId: Int): PokemonInformation {
+        val pokemonSpecies = getSpecie(pokemonId)
         val pokemon = getPokemon(pokemonId)
-        val typeList = getPokemonTypes()
-        val pokemonTypeList = pokemon.types.map { getTypeDetails(it.type.id) }
-        val evolutionChain = api.getPokemonEvolutions(pokemonSpecies.evolutionChainId)
+        val typeList = getTypeList()
+        val typeListOfCurrentPokemon = pokemon.typeList.map { getType(it.id) }
+        val evolutionChain = api.getEvolutionChain(pokemonSpecies.evolutionChainId)
         val pokemonListFromEvolutionChain = getPokemonFromEveryPokemonInEvolutionChain(evolutionChain.chain)
 
         return PokemonInformationMapper.map(
             pokemon,
             pokemonSpecies,
             typeList,
-            pokemonTypeList,
+            typeListOfCurrentPokemon,
             evolutionChain,
             pokemonListFromEvolutionChain
         )
     }
 
     private suspend fun getPokemonFromEveryPokemonInEvolutionChain(
-        response: EvolutionsChainResponse?
+        response: EvolutionChainResponse?
     ): MutableList<Pokemon> =
         mutableListOf<Pokemon>().apply {
             val currentId = IdMapper.mapIdFromUrl(response?.species?.url)
             add(getPokemon(currentId))
-            if (response?.evolvesTo != null) {
-                response.evolvesTo.forEach {
-                    addAll(getPokemonFromEveryPokemonInEvolutionChain(it))
-                }
+            response?.evolvesTo?.forEach {
+                addAll(getPokemonFromEveryPokemonInEvolutionChain(it))
             }
         }
 }

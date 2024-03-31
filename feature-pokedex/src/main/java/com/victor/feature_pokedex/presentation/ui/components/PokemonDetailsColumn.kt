@@ -9,8 +9,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import com.victor.feature_pokedex.domain.model.PokemonType
-import com.victor.feature_pokedex.domain.model.PokemonTypeWithSlot
+import com.victor.feature_pokedex.domain.model.TypeSimple
 import com.victor.feature_pokedex.presentation.ui.utils.beautifyString
 import com.victor.feature_pokedex.presentation.ui.utils.formatPokedexNumber
 import com.victor.features_common.components.PokedexTextStyle
@@ -18,9 +17,9 @@ import com.victor.features_common.components.PokedexTextStyle.bold
 
 @Composable
 internal fun PokemonColumn(
-    id: Long,
+    id: Int,
     name: String,
-    types: List<PokemonTypeWithSlot>,
+    typeList: List<TypeSimple>,
     modifier: Modifier = Modifier
 ) {
     Column(
@@ -37,14 +36,14 @@ internal fun PokemonColumn(
             color = Color.White,
         )
         Row {
-            types.forEach {
+            typeList.forEach {
                 Box(
                     modifier = Modifier.padding(end = 6.dp, top = 4.dp)
                 ) {
                     PokemonTypeBadge(
-                        type = PokemonType(
-                            id = it.type.id,
-                            name = it.type.name
+                        type = TypeSimple(
+                            id = it.id,
+                            name = it.name
                         ),
                         iconSize = 14.dp,
                     )
