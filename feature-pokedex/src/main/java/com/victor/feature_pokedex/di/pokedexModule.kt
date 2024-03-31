@@ -2,8 +2,11 @@ package com.victor.feature_pokedex.di
 
 import com.victor.feature_pokedex.data.PokedexDataSource
 import com.victor.feature_pokedex.data.PokemonRepositoryImpl
+import com.victor.feature_pokedex.data.TypeRepositoryImpl
+import com.victor.feature_pokedex.domain.PokemonInformationUseCase
 import com.victor.feature_pokedex.domain.PokemonListUseCase
 import com.victor.feature_pokedex.domain.service.PokemonRepository
+import com.victor.feature_pokedex.domain.service.TypeRepository
 import com.victor.feature_pokedex.presentation.PokedexViewModel
 import org.kodein.di.DI
 import org.kodein.di.bind
@@ -23,11 +26,19 @@ val pokedexModule = DI.Module("pokedex") {
         PokemonRepositoryImpl(instance())
     }
 
+    bind<TypeRepository>() with provider {
+        TypeRepositoryImpl(instance())
+    }
+
     bind<PokemonListUseCase>() with provider {
-        PokemonListUseCase(instance())
+        PokemonListUseCase(instance(), instance())
+    }
+
+    bind<PokemonInformationUseCase>() with provider {
+        PokemonInformationUseCase(instance(), instance())
     }
 
     bind<PokedexViewModel>() with provider {
-        PokedexViewModel(instance())
+        PokedexViewModel(instance(), instance(), instance(), instance())
     }
 }

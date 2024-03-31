@@ -33,7 +33,7 @@ internal fun PokedexNavHost(
         composable(
             route = "${Screens.DetailsScreen.name}/{pokemonId}",
             arguments = listOf(
-                navArgument("pokemonId") { type = NavType.LongType }
+                navArgument("pokemonId") { type = NavType.IntType }
             )
         ) {
             val pokemonId = it.arguments?.getInt("pokemonId") ?: 0
