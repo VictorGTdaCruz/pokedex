@@ -20,7 +20,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.victor.feature_pokedex.R
-import com.victor.feature_pokedex.domain.PokedexUseCase
+import com.victor.feature_pokedex.domain.PokemonListUseCase
 import com.victor.feature_pokedex.presentation.PokedexViewModel
 import com.victor.feature_pokedex.presentation.ui.components.GenerationButton
 import com.victor.features_common.components.PokedexTextStyle
@@ -55,7 +55,7 @@ internal fun GenerationBottomSheet(viewModel: PokedexViewModel) {
                 verticalArrangement = Arrangement.spacedBy(10.dp),
                 horizontalArrangement = Arrangement.spacedBy(10.dp),
                 content = {
-                    items(PokedexUseCase.SELECTABLE_POKEMON_GENERATION_RANGE.count()) {
+                    items(PokemonListUseCase.SELECTABLE_POKEMON_GENERATION_RANGE.count()) {
                         val generation = it + 1
                         GenerationButton(
                             text = stringResource(id = R.string.pokedex_generation_option, generation),

@@ -5,10 +5,13 @@ import androidx.compose.runtime.mutableStateMapOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.victor.feature_pokedex.domain.PokedexUseCase
+import com.victor.feature_pokedex.domain.PokemonInformationUseCase
+import com.victor.feature_pokedex.domain.PokemonListUseCase
 import com.victor.feature_pokedex.domain.model.Pokemon
 import com.victor.feature_pokedex.domain.model.PokemonSimple
 import com.victor.feature_pokedex.domain.model.TypeSimple
+import com.victor.feature_pokedex.domain.service.PokemonRepository
+import com.victor.feature_pokedex.domain.service.TypeRepository
 import com.victor.feature_pokedex.presentation.ui.home.bottomsheets.Sort
 import com.victor.features_common.State
 import com.victor.features_common.components.PokedexButtonStyle
@@ -17,7 +20,10 @@ import com.victor.features_common.manageStateDuringRequest
 import kotlinx.coroutines.launch
 
 internal class PokedexViewModel(
-    private val useCase: PokedexUseCase
+    private val pokemonListUseCase: PokemonListUseCase,
+    private val pokemonInformationUseCase: PokemonInformationUseCase,
+    private val pokemonRepository: PokemonRepository,
+    private val typeRepository: TypeRepository,
 ) : ViewModel() {
 
     val currentPokemonList = mutableStateOf<State>(State.Empty)
@@ -44,7 +50,7 @@ internal class PokedexViewModel(
         manageStateDuringRequest(
             mutableState = pokemonInformation,
         ) {
-            useCase.getPokemonInformation(pokemonId)
+            pokemonInformationUseCase.getPokemonInformation(pokemonId)
         }
     }
 
@@ -52,7 +58,7 @@ internal class PokedexViewModel(
         manageStateDuringRequest(
             mutableState = currentPokemonList,
             request = {
-                useCase.getPokemonList(
+                pokemonListUseCase.getPokemonList(
                     selectedTypes,
                     selectedGeneration.value,
                     selectedIdRange.value,
@@ -85,7 +91,7 @@ internal class PokedexViewModel(
     fun getPokemon(pokemonId: Int) {
         viewModelScope.launch { // TODO sem tratamento?
             runCatching {
-                val response = useCase.getPokemon(pokemonId)
+                val response = pokemonRepository.getPokemon(pokemonId)
                 pokemon[response.id] = response
             }
         }
@@ -95,7 +101,7 @@ internal class PokedexViewModel(
         val typeList = pokemonTypes.getAsSuccessState<List<TypeSimple>>()?.data
         if (typeList.isNullOrEmpty()) {
             manageStateDuringRequest(pokemonTypes) {
-                useCase.getTypeList()
+                typeRepository.getTypeList()
             }
         }
     }
@@ -144,7 +150,7 @@ internal class PokedexViewModel(
         selectedSort.value = sort
         val currentList = currentPokemonList.getAsSuccessState<List<PokemonSimple>>()?.data
         if (currentList != null)
-            currentPokemonList.value = State.Success(useCase.sort(currentList, sort))
+            currentPokemonList.value = State.Success(pokemonListUseCase.sort(currentList, sort))
     }
 
     fun isSortButtonEnabled(sort: Sort) =
