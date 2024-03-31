@@ -1,4 +1,4 @@
-package com.victor.feature_pokedex.presentation
+package com.victor.feature_pokedex.presentation.ui.home
 
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateMapOf
@@ -19,9 +19,8 @@ import com.victor.features_common.getAsSuccessState
 import com.victor.features_common.manageStateDuringRequest
 import kotlinx.coroutines.launch
 
-internal class PokedexViewModel(
+internal class HomeViewModel(
     private val pokemonListUseCase: PokemonListUseCase,
-    private val pokemonInformationUseCase: PokemonInformationUseCase,
     private val pokemonRepository: PokemonRepository,
     private val typeRepository: TypeRepository,
 ) : ViewModel() {
@@ -43,16 +42,6 @@ internal class PokedexViewModel(
 
     var showGenerationBottomSheet = mutableStateOf(false)
     private val selectedGeneration = mutableStateOf<Int?>(null)
-
-    val pokemonInformation = mutableStateOf<State>(State.Empty)
-
-    fun getPokemonInformation(pokemonId: Int) {
-        manageStateDuringRequest(
-            mutableState = pokemonInformation,
-        ) {
-            pokemonInformationUseCase.getPokemonInformation(pokemonId)
-        }
-    }
 
     fun getPokemonList() {
         manageStateDuringRequest(

@@ -50,7 +50,6 @@ import com.victor.feature_pokedex.R
 import com.victor.feature_pokedex.domain.model.Pokemon
 import com.victor.feature_pokedex.domain.model.PokemonSimple
 import com.victor.feature_pokedex.domain.model.TypeSimple
-import com.victor.feature_pokedex.presentation.PokedexViewModel
 import com.victor.feature_pokedex.presentation.ui.components.PokemonColumn
 import com.victor.feature_pokedex.presentation.ui.home.bottomsheets.FilterBottomSheet
 import com.victor.feature_pokedex.presentation.ui.home.bottomsheets.GenerationBottomSheet
@@ -63,7 +62,7 @@ import com.victor.features_common.theme.LightGray
 import kotlinx.coroutines.launch
 
 @Composable
-internal fun HomeScreenBody(viewModel: PokedexViewModel, onPokemonClick: (Int) -> Unit) {
+internal fun HomeScreenBody(viewModel: HomeViewModel, onPokemonClick: (Int) -> Unit) {
     val scrollState = rememberLazyListState()
     with(viewModel) {
         LaunchedEffect(Unit) {
@@ -119,7 +118,7 @@ internal fun HomeScreenBody(viewModel: PokedexViewModel, onPokemonClick: (Int) -
 }
 
 @Composable
-private fun PokemonSearchTextField(viewModel: PokedexViewModel) {
+private fun PokemonSearchTextField(viewModel: HomeViewModel) {
     TextField(
         value = viewModel.searchText.value,
         onValueChange = { viewModel.searchPokemon(it) },

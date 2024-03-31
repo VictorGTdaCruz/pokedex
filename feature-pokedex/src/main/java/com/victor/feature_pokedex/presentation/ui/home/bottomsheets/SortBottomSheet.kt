@@ -18,14 +18,14 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.victor.feature_pokedex.R
-import com.victor.feature_pokedex.presentation.PokedexViewModel
+import com.victor.feature_pokedex.presentation.ui.home.HomeViewModel
 import com.victor.features_common.components.PokedexButton
 import com.victor.features_common.components.PokedexTextStyle
 import com.victor.features_common.components.PokedexTextStyle.bold
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-internal fun SortBottomSheet(viewModel: PokedexViewModel) {
+internal fun SortBottomSheet(viewModel: HomeViewModel) {
     ModalBottomSheet(
         onDismissRequest = { viewModel.onDismissBottomSheet() },
         sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true),

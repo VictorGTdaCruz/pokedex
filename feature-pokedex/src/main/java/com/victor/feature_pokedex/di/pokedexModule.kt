@@ -7,7 +7,8 @@ import com.victor.feature_pokedex.domain.PokemonInformationUseCase
 import com.victor.feature_pokedex.domain.PokemonListUseCase
 import com.victor.feature_pokedex.domain.service.PokemonRepository
 import com.victor.feature_pokedex.domain.service.TypeRepository
-import com.victor.feature_pokedex.presentation.PokedexViewModel
+import com.victor.feature_pokedex.presentation.ui.details.DetailsViewModel
+import com.victor.feature_pokedex.presentation.ui.home.HomeViewModel
 import org.kodein.di.DI
 import org.kodein.di.bind
 import org.kodein.di.instance
@@ -38,7 +39,11 @@ val pokedexModule = DI.Module("pokedex") {
         PokemonInformationUseCase(instance(), instance())
     }
 
-    bind<PokedexViewModel>() with provider {
-        PokedexViewModel(instance(), instance(), instance(), instance())
+    bind<HomeViewModel>() with provider {
+        HomeViewModel(instance(), instance(), instance())
+    }
+
+    bind<DetailsViewModel>() with provider {
+        DetailsViewModel(instance())
     }
 }

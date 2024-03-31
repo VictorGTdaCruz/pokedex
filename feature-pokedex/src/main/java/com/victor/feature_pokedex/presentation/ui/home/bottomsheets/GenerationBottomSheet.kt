@@ -21,14 +21,14 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.victor.feature_pokedex.R
 import com.victor.feature_pokedex.domain.PokemonListUseCase
-import com.victor.feature_pokedex.presentation.PokedexViewModel
+import com.victor.feature_pokedex.presentation.ui.home.HomeViewModel
 import com.victor.feature_pokedex.presentation.ui.components.GenerationButton
 import com.victor.features_common.components.PokedexTextStyle
 import com.victor.features_common.components.PokedexTextStyle.bold
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-internal fun GenerationBottomSheet(viewModel: PokedexViewModel) {
+internal fun GenerationBottomSheet(viewModel: HomeViewModel) {
     ModalBottomSheet(
         onDismissRequest = { viewModel.onDismissBottomSheet() },
         sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true),
