@@ -12,7 +12,7 @@ internal interface PokemonRepository {
         internal val VALID_POKEMON_ID_RANGE = 1 until 9999
     }
 
-    suspend fun getPokemonList(offset: Int, limit: Int): List<PokemonSimple>
+    suspend fun getPokemonList(): List<PokemonSimple>
 
     suspend fun getPokemon(pokemonId: Int): Pokemon
 

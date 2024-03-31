@@ -8,8 +8,8 @@ import com.victor.networking.request
 
 internal class PokemonRepositoryImpl(private val api: PokedexDataSource) : PokemonRepository {
 
-    override suspend fun getPokemonList(offset: Int, limit: Int) = request {
-        api.getPokemonList(offset = offset, limit = limit)
+    override suspend fun getPokemonList() = request {
+        api.getPokemonList()
             .toPokemonListDomain()
             .filter { it.id in VALID_POKEMON_ID_RANGE }
     }

@@ -11,13 +11,6 @@ internal class PokemonInformationUseCase(
     private val pokemonRepository: PokemonRepository,
     private val typeRepository: TypeRepository
 ) {
-
-    companion object {
-        internal val SELECTABLE_POKEMON_GENERATION_RANGE = 1..8
-        private const val POKEMON_LIST_OFFSET = 0
-        private const val POKEMON_LIST_LIMIT = 9999
-    }
-
     suspend fun getPokemonInformation(pokemonId: Int): PokemonInformation {
         val pokemonSpecies = pokemonRepository.getSpecie(pokemonId)
         val pokemon = pokemonRepository.getPokemon(pokemonId)

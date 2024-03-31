@@ -11,10 +11,9 @@ internal class PokemonListUseCase(
     private val typeRepository: TypeRepository
 ) {
 
+    // TODO remove this key from here?
     companion object {
         internal val SELECTABLE_POKEMON_GENERATION_RANGE = 1..8
-        private const val POKEMON_LIST_OFFSET = 0
-        private const val POKEMON_LIST_LIMIT = 9999
     }
 
     suspend fun getPokemonList(
@@ -30,7 +29,7 @@ internal class PokemonListUseCase(
                 add(typeRepository.getType(it.id).pokemonList)
             }
             if (isEmpty())
-                add(pokemonRepository.getPokemonList(offset = POKEMON_LIST_OFFSET, limit = POKEMON_LIST_LIMIT))
+                add(pokemonRepository.getPokemonList())
         }
 
         val result = mutableListOf<PokemonSimple>().apply {
