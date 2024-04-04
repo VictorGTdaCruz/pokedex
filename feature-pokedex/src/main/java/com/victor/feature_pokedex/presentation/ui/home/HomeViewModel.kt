@@ -6,11 +6,11 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.victor.feature_pokedex.domain.PokemonListUseCase
-import com.victor.feature_pokedex.domain.model.Pokemon
-import com.victor.feature_pokedex.domain.model.PokemonSimple
-import com.victor.feature_pokedex.domain.model.TypeSimple
-import com.victor.feature_pokedex.domain.service.PokemonRepository
-import com.victor.feature_pokedex.domain.service.TypeRepository
+import com.example.model.Pokemon
+import com.example.model.PokemonSimple
+import com.example.model.TypeSimple
+import com.victor.data.repository.PokemonRepository
+import com.victor.data.repository.TypeRepository
 import com.victor.feature_pokedex.presentation.ui.home.bottomsheets.Sort
 import com.victor.features_common.State
 import com.victor.features_common.components.PokedexButtonStyle
@@ -20,18 +20,18 @@ import kotlinx.coroutines.launch
 
 internal class HomeViewModel(
     private val pokemonListUseCase: PokemonListUseCase,
-    private val pokemonRepository: PokemonRepository,
-    private val typeRepository: TypeRepository,
+    private val pokemonRepository: com.victor.data.repository.PokemonRepository,
+    private val typeRepository: com.victor.data.repository.TypeRepository,
 ) : ViewModel() {
 
-    private var fullPokemonList = emptyList<PokemonSimple>()
+    private var fullPokemonList = emptyList<com.example.model.PokemonSimple>()
     val currentPokemonList = mutableStateOf<State>(State.Empty)
-    val pokemon = mutableStateMapOf<Int, Pokemon>()
+    val pokemon = mutableStateMapOf<Int, com.example.model.Pokemon>()
 
     val searchText = mutableStateOf("")
 
     val pokemonTypes = mutableStateOf<State>(State.Empty)
-    private val selectedTypes = mutableStateListOf<TypeSimple>()
+    private val selectedTypes = mutableStateListOf<com.example.model.TypeSimple>()
     val selectedIdRange = mutableStateOf<ClosedFloatingPointRange<Float>?>(null)
     val fullIdRange = mutableStateOf<ClosedFloatingPointRange<Float>?>(null)
     private val selectedSort = mutableStateOf<Sort>(Sort.SmallestNumberFirst)
@@ -81,7 +81,7 @@ internal class HomeViewModel(
     }
 
     fun getTypeList() {
-        val typeList = pokemonTypes.getAsSuccessState<List<TypeSimple>>()?.data
+        val typeList = pokemonTypes.getAsSuccessState<List<com.example.model.TypeSimple>>()?.data
         if (typeList.isNullOrEmpty()) {
             manageStateDuringRequest(pokemonTypes) {
                 typeRepository.getTypeList()
@@ -89,9 +89,9 @@ internal class HomeViewModel(
         }
     }
 
-    fun isPokemonTypeFilterIconFilled(type: TypeSimple) = selectedTypes.contains(type)
+    fun isPokemonTypeFilterIconFilled(type: com.example.model.TypeSimple) = selectedTypes.contains(type)
 
-    fun onPokemonTypeFilterIconClick(type: TypeSimple) {
+    fun onPokemonTypeFilterIconClick(type: com.example.model.TypeSimple) {
         selectedTypes.apply {
             if (contains(type)) remove(type) else add(type)
         }
@@ -108,7 +108,7 @@ internal class HomeViewModel(
 
     fun onPokemonSortClick(sort: Sort) {
         selectedSort.value = sort
-        val currentList = currentPokemonList.getAsSuccessState<List<PokemonSimple>>()?.data
+        val currentList = currentPokemonList.getAsSuccessState<List<com.example.model.PokemonSimple>>()?.data
         if (currentList != null)
             currentPokemonList.value = State.Success(pokemonListUseCase.sort(currentList, sort))
     }

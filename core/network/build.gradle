@@ -1,0 +1,11 @@
+apply from:"../../kotlin-module.gradle"
+
+dependencies {
+    implementation project(':core:model')
+
+    implementation kodein
+    implementation okhttp3_logging
+    implementation retrofit2
+    implementation retrofit2_gson
+    implementation kotlin_coroutines
+}

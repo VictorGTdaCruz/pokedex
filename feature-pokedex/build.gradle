@@ -7,7 +7,7 @@ android {
 }
 
 dependencies {
-    implementation project(':networking')
+    implementation project(':core:network')
     implementation project(':features-common')
 
     implementation kodein

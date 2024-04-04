@@ -49,9 +49,9 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.rememberImagePainter
 import com.victor.feature_pokedex.R
-import com.victor.feature_pokedex.domain.model.Pokemon
-import com.victor.feature_pokedex.domain.model.PokemonSimple
-import com.victor.feature_pokedex.domain.model.TypeSimple
+import com.example.model.Pokemon
+import com.example.model.PokemonSimple
+import com.example.model.TypeSimple
 import com.victor.feature_pokedex.presentation.ui.components.PokemonColumn
 import com.victor.feature_pokedex.presentation.ui.home.bottomsheets.FilterBottomSheet
 import com.victor.feature_pokedex.presentation.ui.home.bottomsheets.GenerationBottomSheet
@@ -97,7 +97,7 @@ internal fun HomeScreenBody(viewModel: HomeViewModel, onPokemonClick: (Int) -> U
                     )
                 }
             }
-            observeStateInsideLazyList<List<PokemonSimple>>(
+            observeStateInsideLazyList<List<com.example.model.PokemonSimple>>(
                 state = viewModel.currentPokemonList,
                 onRetry = { viewModel.getPokemonList() }
             ) { pokemonList ->
@@ -234,7 +234,7 @@ private fun PokemonCardLoading() {
 }
 
 @Composable
-private fun PokemonCard(pokemon: Pokemon, onPokemonClick: (Int) -> Unit) {
+private fun PokemonCard(pokemon: com.example.model.Pokemon, onPokemonClick: (Int) -> Unit) {
     Box(
         modifier = Modifier.padding(horizontal = 24.dp, vertical = 2.dp)
     ) {
@@ -323,14 +323,14 @@ fun BoxScope.ScrollToTopFAB(scrollState: LazyListState) {
 private fun Preview() {
     LazyColumn {
         items(3) {
-            val pokemon = Pokemon(
+            val pokemon = com.example.model.Pokemon(
                 id = 1,
                 name = "Name",
                 height = 20,
                 weight = 70,
                 typeList = listOf(
-                    TypeSimple(id = 13, name = "electric"),
-                    TypeSimple(id = 9, name = "steel")
+                    com.example.model.TypeSimple(id = 13, name = "electric"),
+                    com.example.model.TypeSimple(id = 9, name = "steel")
                 ),
                 sprite = "",
                 statList = listOf(),

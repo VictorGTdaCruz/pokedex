@@ -12,7 +12,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.victor.feature_pokedex.R
-import com.victor.feature_pokedex.domain.model.PokemonInformation
+import com.example.model.PokemonInformation
 import com.victor.feature_pokedex.presentation.ui.components.PokemonTypeIcon
 import com.victor.feature_pokedex.presentation.ui.theme.Fairy
 import com.victor.feature_pokedex.presentation.ui.theme.Ghost
@@ -31,7 +31,7 @@ import com.victor.features_common.components.PokedexTextStyle
 import com.victor.features_common.components.PokedexTextStyle.bold
 
 @Composable
-fun aboutTab(pokemonInformation: PokemonInformation) {
+fun aboutTab(pokemonInformation: com.example.model.PokemonInformation) {
     val typeColor = TypeColorHelper.findBackground(pokemonInformation.typeList.first().id)
     Column(
         Modifier.padding(24.dp)

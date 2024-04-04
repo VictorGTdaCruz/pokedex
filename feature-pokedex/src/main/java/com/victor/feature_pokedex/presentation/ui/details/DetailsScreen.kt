@@ -46,8 +46,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import coil.compose.rememberImagePainter
 import com.victor.feature_pokedex.R
-import com.victor.feature_pokedex.domain.model.PokemonInformation
-import com.victor.feature_pokedex.presentation.ui.home.HomeViewModel
+import com.example.model.PokemonInformation
 import com.victor.feature_pokedex.presentation.ui.components.PokemonColumn
 import com.victor.feature_pokedex.presentation.ui.details.tabs.aboutTab
 import com.victor.feature_pokedex.presentation.ui.details.tabs.evolutionTab
@@ -84,7 +83,7 @@ internal fun DetailsScreenBody(
             selectedTabIndex = pagerState.currentPage
     }
 
-    observeState<PokemonInformation>(
+    observeState<com.example.model.PokemonInformation>(
         state = viewModel.pokemonInformation,
         onSuccess = {
             Column(
