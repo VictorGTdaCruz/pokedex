@@ -1,4 +1,4 @@
-package com.victor.feature_pokedex.domain
+package com.victor.domain
 
 import com.victor.data.mapper.PokemonInformationMapper
 import com.victor.data.repository.PokemonRepository
@@ -7,7 +7,7 @@ import com.victor.model.EvolutionChain
 import com.victor.model.Pokemon
 import com.victor.model.PokemonInformation
 
-internal class PokemonInformationUseCase(
+class PokemonInformationUseCase(
     private val pokemonRepository: PokemonRepository,
     private val typeRepository: TypeRepository
 ) {

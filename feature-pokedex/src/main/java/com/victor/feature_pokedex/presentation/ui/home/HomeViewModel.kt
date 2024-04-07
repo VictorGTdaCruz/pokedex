@@ -7,8 +7,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.victor.data.repository.PokemonRepository
 import com.victor.data.repository.TypeRepository
-import com.victor.feature_pokedex.domain.PokemonListUseCase
-import com.victor.feature_pokedex.presentation.ui.home.bottomsheets.Sort
+import com.victor.domain.PokemonListUseCase
+import com.victor.domain.Sort
 import com.victor.features_common.State
 import com.victor.features_common.components.PokedexButtonStyle
 import com.victor.features_common.getAsSuccessState

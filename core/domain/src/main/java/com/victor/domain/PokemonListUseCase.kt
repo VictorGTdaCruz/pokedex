@@ -1,19 +1,18 @@
-package com.victor.feature_pokedex.domain
+package com.victor.domain
 
 import com.victor.data.repository.PokemonRepository
 import com.victor.data.repository.TypeRepository
-import com.victor.feature_pokedex.presentation.ui.home.bottomsheets.Sort
 import com.victor.model.PokemonSimple
 import com.victor.model.TypeSimple
 
-internal class PokemonListUseCase(
+class PokemonListUseCase(
     private val pokemonRepository: PokemonRepository,
     private val typeRepository: TypeRepository
 ) {
 
     // TODO remove this key from here?
     companion object {
-        internal val SELECTABLE_POKEMON_GENERATION_RANGE = 1..8
+        val SELECTABLE_POKEMON_GENERATION_RANGE = 1..8
     }
 
     suspend fun getPokemonList(
@@ -63,4 +62,11 @@ internal class PokemonListUseCase(
             Sort.ZtoA -> sortedByDescending { it.name }
         }
     }
+}
+
+sealed class Sort {
+    object SmallestNumberFirst : Sort()
+    object HighestNumberFirst : Sort()
+    object AtoZ : Sort()
+    object ZtoA : Sort()
 }

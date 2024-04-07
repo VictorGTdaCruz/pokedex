@@ -19,8 +19,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.victor.domain.PokemonListUseCase
 import com.victor.feature_pokedex.R
-import com.victor.feature_pokedex.domain.PokemonListUseCase
 import com.victor.feature_pokedex.presentation.ui.components.GenerationButton
 import com.victor.features_common.components.PokedexButtonStyle
 import com.victor.features_common.components.PokedexTextStyle

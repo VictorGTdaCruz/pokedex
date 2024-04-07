@@ -17,6 +17,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.victor.domain.Sort
 import com.victor.feature_pokedex.R
 import com.victor.features_common.components.PokedexButton
 import com.victor.features_common.components.PokedexButtonStyle
@@ -85,11 +86,4 @@ internal fun SortBottomSheet(
             )
         }
     )
-}
-
-sealed class Sort {
-    object SmallestNumberFirst : Sort()
-    object HighestNumberFirst : Sort()
-    object AtoZ : Sort()
-    object ZtoA : Sort()
 }
