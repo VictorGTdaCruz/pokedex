@@ -29,7 +29,7 @@ buildscript {
         kotlin_flow = "org.jetbrains.kotlinx:kotlinx-coroutines-core:$kotlin_flow_version"
         coroutines_test = "org.jetbrains.kotlinx:kotlinx-coroutines-test:$kotlin_coroutines_version"
 
-        okhttp3_interceptor = "com.squareup.okhttp3:logging-interceptor:$okhttp3_version"
+        okhttp3_logging = "com.squareup.okhttp3:logging-interceptor:$okhttp3_version"
         retrofit2 = "com.squareup.retrofit2:retrofit:$retrofit2_version"
         retrofit2_gson = "com.squareup.retrofit2:converter-gson:$retrofit2_version"
 

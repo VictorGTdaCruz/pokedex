@@ -1,0 +1,29 @@
+apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+apply from:"../../android-module.gradle"
+
+android {
+    namespace 'com.victor.pokedex'
+}
+
+dependencies {
+    implementation project(':core:model')
+    implementation project(':core:network')
+    implementation project(':core:data')
+    implementation project(':core:domain')
+
+    implementation kodein
+    implementation kodein_android
+    implementation compose
+    implementation compose_tooling_preview
+    implementation kotlin_flow
+    implementation retrofit2
+    implementation retrofit2_gson
+    implementation androidx_lifecycle
+    implementation coil
+    implementation coroutines_test
+    implementation junit
+    testImplementation junit
+    testImplementation mockk
+    testImplementation coroutines_test
+}

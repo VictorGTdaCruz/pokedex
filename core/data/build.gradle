@@ -1,0 +1,8 @@
+apply from:"../../kotlin-module.gradle"
+
+dependencies {
+    implementation project(':core:network')
+    implementation project(':core:model')
+
+    implementation kodein
+}
