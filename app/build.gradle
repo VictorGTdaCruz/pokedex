@@ -10,10 +10,10 @@ android {
 }
 
 dependencies {
-    implementation project(':feature-pokedex')
     implementation project(':core:network')
     implementation project(':core:data')
     implementation project(':core:domain')
+    implementation project(':feature:pokedex')
 
     implementation androidx_appcompat
     implementation material_design
