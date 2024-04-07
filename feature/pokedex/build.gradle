@@ -11,7 +11,6 @@ dependencies {
     implementation project(':core:network')
     implementation project(':core:data')
     implementation project(':core:domain')
-    implementation project(':features-common')
 
     implementation kodein
     implementation kodein_android
@@ -22,6 +21,8 @@ dependencies {
     implementation retrofit2_gson
     implementation androidx_lifecycle
     implementation coil
+    implementation coroutines_test
+    implementation junit
     testImplementation junit
     testImplementation mockk
     testImplementation coroutines_test

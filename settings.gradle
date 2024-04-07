@@ -8,7 +8,6 @@ dependencyResolutionManagement {
 }
 rootProject.name = "Pokedex"
 include ':app'
-include ':features-common'
 include ':core:model'
 include ':core:network'
 include ':core:data'

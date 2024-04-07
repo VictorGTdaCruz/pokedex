@@ -1,0 +1,58 @@
+package com.victor.pokedex.theme
+
+import androidx.compose.ui.graphics.Color
+
+val Purple200 = Color(0xFFBB86FC)
+val Purple500 = Color(0xFF6200EE)
+val Purple700 = Color(0xFF3700B3)
+val Teal200 = Color(0xFF03DAC5)
+val Background = Color(0xFFF2F2F2)
+val BackgroundDark = Color(0xFFE2E2E2)
+val PokedexBlue = Color(0xFF3B4CCA)
+
+val DarkGray = Color(0x6617171B)
+val Gray = Color(0xFF747496)
+val LightGray = Color(0xFFF2F2F2)
+
+val Red = Color(0xFFEA5D60)
+
+// Pokemon Types
+val Bug = Color(0xFF8CB230)
+val Dark = Color(0xFF58575F)
+val Dragon = Color(0xFF0F6AC0)
+val Electric = Color(0xFFEED535)
+val Fairy = Color(0xFFED6EC7)
+val Fighting = Color(0xFFD04164)
+val Fire = Color(0xFFFD7D24)
+val Flying = Color(0xFF748FC9)
+val Ghost = Color(0xFF556AAE)
+val Grass = Color(0xFF62B957)
+val Ground = Color(0xFFDD7748)
+val Ice = Color(0xFF61CEC0)
+val Normal = Color(0xFF9DA0AA)
+val Poison = Color(0xFFA552CC)
+val Psychic = Color(0xFFEA5D60)
+val Rock = Color(0xFFBAAB82)
+val Steel = Color(0xFF417D9A)
+val Water = Color(0xFF4A90DA)
+val Unknown = Color(0xFF9DA0AA)
+
+// Pokemon Types background
+val BugBackground = Color(0xFF8BD674)
+val DarkBackground = Color(0xFF6F6E78)
+val DragonBackground = Color(0xFF7383B9)
+val ElectricBackground = Color(0xFFF2CB55)
+val FairyBackground = Color(0xFFEBA8C3)
+val FightingBackground = Color(0xFFEB4971)
+val FireBackground = Color(0xFFFFA756)
+val FlyingBackground = Color(0xFF83A2E3)
+val GhostBackground = Color(0xFF8571BE)
+val GrassBackground = Color(0xFF8BBE8A)
+val GroundBackground = Color(0xFFF78551)
+val IceBackground = Color(0xFF91D8DF)
+val NormalBackground = Color(0xFFB5B9C4)
+val PoisonBackground = Color(0xFF9F6E97)
+val PsychicBackground = Color(0xFFFF6568)
+val RockBackground = Color(0xFFD4C294)
+val SteelBackground = Color(0xFF4C91B2)
+val WaterBackground = Color(0xFF58ABF6)

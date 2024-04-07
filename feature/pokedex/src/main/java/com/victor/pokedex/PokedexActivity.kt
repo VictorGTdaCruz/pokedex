@@ -7,11 +7,11 @@ import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.runtime.Composable
 import androidx.navigation.compose.rememberNavController
-import com.victor.pokedex.ui.details.DetailsViewModel
-import com.victor.pokedex.ui.home.HomeViewModel
-import com.victor.pokedex.ui.navigation.PokedexNavHost
-import com.victor.pokedex.ui.theme.PokedexTheme
-import com.victor.features_common.viewModel
+import com.victor.pokedex.details.DetailsViewModel
+import com.victor.pokedex.home.HomeViewModel
+import com.victor.pokedex.navigation.PokedexNavHost
+import com.victor.pokedex.theme.PokedexTheme
+import com.victor.pokedex.utils.viewModel
 import org.kodein.di.DIAware
 import org.kodein.di.android.closestDI
 

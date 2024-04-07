@@ -1,7 +1,7 @@
 package com.victor.pokedex.di
 
-import com.victor.pokedex.ui.details.DetailsViewModel
-import com.victor.pokedex.ui.home.HomeViewModel
+import com.victor.pokedex.details.DetailsViewModel
+import com.victor.pokedex.home.HomeViewModel
 import org.kodein.di.DI
 import org.kodein.di.bind
 import org.kodein.di.instance

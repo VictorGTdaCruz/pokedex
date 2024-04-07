@@ -80,4 +80,14 @@
 
     <string name="evolution_tab_title">Evolution Chart</string>
     <string name="evolution_tab_level">Level %1s</string>
+
+    <string name="error_connection_exception">Looks like your connection is unstable. Please try again after a few moments.</string>
+    <string name="error_format_exception">Looks like the dev made some mistakes. Please send him a message :)</string>
+    <string name="error_unknown_exception">Something went wrong, we\'re sorry. Please try again.</string>
+
+    <string name="error_button">Reload</string>
+    <string name="type_empty_message">We haven\'t detected any Pokémon yet!</string>
+    <string name="content_description_feedback_image">Feedback image</string>
+
+    <string name="search_placeholder">Which one are you looking for?</string>
 </resources>
