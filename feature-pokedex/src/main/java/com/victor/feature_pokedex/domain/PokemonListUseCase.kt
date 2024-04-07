@@ -1,14 +1,14 @@
 package com.victor.feature_pokedex.domain
 
-import com.example.model.PokemonSimple
-import com.example.model.TypeSimple
 import com.victor.data.repository.PokemonRepository
 import com.victor.data.repository.TypeRepository
 import com.victor.feature_pokedex.presentation.ui.home.bottomsheets.Sort
+import com.victor.model.PokemonSimple
+import com.victor.model.TypeSimple
 
 internal class PokemonListUseCase(
-    private val pokemonRepository: com.victor.data.repository.PokemonRepository,
-    private val typeRepository: com.victor.data.repository.TypeRepository
+    private val pokemonRepository: PokemonRepository,
+    private val typeRepository: TypeRepository
 ) {
 
     // TODO remove this key from here?
@@ -17,12 +17,12 @@ internal class PokemonListUseCase(
     }
 
     suspend fun getPokemonList(
-        typeList: List<com.example.model.TypeSimple>,
+        typeList: List<TypeSimple>,
         selectedGeneration: Int?,
         indexRange: ClosedFloatingPointRange<Float>?,
         sort: Sort,
-    ): List<com.example.model.PokemonSimple> {
-        val pokemonLists = mutableListOf<List<com.example.model.PokemonSimple>>().apply {
+    ): List<PokemonSimple> {
+        val pokemonLists = mutableListOf<List<PokemonSimple>>().apply {
             if (selectedGeneration != null)
                 add(pokemonRepository.getGeneration(selectedGeneration).pokemonList)
             typeList.forEach {
@@ -32,7 +32,7 @@ internal class PokemonListUseCase(
                 add(pokemonRepository.getPokemonList())
         }
 
-        val result = mutableListOf<com.example.model.PokemonSimple>().apply {
+        val result = mutableListOf<PokemonSimple>().apply {
             pokemonLists.forEach {
                 if (isEmpty()) {
                     addAll(it)
@@ -47,7 +47,7 @@ internal class PokemonListUseCase(
         return sort(result.applyIndexRangeFilter(indexRange), sort)
     }
 
-    private fun List<com.example.model.PokemonSimple>.applyIndexRangeFilter(indexRange: ClosedFloatingPointRange<Float>?): List<com.example.model.PokemonSimple> {
+    private fun List<PokemonSimple>.applyIndexRangeFilter(indexRange: ClosedFloatingPointRange<Float>?): List<PokemonSimple> {
         indexRange?.let {
             val range = it.start.toInt()..it.endInclusive.toInt()
             return filter { pokemon -> range.contains(pokemon.id) }
@@ -55,7 +55,7 @@ internal class PokemonListUseCase(
         return this
     }
 
-    fun sort(pokemonList: List<com.example.model.PokemonSimple>, sort: Sort) = pokemonList.run {
+    fun sort(pokemonList: List<PokemonSimple>, sort: Sort) = pokemonList.run {
         when (sort) {
             Sort.SmallestNumberFirst -> sortedBy { it.id }
             Sort.HighestNumberFirst -> sortedByDescending { it.id }

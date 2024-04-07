@@ -10,7 +10,7 @@ import com.victor.model.Type
 import com.victor.model.TypeEffectiveness
 import com.victor.model.TypeSimple
 
-internal object PokemonInformationMapper {
+object PokemonInformationMapper {
 
     private const val ONE_HUNDRED_PERCENT = 100f
     private const val PERCENT_IN_EIGHTHS = ONE_HUNDRED_PERCENT / 8

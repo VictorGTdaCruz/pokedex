@@ -16,14 +16,14 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.victor.feature_pokedex.R
-import com.example.model.TypeSimple
 import com.victor.feature_pokedex.presentation.ui.utils.TypeColorHelper
 import com.victor.feature_pokedex.presentation.ui.utils.TypeDrawableHelper
+import com.victor.model.TypeSimple
 
 @Composable
 fun PokemonTypeIcon(
-    type: com.example.model.TypeSimple,
-    onClick: ((com.example.model.TypeSimple) -> Unit)? = null,
+    type: TypeSimple,
+    onClick: ((TypeSimple) -> Unit)? = null,
     isFilled: Boolean = true,
     cardPadding: Dp = 8.dp,
     iconSize: Dp = 24.dp,
@@ -55,7 +55,7 @@ fun PokemonTypeIcon(
 @Composable
 private fun Preview() {
     PokemonTypeIcon(
-        type = com.example.model.TypeSimple(id = 16, name = "Dragon"),
+        type = TypeSimple(id = 16, name = "Dragon"),
         onClick = {},
     )
 }

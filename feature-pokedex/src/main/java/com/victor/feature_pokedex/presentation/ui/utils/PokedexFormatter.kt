@@ -1,7 +1,7 @@
 package com.victor.feature_pokedex.presentation.ui.utils
 
-import com.example.model.PokemonInformation
-import com.example.model.Stat
+import com.victor.model.PokemonInformation
+import com.victor.model.Stat
 import java.util.Locale
 import kotlin.math.floor
 import kotlin.math.roundToInt
@@ -22,7 +22,7 @@ fun Float.formatMToFeetAndInches(): Pair<Int, Int> {
     return feet to inches
 }
 
-fun com.example.model.PokemonInformation?.formatFlavorText() =
+fun PokemonInformation?.formatFlavorText() =
     this?.flavorText
         ?.replace("\n", " ")
         ?.replace("\u000c", " ")
@@ -32,7 +32,7 @@ fun com.example.model.PokemonInformation?.formatFlavorText() =
         ?.replace(name.uppercase(Locale.ROOT), name.capitalize())
         ?: ""
 
-fun List<com.example.model.Stat>.formatEV() =
+fun List<Stat>.formatEV() =
     this.filter { it.effort > 0 }
         .joinToString(separator = STRING_SEPARATOR) {
             "${it.effort} ${it.name.beautifyString()}"

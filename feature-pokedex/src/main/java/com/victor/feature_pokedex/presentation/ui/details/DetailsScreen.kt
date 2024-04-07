@@ -46,7 +46,6 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import coil.compose.rememberImagePainter
 import com.victor.feature_pokedex.R
-import com.example.model.PokemonInformation
 import com.victor.feature_pokedex.presentation.ui.components.PokemonColumn
 import com.victor.feature_pokedex.presentation.ui.details.tabs.aboutTab
 import com.victor.feature_pokedex.presentation.ui.details.tabs.evolutionTab
@@ -55,6 +54,7 @@ import com.victor.feature_pokedex.presentation.ui.utils.TypeColorHelper
 import com.victor.features_common.components.PokedexTextStyle
 import com.victor.features_common.components.PokedexTextStyle.bold
 import com.victor.features_common.observeState
+import com.victor.model.PokemonInformation
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
 @Composable
@@ -83,7 +83,7 @@ internal fun DetailsScreenBody(
             selectedTabIndex = pagerState.currentPage
     }
 
-    observeState<com.example.model.PokemonInformation>(
+    observeState<PokemonInformation>(
         state = viewModel.pokemonInformation,
         onSuccess = {
             Column(

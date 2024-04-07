@@ -25,17 +25,17 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import coil.compose.rememberImagePainter
 import com.victor.feature_pokedex.R
-import com.example.model.Pokemon
-import com.example.model.PokemonEvolution
-import com.example.model.PokemonInformation
 import com.victor.feature_pokedex.presentation.ui.utils.TypeColorHelper
 import com.victor.feature_pokedex.presentation.ui.utils.beautifyString
 import com.victor.feature_pokedex.presentation.ui.utils.formatPokedexNumber
 import com.victor.features_common.components.PokedexTextStyle
 import com.victor.features_common.theme.LightGray
+import com.victor.model.Pokemon
+import com.victor.model.PokemonEvolution
+import com.victor.model.PokemonInformation
 
 @Composable
-fun evolutionTab(pokemonInformation: com.example.model.PokemonInformation, onPokemonClick: (Int) -> Unit) {
+fun evolutionTab(pokemonInformation: PokemonInformation, onPokemonClick: (Int) -> Unit) {
     Column(
         Modifier
             .padding(24.dp)
@@ -58,7 +58,7 @@ fun evolutionTab(pokemonInformation: com.example.model.PokemonInformation, onPok
 }
 
 @Composable
-private fun EvolutionCell(evolution: com.example.model.PokemonEvolution, onPokemonClick: (Int) -> Unit) {
+private fun EvolutionCell(evolution: PokemonEvolution, onPokemonClick: (Int) -> Unit) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
         modifier = Modifier.fillMaxSize()
@@ -84,7 +84,7 @@ private fun EvolutionCell(evolution: com.example.model.PokemonEvolution, onPokem
 }
 
 @Composable
-private fun RowScope.EvolutionPokemonList(pokemonList: List<com.example.model.Pokemon>?, onPokemonClick: (Int) -> Unit) {
+private fun RowScope.EvolutionPokemonList(pokemonList: List<Pokemon>?, onPokemonClick: (Int) -> Unit) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier.weight(1f)
@@ -127,7 +127,7 @@ private fun RowScope.EvolutionPokemonList(pokemonList: List<com.example.model.Po
 }
 
 @Composable
-private fun EmptyEvolutionCell(pokemonInformation: com.example.model.PokemonInformation) {
+private fun EmptyEvolutionCell(pokemonInformation: PokemonInformation) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier.fillMaxSize()

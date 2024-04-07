@@ -1,6 +1,6 @@
 package com.victor.features_common
 
-import com.victor.networking.PokedexException
+import com.victor.network.PokedexException
 
 object ErrorHandler {
 

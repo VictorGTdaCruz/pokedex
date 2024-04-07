@@ -31,7 +31,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.victor.feature_pokedex.R
-import com.example.model.TypeSimple
 import com.victor.feature_pokedex.presentation.ui.components.PokemonTypeIcon
 import com.victor.features_common.State
 import com.victor.features_common.components.PokedexButton
@@ -40,6 +39,7 @@ import com.victor.features_common.components.PokedexTextStyle
 import com.victor.features_common.components.PokedexTextStyle.bold
 import com.victor.features_common.observeStateInsideLazyList
 import com.victor.features_common.theme.Red
+import com.victor.model.TypeSimple
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -48,8 +48,8 @@ internal fun FilterBottomSheet(
     selectedIdRangeState: ClosedFloatingPointRange<Float>,
     fullIdRangeState: ClosedFloatingPointRange<Float>,
     onDismiss: () -> Unit,
-    isPokemonTypeFilterIconFilled: (com.example.model.TypeSimple) -> Boolean,
-    onPokemonTypeFilterIconClick: (com.example.model.TypeSimple) -> Unit,
+    isPokemonTypeFilterIconFilled: (TypeSimple) -> Boolean,
+    onPokemonTypeFilterIconClick: (TypeSimple) -> Unit,
     onPokemonTypeFilterResetClick: () -> Unit,
     onPokemonTypeFilterApplyClick: () -> Unit,
     onRangeFilterUpdate: (ClosedFloatingPointRange<Float>) -> Unit,
@@ -83,7 +83,7 @@ internal fun FilterBottomSheet(
             )
             LazyRow {
                 item { Spacer(modifier = Modifier.width(16.dp)) }
-                observeStateInsideLazyList<List<com.example.model.TypeSimple>>(state = typeListState) { typeList ->
+                observeStateInsideLazyList<List<TypeSimple>>(state = typeListState) { typeList ->
                     items(typeList.size) { index ->
                         val type = typeList[index]
                         PokemonTypeIcon(

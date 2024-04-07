@@ -49,9 +49,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.rememberImagePainter
 import com.victor.feature_pokedex.R
-import com.example.model.Pokemon
-import com.example.model.PokemonSimple
-import com.example.model.TypeSimple
 import com.victor.feature_pokedex.presentation.ui.components.PokemonColumn
 import com.victor.feature_pokedex.presentation.ui.home.bottomsheets.FilterBottomSheet
 import com.victor.feature_pokedex.presentation.ui.home.bottomsheets.GenerationBottomSheet
@@ -61,6 +58,9 @@ import com.victor.feature_pokedex.presentation.ui.utils.TypeColorHelper
 import com.victor.features_common.components.PokedexTextStyle
 import com.victor.features_common.observeStateInsideLazyList
 import com.victor.features_common.theme.LightGray
+import com.victor.model.Pokemon
+import com.victor.model.PokemonSimple
+import com.victor.model.TypeSimple
 import kotlinx.coroutines.launch
 
 @Composable
@@ -97,7 +97,7 @@ internal fun HomeScreenBody(viewModel: HomeViewModel, onPokemonClick: (Int) -> U
                     )
                 }
             }
-            observeStateInsideLazyList<List<com.example.model.PokemonSimple>>(
+            observeStateInsideLazyList<List<PokemonSimple>>(
                 state = viewModel.currentPokemonList,
                 onRetry = { viewModel.getPokemonList() }
             ) { pokemonList ->
@@ -234,7 +234,7 @@ private fun PokemonCardLoading() {
 }
 
 @Composable
-private fun PokemonCard(pokemon: com.example.model.Pokemon, onPokemonClick: (Int) -> Unit) {
+private fun PokemonCard(pokemon: Pokemon, onPokemonClick: (Int) -> Unit) {
     Box(
         modifier = Modifier.padding(horizontal = 24.dp, vertical = 2.dp)
     ) {
@@ -323,14 +323,14 @@ fun BoxScope.ScrollToTopFAB(scrollState: LazyListState) {
 private fun Preview() {
     LazyColumn {
         items(3) {
-            val pokemon = com.example.model.Pokemon(
+            val pokemon = Pokemon(
                 id = 1,
                 name = "Name",
                 height = 20,
                 weight = 70,
                 typeList = listOf(
-                    com.example.model.TypeSimple(id = 13, name = "electric"),
-                    com.example.model.TypeSimple(id = 9, name = "steel")
+                    TypeSimple(id = 13, name = "electric"),
+                    TypeSimple(id = 9, name = "steel")
                 ),
                 sprite = "",
                 statList = listOf(),

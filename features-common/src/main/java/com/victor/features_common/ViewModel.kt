@@ -5,7 +5,7 @@ import androidx.compose.runtime.MutableState
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
-import com.victor.networking.PokedexException
+import com.victor.network.PokedexException
 import kotlinx.coroutines.launch
 import org.kodein.di.DIAware
 import org.kodein.di.direct

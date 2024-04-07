@@ -6,7 +6,7 @@ import com.victor.model.Pokemon
 import com.victor.model.PokemonSimple
 import com.victor.model.Specie
 
-internal interface PokemonRepository {
+interface PokemonRepository {
 
     companion object {
         internal val VALID_POKEMON_ID_RANGE = 1 until 9999

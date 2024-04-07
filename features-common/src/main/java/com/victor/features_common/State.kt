@@ -7,7 +7,7 @@ import androidx.compose.ui.res.stringResource
 import com.victor.features_common.components.EmptyUI
 import com.victor.features_common.components.ErrorUI
 import com.victor.features_common.components.LoadingUI
-import com.victor.networking.PokedexException
+import com.victor.network.PokedexException
 
 sealed class State {
     object Empty : State()

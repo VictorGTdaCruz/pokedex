@@ -1,17 +1,17 @@
 package com.victor.feature_pokedex.domain
 
 import com.victor.data.mapper.PokemonInformationMapper
-import com.example.model.EvolutionChain
-import com.example.model.Pokemon
-import com.example.model.PokemonInformation
 import com.victor.data.repository.PokemonRepository
 import com.victor.data.repository.TypeRepository
+import com.victor.model.EvolutionChain
+import com.victor.model.Pokemon
+import com.victor.model.PokemonInformation
 
 internal class PokemonInformationUseCase(
-    private val pokemonRepository: com.victor.data.repository.PokemonRepository,
-    private val typeRepository: com.victor.data.repository.TypeRepository
+    private val pokemonRepository: PokemonRepository,
+    private val typeRepository: TypeRepository
 ) {
-    suspend fun getPokemonInformation(pokemonId: Int): com.example.model.PokemonInformation {
+    suspend fun getPokemonInformation(pokemonId: Int): PokemonInformation {
         val pokemonSpecies = pokemonRepository.getSpecie(pokemonId)
         val pokemon = pokemonRepository.getPokemon(pokemonId)
         val typeList = typeRepository.getTypeList()
@@ -19,7 +19,7 @@ internal class PokemonInformationUseCase(
         val evolutionChain = pokemonRepository.getEvolution(pokemonSpecies.evolutionChainId)
         val pokemonListFromEvolutionChain = getPokemonFromEveryPokemonInEvolutionChain(evolutionChain.chain)
 
-        return com.victor.data.mapper.PokemonInformationMapper.map(
+        return PokemonInformationMapper.map(
             pokemon,
             pokemonSpecies,
             typeList,
@@ -30,9 +30,9 @@ internal class PokemonInformationUseCase(
     }
 
     private suspend fun getPokemonFromEveryPokemonInEvolutionChain(
-        response: com.example.model.EvolutionChain?
-    ): MutableList<com.example.model.Pokemon> =
-        mutableListOf<com.example.model.Pokemon>().apply {
+        response: EvolutionChain?
+    ): MutableList<Pokemon> =
+        mutableListOf<Pokemon>().apply {
             val currentId = response?.specieId ?: 0
             add(pokemonRepository.getPokemon(currentId))
             response?.evolvesTo?.forEach {

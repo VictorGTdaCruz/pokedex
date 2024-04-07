@@ -3,7 +3,7 @@ package com.victor.data.repository
 import com.victor.model.Type
 import com.victor.model.TypeSimple
 
-internal interface TypeRepository {
+interface TypeRepository {
 
     companion object {
         internal val VALID_TYPE_ID_RANGE = 1 until 9999

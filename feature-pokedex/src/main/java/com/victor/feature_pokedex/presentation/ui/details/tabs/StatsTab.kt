@@ -26,16 +26,16 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.victor.feature_pokedex.R
-import com.example.model.PokemonInformation
 import com.victor.feature_pokedex.presentation.ui.components.PokemonTypeIcon
 import com.victor.feature_pokedex.presentation.ui.utils.TypeColorHelper
 import com.victor.feature_pokedex.presentation.ui.utils.beautifyString
 import com.victor.feature_pokedex.presentation.ui.utils.formatTypeEffectiveness
 import com.victor.features_common.components.PokedexTextStyle
 import com.victor.features_common.components.PokedexTextStyle.bold
+import com.victor.model.PokemonInformation
 
 @Composable
-fun statsTab(pokemonInformation: com.example.model.PokemonInformation) {
+fun statsTab(pokemonInformation: PokemonInformation) {
     val typeColor = TypeColorHelper.findBackground(pokemonInformation.typeList.first().id)
     Column(
         Modifier.padding(24.dp)
@@ -110,7 +110,7 @@ fun statsTab(pokemonInformation: com.example.model.PokemonInformation) {
 }
 
 @Composable
-fun StatBaseTable(pokemonInformation: com.example.model.PokemonInformation, typeColor: Color) {
+fun StatBaseTable(pokemonInformation: PokemonInformation, typeColor: Color) {
     pokemonInformation.stats.forEach {
         StatTabCell(name = it.name.beautifyString(), stat = it.baseStat, typeColor = typeColor)
         Spacer(modifier = Modifier.height(12.dp))
